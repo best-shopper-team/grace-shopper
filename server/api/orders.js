@@ -1,5 +1,5 @@
 const router = require('express').Router()
-const {Order, User} = require('../db/models')
+const {Order, User, OrderItem} = require('../db/models')
 module.exports = router
 // route path: api/orders
 
@@ -10,15 +10,30 @@ router.get('/', (req, res, next) => {
   .catch(next)
 })
 
-//gets all orders for a specific user
+//gets all orders for a specific user (can only see this if user is owner of the order or user is admin)
+//this needs to be tested! with session user
 router.get('/user/:userId', (req, res, next) => {
+  let loggedInUserId = +req.session.passport.user
   let userId = +req.params.userId
   Order.findAll({
     where: {
       userId: userId
     }
   })
-  .then(orders => res.json(orders))
+  .then(orders => {
+    if (loggedInUserId === userId){
+      res.json(orders)
+    } else {
+      User.findOne({
+        where: { loggedInUserId }
+      })
+      .then(user => {
+        if (user.isAdmin === true){
+          res.json(orders)
+        }
+      })
+    }
+  })
   .catch(next)
 })
 
@@ -29,25 +44,29 @@ router.get('/user/:userId/cart', (req, res, next) => {
     where: {
       userId: userId,
       status: 'inProcess'
-    }
+    },
+    include: [
+      {model: OrderItem}
+    ]
   })
   .then(cart => res.json(cart))
   .catch(next)
 })
 
 //gets all information for a specific order (can only see this if user is owner of the order or user is admin)
+//this needs to be tested! with session user
 router.get('/:orderId', (req, res, next) => {
-  let userId = +req.session.passport.user //need to test if this is correct way to get userId
+  let loggedInUserId = +req.session.passport.user
   let orderId = +req.params.orderId
   Order.findOne({
     where: { orderId }
   })
   .then(order => {
-    if (+order.userId === userId){
+    if (+order.userId === loggedInUserId){
       res.json(order)
     } else {
       User.findOne({
-        where: { userId }
+        where: { loggedInUserId }
       })
       .then(user => {
         if (user.isAdmin === true){
@@ -56,31 +75,50 @@ router.get('/:orderId', (req, res, next) => {
       })
     }
   })
-
 })
 
 //POST takes an object full of order information and creates new order instance
 router.post('/', (req, res, next) => {
   let newOrder = req.body
   Order.create({
-    where: {
-      newOrder
-    }
+    sessionId: newOrder.sessionId,
+    status: newOrder.status
   })
-  .then(order => res.json(order))
+  .then(order =>{
+    order.setAddress(+newOrder.addressId);
+    order.setUser(+newOrder.userId);
+    res.json(order)
+  })
   .catch(next)
 })
 
 //PUT takes object full of updated order info and edits order
 //edit: status or purchase time
-router.put('/:orderid', (req, res, next) => {
+router.put('/:orderId', (req, res, next) => {
   let editOrder = req.body
   let orderId = +req.params.orderId
-  Order.update({ editOrder }, {
-    where: { orderId },
+  Order.update({
+    status: editOrder.status,
+    purchaseTime: editOrder.purchaseTime
+  }, {
+    where: {
+      id: orderId
+    },
     returning: true,
     plain: true
   })
-  .then(updatedOrder => res.json(updatedOrder))
+  .spread((bool, updatedOrder) => {
+    console.log('updated', updatedOrder)
+    res.json(updatedOrder)})
+  //nice to have:
+  // .then(updatedOrder => {
+  //   if (editOrder.addressId){
+  //     updatedOrder.setAddress(+editOrder.addressId);
+  //   }
+  //   if (editOrder.userId){
+  //     updatedOrder.setUser(+editOrder.userId);
+  //   }
+  //   res.json(updatedOrder)
+  // })
   .catch(next)
 })

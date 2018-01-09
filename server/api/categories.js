@@ -15,10 +15,10 @@ router.get('/', (req, res, next) => {
 router.post('/', (req, res, next) => {
   let name = req.body.name
   Category.findOrCreate({
-    name: name
+    where: {name}
   })
-  .spread((createdBool, category) => {
+  .spread((category, createdBool) => {
     res.json(category)
-    .catch(next)
   })
+  .catch(next)
 })
