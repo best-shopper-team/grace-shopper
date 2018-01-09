@@ -8,13 +8,13 @@ const Product = db.define('product', {
     allowNull: false,
     validate: {
       notEmpty: true,
-      len: [1, 25]
+      len: [1, 100]
     }
   },
   description: {
     type:   Sequelize.TEXT,
     validate: {
-      len: [1, 50]
+      len: [0, 400]
     }
   },
   price: {
