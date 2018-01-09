@@ -47,14 +47,27 @@ async function seed () {
     Product.create({title: 'Super Intense Argyle Socks', description: 'Checkout the newest socks in our store!!! They are amazing and you will be too when you wear these super intense argyle socks!!!', price: 1200, quantity: 8}),
   ])
 
+  const categories = await Promise.all([
+    Category.create({name: 'Festive'}),
+    Category.create({name: 'Professional'}),
+    Category.create({name: 'Crazy'}),
+    Category.create({name: 'Normal'}),
+    Category.create({name: 'Puppies'}),
+    Category.create({name: 'Kitties'}),
+  ])
+
+  products.forEach((product, index) => {
+    product.setCategories(categories[index])
+  })
+
   const orders = await Promise.all([
-    Order.create({sessionId: '', userId: 1, status: 'inProcess', addressId: 1}),
-    Order.create({sessionId: '', userId: 2, status: 'submitted', purchaseTime: '2018-01-09 05:30:00', addressId: 2}),
-    Order.create({sessionId: '', userId: 2, status: 'shipped', purchaseTime: '2018-01-01 08:21:04', addressId: 2}),
-    Order.create({sessionId: '', userId: 1, status: 'cancelled', purchaseTime: '2018-01-04 11:04:32', addressId: 1}),
-    Order.create({sessionId: 1, userId: '', status: 'inProcess', purchaseTime: '', addressId: 3}),
-    Order.create({sessionId: 2, userId: '', status: 'inProcess', purchaseTime: '', addressId: 3}),
-    Order.create({sessionId: 1, userId: 3, status: 'inProcess', purchaseTime: '', addressId: 3}),
+    Order.create({userId: 1, status: 'inProcess', addressId: 1}),
+    Order.create({userId: 2, status: 'submitted', purchaseTime: '2018-01-09 05:30:00', addressId: 2}),
+    Order.create({userId: 2, status: 'shipped', purchaseTime: '2018-01-01 08:21:04', addressId: 2}),
+    Order.create({userId: 1, status: 'cancelled', purchaseTime: '2018-01-04 11:04:32', addressId: 1}),
+    Order.create({sessionId: 1, status: 'inProcess', addressId: 3}),
+    Order.create({sessionId: 2, status: 'inProcess', addressId: 3}),
+    Order.create({sessionId: 1, userId: 3, status: 'inProcess', addressId: 3}),
   ])
 
   const orderitems = await Promise.all([
@@ -70,13 +83,6 @@ async function seed () {
     OrderItem.create({quantity: 10, itemPrice: 540, productId: 4, orderId: 6}),
     OrderItem.create({quantity: 9, itemPrice: 400, productId: 1, orderId: 7}),
 
-  ])
-
-  const categories = await Promise.all([
-    Category.create({name: 'Festive'}),
-    Category.create({name: 'Professional'}),
-    Category.create({name: 'Crazy'}),
-    Category.create({name: 'Normal'}),
   ])
 
   const reviews = await Promise.all([
