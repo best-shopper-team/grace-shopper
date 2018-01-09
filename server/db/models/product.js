@@ -6,12 +6,16 @@ const Product = db.define('product', {
   title: {
     type: Sequelize.STRING,
     allowNull: false,
-    notEmpty: true,
-    len: [1, 25]
+    validate: {
+      notEmpty: true,
+      len: [1, 25]
+    }
   },
-  desription: {
+  description: {
     type:   Sequelize.TEXT,
-    len: [1, 50]
+    validate: {
+      len: [1, 50]
+    }
   },
   price: {
     type: Sequelize.INTEGER,
@@ -27,7 +31,7 @@ const Product = db.define('product', {
   },
   photoUrl: {
     type: Sequelize.STRING,
-    defaultValue:' https://cdn.shopify.com/s/files/1/2607/2780/products/socks-template.jpg?v=1512403868'
+    defaultValue: 'https://cdn.shopify.com/s/files/1/2607/2780/products/socks-template.jpg?v=1512403868'
   }
 })
 
@@ -37,6 +41,6 @@ module.exports = Product;
  * instanceMethods
  */
 Product.prototype.priceDollars  = function () {
-  const dollarPrice = this.price / 200;
+  const dollarPrice = this.price / 100;
   return dollarPrice;
 }
