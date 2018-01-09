@@ -6,10 +6,13 @@ const Order = db.define('order', {
     type: Sequelize.INTEGER,
   },
   status: {
-    type: Sequelize.ENUM('inProcess', 'submitted', 'shipped', 'cancelled')
+    type: Sequelize.ENUM('inProcess', 'submitted', 'shipped', 'cancelled'),
+    defaultValue: 'inProcess'
   },
   purchaseTime: {
-    type: Sequelize.DATE
+    type: Sequelize.DATE,
+    allowNull: true,
+    defaultValue: null
   }
 })
 
