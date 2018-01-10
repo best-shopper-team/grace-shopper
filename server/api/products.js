@@ -21,45 +21,52 @@ router.get('/:productId', (req, res, next) => {
 })
 
 // creates new product
-router.post('/', (req, res, next) => {
-  Product.create(req.body)
-    .then(newProduct => {
-      if (req.body.categories && req.body.categories.length){
+/*NOTE: this will return either the new instance on
+`        OR the newProduct, maybe we can fix this later*/
+router.post('/', async (req, res, next) => {
+  try {
+    const newProduct = await Product.create(req.body)
+    if (req.body.categories && req.body.categories.length){
         /*NOTE: this will return a promise for the new instance on
 `        the prod-cat, NOT the newProduct*/
-        return newProduct.setCategories(req.body.categories)
+        const productWithCategories = await newProduct.setCategories(req.body.categories)
+        res.status(200).json(productWithCategories)
       }
-      return newProduct
-    })
-    /*NOTE: response is either the new instance on
-`        OR the newProduct, maybe we can fix this later*/
-    .then(response => res.status(200).json(response))
-    .catch(next)
+    res.status(200).json(newProduct)
+  }
+  catch (error) {
+    next(error)
+  }
 })
 
 // updates a product
+/*NOTE: response is either the new instance on
+`   OR the newProduct, OR the number of categories removed
+from the product maybe we can fix this later*/
+
 /*NOTE: If you pass an empty array as req.body.categories,
-all the existing categories will be removed from this product*/
-router.put('/:productId', (req, res, next) => {
-  Product.findOne({
-    where: {
-      id: req.params.productId
-    }
-  })
-    .then(foundProduct => foundProduct.update(req.body))
-    .then(updatedProduct => {
+all the existing categories will be removed from this product.
+Make sure req.body.categories includes EXACTLY the categories
+that you want on the updated product*/
+router.put('/:productId', async (req, res, next) => {
+  try {
+    const foundProduct = await Product.findOne({
+      where: {
+        id: req.params.productId
+      }
+    })
+    const updatedProduct = await foundProduct.update(req.body)
       if (req.body.categories){
         /*NOTE: this will return a promise for the new instance on
-`        the prod-cat, NOT the newProduct*/
-        return updatedProduct.setCategories(req.body.categories)
+  `        the prod-cat, NOT the newProduct*/
+        const updatedProdWithCategories = updatedProduct.setCategories(req.body.categories)
+        res.json(updatedProdWithCategories)
       }
-      return updatedProduct
-    })
-    /*NOTE: response is either the new instance on
-`   OR the newProduct, OR the number of categories removed
-    from the product maybe we can fix this later*/
-    .then(response => res.json(response))
-    .catch(next)
+      res.json(updatedProduct)
+  }
+  catch (error) {
+    next(error)
+  }
 })
 
 // deletes a product
