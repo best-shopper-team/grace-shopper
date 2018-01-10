@@ -1,16 +1,23 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
-import { Link } from 'react-router-dom'
+import { withRouter } from 'react-router-dom'
 import { fetchProduct } from '../store'
 
 
 class WriteReview extends Component{
 
+  componentDidMount(){
+    this.props.getProduct();
+  }
 
   render(){
+    const { product } = this.props
+
+    console.log("product: ", product)
+
     return(
       <div>
-        <h3>Review PRODUCTNAME</h3>
+        <h3>Review {product.title}</h3>
         <form>
           <div id="rating-radio">
             Rating:
@@ -45,8 +52,8 @@ const mapState = (state) => {
   }
 }
 
-const mapDispatch = (dispatch) => {
-  const productId = 4
+const mapDispatch = (dispatch, ownProps) => {
+  const productId = ownProps.match.params.productId
   return {
     getProduct () {
       dispatch(fetchProduct(productId))
@@ -54,4 +61,4 @@ const mapDispatch = (dispatch) => {
   }
 }
 
-export default(connect(mapState, mapDispatch)(WriteReview))
+export default withRouter(connect(mapState, mapDispatch)(WriteReview))
