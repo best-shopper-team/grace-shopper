@@ -23,11 +23,23 @@ router.get('/:productId', (req, res, next) => {
 // creates new product
 router.post('/', (req, res, next) => {
   Product.create(req.body)
-    .then(newProduct => res.json(newProduct))
+    .then(newProduct => {
+      if (req.body.categories && req.body.categories.length){
+        /*NOTE: this will return a promise for the new instance on
+`        the prod-cat, NOT the newProduct*/
+        return newProduct.setCategories(req.body.categories)
+      }
+      return newProduct
+    })
+    /*NOTE: response is either the new instance on
+`        OR the newProduct, maybe we can fix this later*/
+    .then(response => res.status(200).json(response))
     .catch(next)
 })
 
 // updates a product
+/*NOTE: If you pass an empty array as req.body.categories,
+all the existing categories will be removed from this product*/
 router.put('/:productId', (req, res, next) => {
   Product.findOne({
     where: {
@@ -35,7 +47,18 @@ router.put('/:productId', (req, res, next) => {
     }
   })
     .then(foundProduct => foundProduct.update(req.body))
-    .then(updatedProduct => res.json(updatedProduct))
+    .then(updatedProduct => {
+      if (req.body.categories){
+        /*NOTE: this will return a promise for the new instance on
+`        the prod-cat, NOT the newProduct*/
+        return updatedProduct.setCategories(req.body.categories)
+      }
+      return updatedProduct
+    })
+    /*NOTE: response is either the new instance on
+`   OR the newProduct, OR the number of categories removed
+    from the product maybe we can fix this later*/
+    .then(response => res.json(response))
     .catch(next)
 })
 
