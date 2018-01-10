@@ -40,3 +40,18 @@ form div {
   flex-wrap: wrap;
 
 }
+
+.orderItem {
+  display: flex;
+  flex-direction: row
+}
+
+.item-info {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  padding: 10px
+}
+.item-info span{
+  padding: 10px
+}
