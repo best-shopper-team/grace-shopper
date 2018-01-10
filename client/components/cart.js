@@ -1,18 +1,38 @@
-import React from 'react'
-import PropTypes from 'prop-types'
+import React, {Component} from 'react'
+// import PropTypes from 'prop-types'
 import {connect} from 'react-redux'
+import {getCartFromDb, me} from '../store'
 
 /**
  * COMPONENT
  */
-export const Cart = (props) => {
-  const {email} = props
+export class Cart extends Component{
+  constructor(props){
+    super(props)
+  }
 
-  return (
-    <div>
-      <h3>This is your cart</h3>
-    </div>
-  )
+  componentDidMount(){
+    this.props.getCart(this.props.user.id)
+    // if(!this.props.user.id){
+
+    // }
+  }
+
+  render(){
+    const cart = this.props.cart
+    return (
+      <div className="cartContainer">
+        <h3>This is your cart</h3>
+        { cart.orderitems && cart.orderitems.map((orderItem) => {
+          return (
+            <div key={orderItem.id}>
+              This is an orderitem {orderItem.id}
+            </div>
+          )
+        })}
+      </div>
+    )
+  }
 }
 
 /**
@@ -20,15 +40,20 @@ export const Cart = (props) => {
  */
 const mapState = (state) => {
   return {
-    email: state.user.email
+    cart: state.cart,
+    user: state.user
   }
 }
 
-export default connect(mapState)(Cart)
-
-/**
- * PROP TYPES
- */
-Cart.propTypes = {
-  email: PropTypes.string
+const mapDispatch = (dispatch) => {
+  return {
+    getCart: function(id){
+      dispatch(getCartFromDb(id))
+    },
+    getMe: function(){
+      dispatch(me())
+    }
+  }
 }
+
+export default connect(mapState, mapDispatch)(Cart)
