@@ -19,6 +19,10 @@ form div {
   margin: 1em;
   display: inline-block;
 }
+
+#single-product-page-image {
+  width: 700px;
+
 .product {
   display: flex;
   flex-direction: column;
@@ -33,4 +37,5 @@ form div {
   display: flex;
   flex-direction: row;
   flex-wrap: wrap;
+
 }
