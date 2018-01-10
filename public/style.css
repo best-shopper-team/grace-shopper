@@ -19,3 +19,23 @@ form div {
   margin: 1em;
   display: inline-block;
 }
+
+#single-product-page-image {
+  width: 700px;
+
+.product {
+  display: flex;
+  flex-direction: column;
+  padding: 10px;
+  border: 3px solid hsl(198, 79%, 91%);;
+}
+.product-image {
+  width: 150px
+}
+
+.product-group {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+
+}
