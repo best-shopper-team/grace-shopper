@@ -59,7 +59,10 @@ router.get('/:orderId', (req, res, next) => {
   let loggedInUserId = +req.session.passport.user
   let orderId = +req.params.orderId
   Order.findOne({
-    where: { orderId }
+    where: { orderId },
+    include: [
+      {model: OrderItem}
+    ]
   })
   .then(order => {
     if (+order.userId === loggedInUserId){
@@ -84,7 +87,7 @@ router.post('/', (req, res, next) => {
     sessionId: newOrder.sessionId,
     status: newOrder.status
   })
-  .then(order =>{
+  .then(order => {
     order.setAddress(+newOrder.addressId);
     order.setUser(+newOrder.userId);
     res.json(order)
