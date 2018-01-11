@@ -1,5 +1,5 @@
 body {
-  font-family: sans-serif;
+  font-family: 'Space Mono', monospace;
 }
 
 a {
@@ -41,6 +41,12 @@ form div {
 
 }
 
+/* cart stuff */
+.cartContainer{
+  display: inline-grid;
+  grid-template-columns: auto;
+  grid-template-rows: auto;
+}
 .orderItem {
   display: flex;
   flex-direction: row
