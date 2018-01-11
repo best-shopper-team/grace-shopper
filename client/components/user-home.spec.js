@@ -17,6 +17,7 @@ describe('UserHome', () => {
   })
 
   it('renders the email in an h3', () => {
+    console.log(userHome.debug())
     expect(userHome.find('h3').text()).to.be.equal('Welcome, cody@email.com')
   })
 })
