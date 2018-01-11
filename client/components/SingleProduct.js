@@ -23,16 +23,14 @@ class SingleProduct extends React.Component {
   render(){
     let { product, ratingArray, user } = this.props;
 
-    let avgRating = ratingArray.length &&ratingArray.reduce((total, current) => total + current) / ratingArray.length;
+    let avgRating = ratingArray.length && ratingArray.reduce((total, current) => total + current) / ratingArray.length;
     let dollarPrice = product.price / 100;
 
     return (
       <div>
         <h3>{product.title}</h3>
         {
-          user.isAdmin ?
-          <button onClick={this.adminEditClick}>Edit Product</button> :
-          <div />
+          user.isAdmin && <button onClick={this.adminEditClick}>Edit Product</button>
         }
         <br />
         ${dollarPrice}<br />
