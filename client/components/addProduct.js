@@ -1,7 +1,7 @@
 import React from 'react'
 import {connect} from 'react-redux'
 import {withRouter} from 'react-router-dom'
-import {postCharacter, fetchCharacters, fetchCampaigns} from '../store'
+import {postProduct} from '../store'
 // import history from '../history'
 
 class AddProduct extends React.Component {
@@ -12,14 +12,20 @@ class AddProduct extends React.Component {
       description: '',
       price: '',
       quantity: '',
-      isAvailable: '',
-      photoUrl: ''
+      isAvailable: true,
+      photoUrl: '',
+      categories: []
     }
     this.handleSubmit = this.handleSubmit.bind(this)
     this.handleUpdate = this.handleUpdate.bind(this)
   }
 
+  componentDidMount() {
+    // this.props.getCategories();
+  }
+
   render () {
+    let tempCategories = [ { id: '1', name: 'Festive' }, { id: '2', name: 'Professional' }, { id: '3', name: 'Crazy' } ]
     return (
       <div>
       <h2>Add a Product</h2>
@@ -35,7 +41,7 @@ class AddProduct extends React.Component {
         </label>
         <br />
         <label>
-          Price:
+          Price (in cents):
           <input type="text" name="price" />
         </label>
         <br />
@@ -49,6 +55,19 @@ class AddProduct extends React.Component {
           <input type="text" name="photoUrl" />
         </label>
         <br />
+        <label>
+          Categories:
+          (((Sub in this.props.categories)))
+          <br />
+          {
+            tempCategories.map(category =>
+            <label key={category.id}>
+              <input type="checkbox" name="categories" value={category.id} />
+              {category.name}
+            </label>)
+          }
+        </label>
+        <br />
           <input type="checkbox" name="isAvailable" value="false" />
             Hide from public view.
         <br />
@@ -59,31 +78,35 @@ class AddProduct extends React.Component {
   }
 
   handleUpdate (event) {
-    this.setState({ [event.target.name]: event.target.value })
-    console.log('this.state: ', this.state)
+    if (event.target.name === 'categories'){
+      this.setState({categories: [...this.state.categories, +event.target.value]})
+    } else {
+      this.setState({[event.target.name]: event.target.value})
+    }
+    // console.log('this.state: ', this.state)
   }
 
   handleSubmit (event) {
     event.preventDefault();
-    this.props.createCharacter(this.state)
+    this.props.createProduct(this.state)
   }
 }
 
-const mapState = (state, ownProps) => {
+const mapState = (state) => {
   return {
     user: state.user,
-    selectedCampaign: state.campaigns.find(campaign => campaign.id === Number(ownProps.match.params.campaignId))
+    categories: state.categories
   }
 }
 
-const mapDispatch = (dispatch, ownProps) => {
+const mapDispatch = (dispatch) => {
   return {
-    createCharacter (character) {
-      dispatch(postCharacter(character))
-        .then(() => dispatch(fetchCharacters()))
-        .then(() => dispatch(fetchCampaigns()))
-        .then(() => ownProps.history.push(`/account/user`))
-    }
+    createProduct (product) {
+      dispatch(postProduct(product))
+    },
+    // getCategories () {
+    //   dispatch(fetchCategories())
+    // }
   }
 }
 

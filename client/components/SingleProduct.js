@@ -3,22 +3,38 @@ import React from 'react'
 import {connect} from 'react-redux'
 import {withRouter, Link} from 'react-router-dom'
 import {fetchProduct, fetchProductReviews} from '../store'
+import history from '../history'
 
 class SingleProduct extends React.Component {
+  constructor(){
+    super();
+    this.adminEditClick = this.adminEditClick.bind(this)
+  }
 
   componentDidMount(){
     this.props.getProduct();
     this.props.getReviews();
   }
 
+  adminEditClick(){
+    history.push(`/admin/products/${this.props.product.id}/edit`)
+  }
+
   render(){
-    let { product, ratingArray } = this.props;
-    let avgRating = ratingArray.length && ratingArray.reduce((total, current) => total + current) / ratingArray.length;
+    let { product, ratingArray, user } = this.props;
+
+    let avgRating = ratingArray.length &&ratingArray.reduce((total, current) => total + current) / ratingArray.length;
     let dollarPrice = product.price / 100;
 
     return (
       <div>
         <h3>{product.title}</h3>
+        {
+          user.isAdmin ?
+          <button onClick={this.adminEditClick}>Edit Product</button> :
+          <div />
+        }
+        <br />
         ${dollarPrice}<br />
         Average star rating: {avgRating}/5<br />
         <img id="single-product-page-image" src={`${product.photoUrl}`} /><br />
@@ -34,6 +50,7 @@ class SingleProduct extends React.Component {
  */
 const mapState = (state) => {
   return {
+    user: state.user,
     product: state.singleProduct,
     ratingArray: state.reviews.map(review => review.rating)
   }
