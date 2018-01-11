@@ -62,6 +62,8 @@ export class WriteReview extends Component {
       {this.state.fireRedirect ? <h1>Thanks for your review!</h1> :
         <div>
           <h3>Review {product.title}</h3>
+          <img className="product-image" src={product.photoUrl} />
+          <div>Description: {product.description}</div>
           <form onSubmit={this.handleSubmit}>
             <div id="rating-radio">
               Rating:
