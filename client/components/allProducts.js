@@ -3,6 +3,7 @@ import PropTypes from 'prop-types'
 import { Link } from 'react-router-dom';
 import {connect} from 'react-redux'
 import {fetchProducts} from '../store'
+import {Categories} from './'
 
 
 /**
@@ -11,7 +12,6 @@ import {fetchProducts} from '../store'
 class AllProducts extends Component {
 
   componentDidMount () {
-    console.log('this.props', this.props)
     this.props.loadProducts()
   }
 
@@ -21,15 +21,17 @@ class AllProducts extends Component {
 
     return (
       <div>
+        <Categories />
         <div className="product-group">
           {
             products.map(product => {
+              if (product.isAvailable) {
               return (
                 <div className="product" key={product.id}>
                   <img className="product-image" src={product.photoUrl} />
                   <Link to={`/products/${product.id}`}>{ product.title }</Link>
                 </div>
-              );
+              )}
             })
           }
         </div>
