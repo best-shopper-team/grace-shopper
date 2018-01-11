@@ -23,14 +23,18 @@ router.post('/order/:orderId', (req, res, next) => {
 // /api/orderItems/:orderItemId
 router.put('/:orderItemId/', (req, res, next) => {
   OrderItem.update(req.body, {
-    where: {id: req.params.orderItemId},
+    where: {id: +req.params.orderItemId},
     returning: true,
-    plain: true
+    plain: true,
   })
-  .then(([numRows, rows]) => {
-    console.log(rows.dataValues)
-    res.status(200).json(rows.dataValues)
+  .then((result) => {
+    console.log('res', result)
+    res.status(200).json(result)
   })
+  // .then(([numRows, rows]) => {
+  //   console.log(rows.dataValues)
+  //   res.status(200).json(rows.dataValues)
+  // })
   .catch(next)
 })
 

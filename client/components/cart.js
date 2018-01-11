@@ -1,7 +1,7 @@
 import React, {Component} from 'react'
 // import PropTypes from 'prop-types'
 import {connect} from 'react-redux'
-import {getCartFromDb, me} from '../store'
+import {getCartFromDb, me, editCartItemsInDb} from '../store'
 
 /**
  * COMPONENT
@@ -10,14 +10,25 @@ export class Cart extends Component{
   constructor(props){
     super(props)
     this.proceedCheckout = this.proceedCheckout.bind(this)
+    this.editOrder = this.editOrder.bind(this)
   }
 
   componentDidMount(){
     this.props.getCart(this.props.user.id)
   }
 
+  editOrder(e){
+    e.preventDefault()
+    let changeObj = {
+      id: +e.target.name,
+      quantity: +e.target.value
+    }
+    this.props.editCart(changeObj)
+    // this.props.getCart(this.props.user.id)
+  }
+
   proceedCheckout(e){
-    console.log('event', e)
+    console.log('proceed to checkout', e.target)
   }
 
   render(){
@@ -40,7 +51,13 @@ export class Cart extends Component{
                   {parseFloat(orderItem.itemPrice * 0.01).toFixed(2)}
                 </span>
                 <span>Quantity:
-                  {orderItem.quantity}
+                  <input
+                  name={orderItem.id}
+                  min="0"
+                  type="number"
+                  onChange={(e) => {
+                    this.editOrder(e)}}
+                  defaultValue={orderItem.quantity} />
                 </span>
                 <span>Item Total:
                   {parseFloat(orderItem.itemTotal * 0.01).toFixed(2)}
@@ -83,6 +100,9 @@ const mapDispatch = (dispatch) => {
     },
     getMe: function(){
       dispatch(me())
+    },
+    editCart: function(orderItem){
+      dispatch(editCartItemsInDb(orderItem))
     }
   }
 }
