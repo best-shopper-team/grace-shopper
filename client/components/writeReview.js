@@ -4,13 +4,14 @@ import { withRouter } from 'react-router-dom'
 import { fetchProduct, postProductReview, me } from '../store'
 
 
-class WriteReview extends Component {
+export class WriteReview extends Component {
 
   constructor(props){
     super(props);
     this.state = {
-      rating: 0,
+      rating: '',
       content: '',
+      warn: false,
       fireRedirect: false
     }
     this.handleOptionChange = this.handleOptionChange.bind(this)
@@ -37,14 +38,19 @@ class WriteReview extends Component {
 
   handleSubmit(evt){
     evt.preventDefault();
-    const review = {
-      rating: this.state.rating,
-      content: this.state.content,
-      userId: this.props.user.id,
-      productId: this.props.product.id
+    if( this.state.rating === ''){
+      this.setState({warn: true})
     }
-    this.props.addReview(review)
-    this.setState({fireRedirect: true})
+    else{
+      const review = {
+        rating: this.state.rating,
+        content: this.state.content,
+        userId: this.props.user.id,
+        productId: this.props.product.id
+      }
+      this.props.addReview(review)
+      this.setState({fireRedirect: true})
+    }
   }
 
   render(){
@@ -84,6 +90,7 @@ class WriteReview extends Component {
               <input type="submit" value="Submit" />
             </div>
           </form>
+          <div>{this.state.warn && 'You must include a rating!'}</div>
         </div>
       }
       </div>
@@ -104,13 +111,10 @@ const mapDispatch = (dispatch, ownProps) => {
     getProduct () {
       dispatch(fetchProduct(productId))
     },
-    getCurrentUser () {
-      dispatch(me())
-    },
     addReview (review) {
       dispatch(postProductReview(review))
     }
   }
 }
 
-export default withRouter(connect(mapState, mapDispatch)(WriteReview))
+export default withRouter(connect(mapState, mapDispatch)(WriteReview));

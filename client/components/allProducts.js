@@ -8,7 +8,7 @@ import {fetchProducts} from '../store'
 /**
  * COMPONENT
  */
-class AllProducts extends Component {
+export class AllProducts extends Component {
 
   componentDidMount () {
     console.log('this.props', this.props)
