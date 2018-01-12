@@ -39,12 +39,6 @@ class Routes extends Component {
                   <Route exact path="/products" component={AllProducts} />
                 </Switch>
             }
-            {
-              // isAdmin &&
-              //   <Switch>
-              //     <Route exact path="/admin/users" component={AllUsers} />
-              //   </Switch>
-            }
             {/* Displays allProducts component as a fallback */}
             <Route exact path="/products" component={AllProducts} />
           </Switch>
