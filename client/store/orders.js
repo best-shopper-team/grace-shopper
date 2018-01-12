@@ -39,7 +39,6 @@ const defaultOrders = []
 export const fetchAllOrders = () => dispatch => {
   axios.get(`/api/orders`)
   .then(res => {
-    console.log('data from fetch: ', res.data)
     dispatch(getAllOrders(res.data))
   })
   .catch(err => console.error('error fetching orders: ', err))
