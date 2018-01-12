@@ -7,6 +7,8 @@ const GET_ALL_ORDERS = 'GET_ALL_ORDERS'
 
 const UPDATE_ORDER = 'UPDATE_ORDER'
 
+const GET_USER_ORDERS = 'GET_USER_ORDERS'
+
 /**
  * INITIAL STATE
  */
@@ -30,6 +32,13 @@ const defaultOrders = []
      order
    }
 
+ }
+
+ const getUserOrders = orders => {
+   return {
+     type:GET_USER_ORDERS,
+     orders
+   }
  }
 
  /**
@@ -63,6 +72,13 @@ export const updateOrder = (id, status) => dispatch => {
   .catch(err => console.error('error updating order: ', err))
 }
 
+
+export const fetchUserOrders = (id) => dispatch => {
+  axios.get(`/api/orders/user/${id}`)
+  .then(res => dispatch(getUserOrders(res.data)))
+  .catch(err => console.error('error fetching user orders: ', err))
+}
+
   /**
    * REDUCER
    */
@@ -76,6 +92,8 @@ export default function (state = defaultOrders, action) {
         return order.id !== +action.order.id
       });
       return [...filteredOrders, action.order]
+    case GET_USER_ORDERS:
+      return action.orders;
     default:
       return state
   }
