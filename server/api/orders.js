@@ -12,29 +12,29 @@ router.get('/', (req, res, next) => {
 
 //gets all orders for a specific user (can only see this if user is owner of the order or user is admin)
 //this needs to be tested! with session user
-router.get('/user/:userId', (req, res, next) => {
+router.get('/user/:userId', async (req, res, next) => {
   let loggedInUserId = +req.session.passport.user
   let userId = +req.params.userId
-  Order.findAll({
-    where: {
-      userId: userId
-    }
-  })
-  .then(orders => {
+  try {
+    const orders = await Order.findAll({
+      where: {
+        userId: userId
+      }
+    })
     if (loggedInUserId === userId){
       res.json(orders)
     } else {
-      User.findOne({
+      const user = await User.findOne({
         where: { loggedInUserId }
       })
-      .then(user => {
-        if (user.isAdmin === true){
-          res.json(orders)
-        }
-      })
+      if (user.isAdmin === true){
+        res.json(orders)
+      }
     }
-  })
-  .catch(next)
+  }
+  catch (error) {
+    next(error)
+  }
 })
 
 //gets the 'inProcess' order for a specific user (get the cart)

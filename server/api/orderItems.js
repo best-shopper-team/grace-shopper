@@ -3,21 +3,19 @@ const { OrderItem } = require('../db/models')
 
 
 // /api/orderItems/order/:orderId
-router.post('/order/:orderId', (req, res, next) => {
-  OrderItem.create({
-    quantity: req.body.quantity,
-    itemPrice: req.body.itemPrice
-  })
-  .then(newOrderItem => {
-    return newOrderItem.setOrder(req.params.orderId)
-  })
-  .then(newOrderItem => {
-    return newOrderItem.setProduct(req.body.productId)
-  })
-  .then(newOrderItem => {
+router.post('/order/:orderId', async (req, res, next) => {
+  try {
+    const newOrderItem = await OrderItem.create({
+      quantity: req.body.quantity,
+      itemPrice: req.body.itemPrice
+    })
+    await newOrderItem.setOrder(req.params.orderId)
+    await newOrderItem.setProduct(req.body.productId)
     res.status(200).json(newOrderItem)
-  })
-  .catch(next)
+  }
+  catch (error) {
+    next(error)
+  }
 })
 
 // /api/orderItems/:orderItemId
