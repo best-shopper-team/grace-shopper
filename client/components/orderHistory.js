@@ -36,7 +36,6 @@ export class OrderHistory extends Component {
 
   handleSubmit(evt, id){
     evt.preventDefault()
-    console.log(this.state.newStatus)
     this.props.submitUpdate(id, this.state.newStatus)
     this.setState({
       editing: NaN
@@ -45,7 +44,6 @@ export class OrderHistory extends Component {
 
   render() {
     const orders = this.props.orders;
-    console.log('orders:', orders)
 
 
     return (
