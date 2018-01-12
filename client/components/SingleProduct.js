@@ -5,7 +5,7 @@ import {withRouter, Link} from 'react-router-dom'
 import {fetchProduct, fetchProductReviews} from '../store'
 import history from '../history'
 
-class SingleProduct extends React.Component {
+export class SingleProduct extends React.Component {
   constructor(){
     super();
     this.adminEditClick = this.adminEditClick.bind(this)
@@ -68,11 +68,3 @@ const mapDispatch = (dispatch, ownProps) => {
 
 export default withRouter(connect(mapState, mapDispatch)(SingleProduct))
 
-// /**
-//  * PROP TYPES
-//  */
-// Main.propTypes = {
-//   children: PropTypes.object,
-//   handleClick: PropTypes.func.isRequired,
-//   isLoggedIn: PropTypes.bool.isRequired
-// }

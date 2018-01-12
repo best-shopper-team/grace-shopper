@@ -2,7 +2,7 @@ import React, {Component} from 'react'
 // import PropTypes from 'prop-types'
 import {connect} from 'react-redux'
 import {NavLink} from 'react-router-dom'
-import {getCartFromDb, me, editCartItemsInDb, removeCartFromDb} from '../store'
+import {getCartFromDb, me, editCartItemsInDb, removeCartFromDb, fetchProducts} from '../store'
 import history from '../history'
 
 /**
@@ -16,6 +16,9 @@ export class Cart extends Component{
   }
 
   componentDidMount(){
+    if (!this.props.allProducts.length){
+      this.props.getProducts()
+    }
     this.props.getCart(this.props.user.id)
   }
 
@@ -29,7 +32,6 @@ export class Cart extends Component{
   }
 
   removeButton(e){
-    console.log('going to remove', e.target.name)
     this.props.removeFromCart(e.target.name)
   }
 
@@ -43,15 +45,16 @@ export class Cart extends Component{
           return (
             <div key={orderItem.id} className="orderItem">
             <h4>{
-              (products.find((prod) => prod.id === orderItem.productId)).title
+              (products.length > 0 && products.find((prod) => prod.id === orderItem.productId)).title
             }</h4>
               <div className="item-info">
                 <span>
+                  {products.length > 0 &&
                   <img
                   className="product-image"
                   src={products.filter((product) => {
                     return product.id === orderItem.productId
-                  })[0].photoUrl} />
+                  })[0].photoUrl} />}
                 </span>
                 <span>ProductId:
                   {orderItem.id}
@@ -59,6 +62,7 @@ export class Cart extends Component{
                 <span>Price:
                   {parseFloat(orderItem.itemPrice * 0.01).toFixed(2)}
                 </span>
+                {products.length > 0 &&
                 <span>Quantity:
                   <input
                   name={orderItem.id}
@@ -67,10 +71,10 @@ export class Cart extends Component{
                   onChange={(e) => {
                     this.editOrder(e)}}
                   defaultValue={orderItem.quantity}
-                  max={products.filter((product) => {
+                  max={products.length > 0 && products.filter((product) => {
                     return product.id === orderItem.productId
                   })[0].quantity} />
-                </span>
+                </span>}
                 <span>Item Total:
                   ${parseFloat(orderItem.itemTotal * 0.01).toFixed(2)}
                 </span>
@@ -123,6 +127,9 @@ const mapDispatch = (dispatch) => {
   return {
     getCart: function(id){
       dispatch(getCartFromDb(id))
+    },
+    getProducts: function(){
+      dispatch(fetchProducts())
     },
     getMe: function(){
       dispatch(me())

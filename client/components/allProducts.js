@@ -44,7 +44,6 @@ export class AllProducts extends Component {
 
     const categories = this.props.categories;
 
-
     return (
       <div>
       <div className="categories">
