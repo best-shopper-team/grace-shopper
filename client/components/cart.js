@@ -2,7 +2,7 @@ import React, {Component} from 'react'
 // import PropTypes from 'prop-types'
 import {connect} from 'react-redux'
 import {NavLink} from 'react-router-dom'
-import {getCartFromDb, me, editCartItemsInDb, removeCartFromDb} from '../store'
+import {getCartFromDb, me, editCartItemsInDb, removeCartFromDb, fetchProducts} from '../store'
 import history from '../history'
 
 /**
@@ -17,6 +17,9 @@ export class Cart extends Component{
 
   componentDidMount(){
     this.props.getCart(this.props.user.id)
+    if (!this.props.allProducts.length){
+      this.props.getProducts()
+    }
   }
 
   editOrder(e){
@@ -29,13 +32,13 @@ export class Cart extends Component{
   }
 
   removeButton(e){
-    console.log('going to remove', e.target.name)
     this.props.removeFromCart(e.target.name)
   }
 
   render(){
     const cart = this.props.cart
     const products = this.props.allProducts
+    console.log('products', products)
     return (
       <div className="cartContainer">
         <h3>This is your cart</h3>
@@ -43,13 +46,13 @@ export class Cart extends Component{
           return (
             <div key={orderItem.id} className="orderItem">
             <h4>{
-              (products.find((prod) => prod.id === orderItem.productId)).title
+              (products.length > 0 && products.find((prod) => prod.id === orderItem.productId)).title
             }</h4>
               <div className="item-info">
                 <span>
                   <img
                   className="product-image"
-                  src={products.filter((product) => {
+                  src={products.length > 0 && products.filter((product) => {
                     return product.id === orderItem.productId
                   })[0].photoUrl} />
                 </span>
@@ -123,6 +126,9 @@ const mapDispatch = (dispatch) => {
   return {
     getCart: function(id){
       dispatch(getCartFromDb(id))
+    },
+    getProducts: function(){
+      dispatch(fetchProducts())
     },
     getMe: function(){
       dispatch(me())

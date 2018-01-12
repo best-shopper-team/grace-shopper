@@ -7,6 +7,7 @@ import axios from 'axios'
 const GET_CART = 'GET_CART'
 const EDIT_CART = 'EDIT_CART'
 const REMOVE_FROM_CART = 'REMOVE_FROM_CART'
+const SUBMIT_CART = 'SUBMIT_CART'
 
 /**
  * INITIAL STATE
@@ -19,6 +20,7 @@ const defaultCart = {}
 const getCart = cart => ({type: GET_CART, cart})
 const editCart = orderitem => ({type: EDIT_CART, orderitem})
 const removeFromCart = orderitemId => ({type: REMOVE_FROM_CART, orderitemId})
+const submitCart = cart => ({type: SUBMIT_CART, cart})
 
 /**
  * THUNK CREATORS
@@ -47,6 +49,18 @@ export const removeCartFromDb = (orderitemId) =>
       })
       .catch(err => console.log(err))
 
+export const submitCartToDb = (cartId) =>
+  dispatch => {
+    let updateCart = {
+      status: 'submitted',
+      purchaseTime: new Date()
+    }
+    axios.put(`/api/orders/${cartId}`, updateCart)
+    .then(res => dispatch(submitCart(res.data)))
+    .catch(err => console.log(err))
+  }
+
+
 /**
  * REDUCER
  */
@@ -60,15 +74,9 @@ export default function (state = defaultCart, action) {
       })};
     case REMOVE_FROM_CART:
       return {...state, orderitems: state.orderitems.filter(orderitem => +orderitem.id !== +action.orderitemId)}
+    case SUBMIT_CART:
+      return {...state, status: action.cart.status, purchaseTime: action.cart.purchaseTime}
     default:
       return state
   }
 }
-
-/*
-earlier way of reducing edit_cart
-      // state.orderitems = state.orderitems.map((orderitem) => {
-      //   return orderitem.id === action.orderitem.id ? action.orderitem : orderitem
-      // })
-      // return state
-*/
