@@ -56,6 +56,22 @@ router.get('/user/:userId/cart', (req, res, next) => {
   .catch(next)
 })
 
+//gets the 'inProcess' order for a specific session (get the cart based on sessionId)
+router.get('/session/cart', (req, res, next) => {
+  let sessionId = req.sessionID
+  Order.findOne({
+    where: {
+      sessionId: sessionId,
+      status: 'inProcess'
+    },
+    include: [
+      {model: OrderItem}
+    ]
+  })
+  .then(cart => res.json(cart))
+  .catch(next)
+})
+
 //gets all information for a specific order (can only see this if user is owner of the order or user is admin)
 //this needs to be tested! with session user
 router.get('/:orderId', (req, res, next) => {
