@@ -1,5 +1,5 @@
 const router = require('express').Router()
-const {Order, User, OrderItem} = require('../db/models')
+const {Order, User, OrderItem, Address} = require('../db/models')
 module.exports = router
 // route path: api/orders
 
@@ -88,7 +88,7 @@ router.post('/', (req, res, next) => {
   let newOrder = req.body
   Order.create({
     sessionId: newOrder.sessionId,
-    status: newOrder.status
+    status: 'inProcess'
   })
   .then(order => {
     order.setAddress(+newOrder.addressId);
