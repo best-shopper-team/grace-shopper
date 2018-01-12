@@ -1,10 +1,10 @@
 const router = require('express').Router()
-const {Product} = require('../db/models')
+const {Product, Category} = require('../db/models')
 module.exports = router
 
 // returns all products
 router.get('/', (req, res, next) => {
-  Product.findAll()
+  Product.findAll({include: [{model: Category}]})
     .then(products => res.json(products))
     .catch(next)
 })
@@ -25,14 +25,23 @@ router.get('/:productId', (req, res, next) => {
 `        OR the newProduct, maybe we can fix this later*/
 router.post('/', async (req, res, next) => {
   try {
-    const newProduct = await Product.create(req.body)
+    const newProduct = await Product.create({
+      title: req.body.title,
+      description: req.body.description,
+      price: +req.body.price,
+      quantity: +req.body.quantity,
+      isAvailable: req.body.isAvailable,
+      photoUrl: req.body.photoUrl,
+      categories: req.body.categories
+    })
     if (req.body.categories && req.body.categories.length){
         /*NOTE: this will return a promise for the new instance on
 `        the prod-cat, NOT the newProduct*/
         const productWithCategories = await newProduct.setCategories(req.body.categories)
-        res.status(200).json(productWithCategories)
+        res.json(productWithCategories)
+      } else {
+        res.json(newProduct)
       }
-    res.status(200).json(newProduct)
   }
   catch (error) {
     next(error)

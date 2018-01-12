@@ -11,7 +11,7 @@ import {logout} from '../store'
  *  rendered out by the component's `children`.
  */
 const Main = (props) => {
-  const {children, handleClick, isLoggedIn} = props
+  const {children, handleClick, isLoggedIn, isAdmin} = props
 
   return (
     <div>
@@ -33,6 +33,12 @@ const Main = (props) => {
               <Link to="/products">Products</Link>
             </div>
         }
+        {
+          isAdmin &&
+          <div>
+            <Link to="/admin/users">All Users</Link>
+          </div>
+        }
       </nav>
       <hr />
       {children}
@@ -45,7 +51,8 @@ const Main = (props) => {
  */
 const mapState = (state) => {
   return {
-    isLoggedIn: !!state.user.id
+    isLoggedIn: !!state.user.id,
+    isAdmin: state.user.isAdmin
   }
 }
 

@@ -3,9 +3,8 @@ import {connect} from 'react-redux'
 import {Route, Switch, Router} from 'react-router-dom'
 import PropTypes from 'prop-types'
 import history from './history'
-import {Main, Login, Signup, UserHome, SingleProduct, Cart, Checkout} from './components'
+import {Main, Login, Signup, UserHome, SingleProduct, Cart, Checkout, WriteReview, AddProduct, AllProducts, EditProduct, AllUsers, OrderHistory} from './components'
 import {me} from './store'
-import AllProducts from './components/allProducts';
 
 /**
  * COMPONENT
@@ -16,7 +15,7 @@ class Routes extends Component {
   }
 
   render () {
-    const {isLoggedIn} = this.props
+    const {isLoggedIn, isAdmin} = this.props
 
     return (
       <Router history={history}>
@@ -25,19 +24,27 @@ class Routes extends Component {
             {/* Routes placed here are available to all visitors */}
             <Route path="/login" component={Login} />
             <Route path="/signup" component={Signup} />
-            <Route exact path="/cart" component={Cart} />
             <Route path="/cart/checkout" component={Checkout} />
             <Route path="/products/:productId" component={SingleProduct} />
-            <Route path="/products" component={AllProducts} />
+            <Route path="/cart" component={Cart} />
+            <Route exact path="/products/category/:category" component={AllProducts} />
+            <Route exact path="/products" component={AllProducts} />
+            <Route exact path="/products/:productId" component={SingleProduct} />
             {
               isLoggedIn &&
                 <Switch>
                   {/* Routes placed here are only available after logging in */}
                   <Route path="/home" component={UserHome} />
+                  <Route exact path="/orderHistory" component={OrderHistory} />
+                  <Route path="/admin/products/add" component={AddProduct} />
+                  <Route path="/admin/products/:productId/edit" component={EditProduct} />
+                  <Route exact path="/admin/users" component={AllUsers} />
+                  <Route exact path="/writeReview/products/:productId" component={WriteReview} />
+                  <Route exact path="/products" component={AllProducts} />
                 </Switch>
             }
             {/* Displays allProducts component as a fallback */}
-            <Route component={AllProducts} />
+            <Route exact path="/products" component={AllProducts} />
           </Switch>
         </Main>
       </Router>
@@ -52,7 +59,8 @@ const mapState = (state) => {
   return {
     // Being 'logged in' for our purposes will be defined has having a state.user that has a truthy id.
     // Otherwise, state.user will be an empty object, and state.user.id will be falsey
-    isLoggedIn: !!state.user.id
+    isLoggedIn: !!state.user.id,
+    isAdmin: state.user.isAdmin
   }
 }
 
