@@ -16,7 +16,9 @@ export class Cart extends Component{
   }
 
   componentDidMount(){
-    this.props.getProducts()
+    if (!this.props.allProducts.length){
+      this.props.getProducts()
+    }
     this.props.getCart(this.props.user.id)
   }
 
