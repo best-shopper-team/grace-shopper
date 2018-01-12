@@ -1,6 +1,7 @@
 import React, {Component} from 'react'
 // import PropTypes from 'prop-types'
 import {connect} from 'react-redux'
+import {NavLink} from 'react-router-dom'
 import {getCartFromDb, me, editCartItemsInDb} from '../store'
 
 /**
@@ -78,9 +79,11 @@ export class Cart extends Component{
               </h4>
             : <h3>Your cart is empty</h3>
         }
-        <button onClick={e => this.proceedCheckout(e)} className="ui button">
-        Proceed to Checkout
-        </button>
+        <NavLink to="/cart/checkout">
+          <button onClick={e => this.proceedCheckout(e)} className="ui button">
+          Proceed to Checkout
+          </button>
+        </NavLink>
       </div>
     )
   }
