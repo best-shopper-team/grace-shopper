@@ -2,7 +2,8 @@ import React, {Component} from 'react'
 // import PropTypes from 'prop-types'
 import {connect} from 'react-redux'
 import {NavLink} from 'react-router-dom'
-import {getCartFromDb, me, editCartItemsInDb} from '../store'
+import {getCartFromDb, me, editCartItemsInDb, removeCartFromDb} from '../store'
+import history from '../history'
 
 /**
  * COMPONENT
@@ -12,6 +13,7 @@ export class Cart extends Component{
     super(props)
     this.proceedCheckout = this.proceedCheckout.bind(this)
     this.editOrder = this.editOrder.bind(this)
+    this.removeButton = this.removeButton.bind(this)
   }
 
   componentDidMount(){
@@ -25,11 +27,16 @@ export class Cart extends Component{
       quantity: +e.target.value
     }
     this.props.editCart(changeObj)
-    // this.props.getCart(this.props.user.id)
+  }
+
+  removeButton(e){
+    console.log('going to remove', e.target.name)
+    this.props.removeFromCart(e.target.name)
   }
 
   proceedCheckout(e){
     console.log('proceed to checkout', e.target)
+    console.log('history', history)
   }
 
   render(){
@@ -45,6 +52,13 @@ export class Cart extends Component{
               (products.find((prod) => prod.id === orderItem.productId)).title
             }</h4>
               <div className="item-info">
+                <span>
+                  <img
+                  className="product-image"
+                  src={products.filter((product) => {
+                    return product.id === orderItem.productId
+                  })[0].photoUrl} />
+                </span>
                 <span>ProductId:
                   {orderItem.id}
                 </span>
@@ -58,10 +72,20 @@ export class Cart extends Component{
                   type="number"
                   onChange={(e) => {
                     this.editOrder(e)}}
-                  defaultValue={orderItem.quantity} />
+                  defaultValue={orderItem.quantity}
+                  max={products.filter((product) => {
+                    return product.id === orderItem.productId
+                  })[0].quantity} />
                 </span>
                 <span>Item Total:
-                  {parseFloat(orderItem.itemTotal * 0.01).toFixed(2)}
+                  ${parseFloat(orderItem.itemTotal * 0.01).toFixed(2)}
+                </span>
+                <span>
+                    <button
+                    name={orderItem.id}
+                    onClick={(e) => this.removeButton(e)}>
+                    Remove Item from Cart
+                    </button>
                 </span>
               </div>
             </div>
@@ -70,7 +94,7 @@ export class Cart extends Component{
         {
           cart.orderitems &&
             cart.orderitems.length > 0 ?
-              <h4>Subtotal: {
+              <h4>Subtotal: ${
               parseFloat(
                 (cart.orderitems.map(orderitem => orderitem.itemTotal).reduce((accum, currentVal) => accum + currentVal))
                 * 0.01)
@@ -80,7 +104,9 @@ export class Cart extends Component{
             : <h3>Your cart is empty</h3>
         }
         <NavLink to="/cart/checkout">
-          <button onClick={e => this.proceedCheckout(e)} className="ui button">
+          <button
+          onClick={e => this.proceedCheckout(e)}
+          className="ui button">
           Proceed to Checkout
           </button>
         </NavLink>
@@ -110,6 +136,9 @@ const mapDispatch = (dispatch) => {
     },
     editCart: function(orderItem){
       dispatch(editCartItemsInDb(orderItem))
+    },
+    removeFromCart: function(orderitemId){
+      dispatch(removeCartFromDb(orderitemId))
     }
   }
 }
