@@ -16,10 +16,8 @@ export class Cart extends Component{
   }
 
   componentDidMount(){
+    this.props.getProducts()
     this.props.getCart(this.props.user.id)
-    if (!this.props.allProducts.length){
-      this.props.getProducts()
-    }
   }
 
   editOrder(e){
@@ -38,7 +36,6 @@ export class Cart extends Component{
   render(){
     const cart = this.props.cart
     const products = this.props.allProducts
-    console.log('products', products)
     return (
       <div className="cartContainer">
         <h3>This is your cart</h3>
@@ -50,11 +47,12 @@ export class Cart extends Component{
             }</h4>
               <div className="item-info">
                 <span>
+                  {products.length > 0 &&
                   <img
                   className="product-image"
-                  src={products.length > 0 && products.filter((product) => {
+                  src={products.filter((product) => {
                     return product.id === orderItem.productId
-                  })[0].photoUrl} />
+                  })[0].photoUrl} />}
                 </span>
                 <span>ProductId:
                   {orderItem.id}
@@ -62,6 +60,7 @@ export class Cart extends Component{
                 <span>Price:
                   {parseFloat(orderItem.itemPrice * 0.01).toFixed(2)}
                 </span>
+                {products.length > 0 &&
                 <span>Quantity:
                   <input
                   name={orderItem.id}
@@ -70,10 +69,10 @@ export class Cart extends Component{
                   onChange={(e) => {
                     this.editOrder(e)}}
                   defaultValue={orderItem.quantity}
-                  max={products.filter((product) => {
+                  max={products.length > 0 && products.filter((product) => {
                     return product.id === orderItem.productId
                   })[0].quantity} />
-                </span>
+                </span>}
                 <span>Item Total:
                   ${parseFloat(orderItem.itemTotal * 0.01).toFixed(2)}
                 </span>
