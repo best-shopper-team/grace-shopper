@@ -18,7 +18,10 @@ router.get('/user/:userId', (req, res, next) => {
   Order.findAll({
     where: {
       userId: userId
-    }
+    },
+    include: [
+      {model: OrderItem}
+    ]
   })
   .then(orders => {
     if (loggedInUserId === userId){
