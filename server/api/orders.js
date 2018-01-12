@@ -89,17 +89,56 @@ router.get('/:orderId', (req, res, next) => {
 })
 
 //POST takes an object full of order information and creates new order instance
-router.post('/', (req, res, next) => {
+//for user
+router.post('/user', (req, res, next) => {
   let newOrder = req.body
-  Order.create({
-    sessionId: newOrder.sessionId,
+  console.log('reqbody', req.body)
+  Order.findOrCreate({where: {
+    userId: +req.body.userId,
     status: 'inProcess'
+  }})
+  .spread((instance, createdBool) => {
+    console.log('instance', instance)
+    let newOrderitem = {
+      quantity: +req.body.orderItem.quantity,
+      productId: +req.body.orderItem.productId,
+      itemPrice: +req.body.orderItem.itemPrice,
+      orderId: +instance.id
+    }
+    OrderItem.create(newOrderitem) //this should eventually be a findOrCreate to prevent multiple rows in OrderItem for the same orderId and productId
+    .then(newItem => console.log('new', newItem))
+    .catch(err => console.log(err))
   })
-  .then(order => {
-    order.setAddress(+newOrder.addressId);
-    order.setUser(+newOrder.userId);
-    res.json(order)
+  .then(order => res.json(order))
+  // .then(order => {
+  //   order.setAddress(+newOrder.addressId);
+  //   order.setUser(+newOrder.userId);
+  //   res.json(order)
+  // })
+  .catch(next)
+})
+
+//POST takes an object full of order information and creates new order instance
+//for SESSION
+router.post('/session', (req, res, next) => {
+  let newOrder = req.body
+  console.log('session', req.sessionID)
+  Order.findOrCreate({where: {
+    sessionId: req.sessionID,
+    status: 'inProcess'
+  }})
+  .spread((instance, createdBool) => {
+    let newOrderitem = {
+      quantity: +req.body.orderItem.quantity,
+      productId: +req.body.orderItem.productId,
+      itemPrice: +req.body.orderItem.itemPrice,
+      orderId: +instance.id
+    }
+    OrderItem.create(newOrderitem) //this should eventually be a findOrCreate to prevent multiple rows in OrderItem for the same orderId and productId
+    .then(newItem => console.log('new', newItem))
+    .catch(err => console.log(err))
   })
+  .then(order => res.json(order))
   .catch(next)
 })
 
