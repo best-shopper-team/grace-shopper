@@ -1,5 +1,5 @@
 body {
-  font-family: sans-serif;
+  font-family: 'Space Mono', monospace;
 }
 
 a {
@@ -45,4 +45,25 @@ form div {
   flex-direction: row;
   flex-wrap: wrap;
   justify-content: space-between;
+}
+
+/* cart stuff */
+.cartContainer{
+  display: inline-grid;
+  grid-template-columns: auto;
+  grid-template-rows: auto;
+}
+.orderItem {
+  display: flex;
+  flex-direction: row
+}
+
+.item-info {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  padding: 10px
+}
+.item-info span{
+  padding: 10px
 }
