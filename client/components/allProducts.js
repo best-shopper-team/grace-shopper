@@ -8,7 +8,7 @@ import { withRouter } from 'react-router'
 /**
  * COMPONENT
  */
-class AllProducts extends Component {
+export class AllProducts extends Component {
 
   constructor (props) {
     super(props);

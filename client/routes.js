@@ -3,9 +3,8 @@ import {connect} from 'react-redux'
 import {Route, Switch, Router} from 'react-router-dom'
 import PropTypes from 'prop-types'
 import history from './history'
-import {Main, Login, Signup, UserHome, SingleProduct, Cart} from './components'
+import {Main, Login, Signup, UserHome, SingleProduct, Cart, WriteReview, AddProduct, AllProducts, EditProduct} from './components'
 import {me} from './store'
-import AllProducts from './components/allProducts';
 
 /**
  * COMPONENT
@@ -34,10 +33,14 @@ class Routes extends Component {
                 <Switch>
                   {/* Routes placed here are only available after logging in */}
                   <Route path="/home" component={UserHome} />
+                  <Route path="/admin/products/add" component={AddProduct} />
+                  <Route path="/admin/products/:productId/edit" component={EditProduct} />
+                  <Route exact path="/writeReview/products/:productId" component={WriteReview} />
+                  <Route exact path="/products" component={AllProducts} />
                 </Switch>
             }
             {/* Displays allProducts component as a fallback */}
-            <Route component={AllProducts} />
+            <Route exact path="/products" component={AllProducts} />
           </Switch>
         </Main>
       </Router>
