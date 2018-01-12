@@ -66,14 +66,18 @@ export class Cart extends Component{
             </div>
           )
         })}
-        <h4>Subtotal: {
+        {
           cart.orderitems &&
-            parseFloat(
-              (cart.orderitems.map(orderitem => orderitem.itemTotal).reduce((accum, currentVal) => accum + currentVal))
-              * 0.01)
-              .toFixed(2)
+            cart.orderitems.length > 0 ?
+              <h4>Subtotal: {
+              parseFloat(
+                (cart.orderitems.map(orderitem => orderitem.itemTotal).reduce((accum, currentVal) => accum + currentVal))
+                * 0.01)
+                .toFixed(2)
+              }
+              </h4>
+            : <h3>Your cart is empty</h3>
         }
-        </h4>
         <button onClick={e => this.proceedCheckout(e)} className="ui button">
         Proceed to Checkout
         </button>

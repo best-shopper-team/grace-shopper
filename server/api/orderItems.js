@@ -28,7 +28,6 @@ router.put('/:orderItemId/', (req, res, next) => {
     plain: true,
   })
   .then((result) => {
-    console.log('res', result)
     res.status(200).json(result)
   })
   // .then(([numRows, rows]) => {
