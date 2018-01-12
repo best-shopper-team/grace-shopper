@@ -15,33 +15,36 @@ describe('AllProducts', () => {
     {
       id: 1,
       photoUrl: 'www.google.com',
-      title: 'best product'
+      title: 'best product',
+      categories: [{name: 'festive'}],
+      isAvailable: true
     },
     {
       id: 2,
       photoUrl: 'www.google.com',
-      title: 'second best product'
+      title: 'second best product',
+      categories: [{name: 'festive'}],
+      isAvailable: true
     },
     {
       id: 3,
       photoUrl: 'www.google.com',
-      title: 'third best product'
+      title: 'third best product',
+      categories: [{name: 'festive'}],
+      isAvailable: true
     }
   ]
 
-  const loadProducts = () => console.log('i ran so far away')
-
   beforeEach(() => {
-    wrapper = shallow(<AllProducts allProducts={products} loadProducts={loadProducts}/>)
+    wrapper = shallow(<AllProducts categories={[{name: ''}]} allProducts={products} loadProducts={() => {}} match={{params: {categories: ''}}} loadCategories={() => {}} />)
   })
 
-
-  it('renders a div', () => {
-    expect(wrapper.contains(<div></div>)).to.equal(true);
+  it('renders all of the products', () => {
+    expect(wrapper.find('.product')).to.have.length(products.length);
   })
 
-  it.only('renders a Link for each product', () => {
-    expect(wrapper.find('Link')).to.have.length(products.length);
+  it(`renders all of the product's images`, () => {
+    expect(wrapper.find('.product-image')).to.have.length(products.length);
   })
 
 })
