@@ -18,7 +18,6 @@ export class Checkout extends Component{
 
   submitOrder(e){
     e.preventDefault()
-    console.log('e', e.target.street.value)
     // this.props.submitCart(this.props.cart.id)
   }
 
