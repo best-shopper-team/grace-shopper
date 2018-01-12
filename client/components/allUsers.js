@@ -27,19 +27,16 @@ export class AllUsers extends Component {
       id: +id,
       [evt.target.name]: evt.target.value
     })
-    console.log('this.state: ', this.state)
   }
 
   handleSelect(evt){
     this.setState({ [evt.target.name]: evt.target.value })
-    console.log('this.state: ', this.state)
   }
 
   handleSubmit(evt){
     evt.preventDefault()
     this.props.submitUpdate(this.state)
     this.setState({ id: null })
-    console.log('this.state: ', this.state)
   }
 
   render () {

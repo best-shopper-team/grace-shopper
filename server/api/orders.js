@@ -5,7 +5,12 @@ module.exports = router
 
 //gets all orders (only available to admins)
 router.get('/', (req, res, next) => {
-  Order.findAll()
+  Order.findAll({ include: [
+    {
+      model: User,
+      attributes: [ 'email' ]
+    }
+  ]})
   .then(orders => res.json(orders))
   .catch(next)
 })
