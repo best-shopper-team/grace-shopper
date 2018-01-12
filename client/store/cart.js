@@ -8,6 +8,9 @@ const GET_CART = 'GET_CART'
 const EDIT_CART = 'EDIT_CART'
 const REMOVE_FROM_CART = 'REMOVE_FROM_CART'
 const SUBMIT_CART = 'SUBMIT_CART'
+const CREATE_CART_USER = 'CREATE_CART_USER'
+const CREATE_CART_SESSION = 'CREATE_CART_SESSION'
+
 
 /**
  * INITIAL STATE
@@ -21,6 +24,8 @@ const getCart = cart => ({type: GET_CART, cart})
 const editCart = orderitem => ({type: EDIT_CART, orderitem})
 const removeFromCart = orderitemId => ({type: REMOVE_FROM_CART, orderitemId})
 const submitCart = cart => ({type: SUBMIT_CART, cart})
+const createCartUser = cart => ({type: CREATE_CART_USER, cart})
+const createCartSession = cart => ({type: CREATE_CART_SESSION, cart})
 
 /**
  * THUNK CREATORS
@@ -60,6 +65,20 @@ export const submitCartToDb = (cartId) =>
     .catch(err => console.log(err))
   }
 
+export const createCartUserDb = (info) =>
+  dispatch => {
+    axios.post(`/api/orders/user`, info)
+    .then(res => dispatch(createCartUser(res.data)))
+    .catch(err => console.log(err))
+  }
+
+export const createCartSessionDb = (info) =>
+  dispatch => {
+    console.log('info', info)
+    axios.post(`/api/orders/session`, info)
+    .then(res => dispatch(createCartSession(res.data)))
+    .catch(err => console.log(err))
+  }
 
 /**
  * REDUCER
@@ -76,6 +95,10 @@ export default function (state = defaultCart, action) {
       return {...state, orderitems: state.orderitems.filter(orderitem => +orderitem.id !== +action.orderitemId)}
     case SUBMIT_CART:
       return {...state, status: action.cart.status, purchaseTime: action.cart.purchaseTime}
+    case CREATE_CART_USER:
+      return action.cart;
+    case CREATE_CART_SESSION:
+      return action.cart;
     default:
       return state
   }

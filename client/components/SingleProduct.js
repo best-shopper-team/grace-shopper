@@ -2,18 +2,36 @@ import React from 'react'
 // import PropTypes from 'prop-types'
 import {connect} from 'react-redux'
 import {withRouter, Link} from 'react-router-dom'
-import {fetchProduct, fetchProductReviews} from '../store'
+import {fetchProduct, fetchProductReviews, createCartUserDb, createCartSessionDb} from '../store'
 import history from '../history'
 
 export class SingleProduct extends React.Component {
   constructor(){
     super();
     this.adminEditClick = this.adminEditClick.bind(this)
+    this.addToCart = this.addToCart.bind(this)
   }
 
   componentDidMount(){
     this.props.getProduct();
     this.props.getReviews();
+  }
+
+  addToCart(e){
+    e.preventDefault()
+    let info = {
+      orderItem: {
+        productId: +this.props.product.id,
+        quantity: 1,
+        itemPrice: +this.props.product.price
+      }
+    }
+    if (this.props.user.id){
+      info.userId = +this.props.user.id
+      this.props.makeCartUser(info)
+    } else {
+      this.props.makeCartSession(info)
+    }
   }
 
   adminEditClick(){
@@ -38,6 +56,10 @@ export class SingleProduct extends React.Component {
         <img id="single-product-page-image" src={`${product.photoUrl}`} /><br />
         Only {product.quantity} remaining!<br />
         {product.description}<br />
+        <button
+        onClick={(e) => {this.addToCart(e)}}>
+        Add To Cart
+        </button>
       </div>
     )
   }
@@ -62,6 +84,12 @@ const mapDispatch = (dispatch, ownProps) => {
     },
     getReviews () {
       dispatch(fetchProductReviews(productId))
+    },
+    makeCartUser(info){
+      dispatch(createCartUserDb(info))
+    },
+    makeCartSession(info){
+      dispatch(createCartSessionDb(info))
     }
   }
 }
