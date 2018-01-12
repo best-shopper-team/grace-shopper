@@ -20,9 +20,9 @@ form div {
   display: inline-block;
 }
 
-#single-product-page-image {
-  width: 700px;
-}
+/* #single-product-page-image {
+  width: 500px;
+} */
 
 .product {
   display: flex;
