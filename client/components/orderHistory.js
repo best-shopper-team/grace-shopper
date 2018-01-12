@@ -34,9 +34,10 @@ export class OrderHistory extends Component {
     })
   }
 
-  handleSubmit(evt, id, userEmail){
+  handleSubmit(evt, id){
     evt.preventDefault()
-    this.props.submitUpdate(id, this.state.newStatus, userEmail)
+    // pass userEmail into handleSubmit and submitUpdate
+    this.props.submitUpdate(id, this.state.newStatus)
     this.setState({
       editing: NaN
     })
@@ -61,7 +62,8 @@ export class OrderHistory extends Component {
             {
               orders && orders.map(order => {
                 const id = order.id;
-                const userEmail = order.user.email;
+                console.log('order: ', order)
+                // const userEmail = need to eager load once Address reducer is set up
                 return (
                   <tr key={id}>
                   <td> {id}</td>
@@ -80,7 +82,8 @@ export class OrderHistory extends Component {
                   <td>
                   {
                     this.state.editing === id ?
-                    <button onClick={(evt) => this.handleSubmit(evt, id, userEmail)}>update</button>
+                    // pass userEmail into handlSubmit
+                    <button onClick={(evt) => this.handleSubmit(evt, id)}>update</button>
                     : <button onClick={(evt) => this.handleEditClick(evt, id)}>edit status</button>
                   }
                   </td>
@@ -112,8 +115,9 @@ const mapDispatch = dispatch => {
     getOrders () {
       dispatch(fetchAllOrders())
     },
-    submitUpdate(id, status, email) {
-      dispatch(updateOrder(id, status, email))
+    submitUpdate(id, status) {
+      // pass email into submitUpdate and updateOrder
+      dispatch(updateOrder(id, status))
     }
   }
 }

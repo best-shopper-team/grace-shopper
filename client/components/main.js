@@ -37,6 +37,7 @@ const Main = (props) => {
           isAdmin &&
           <div>
             <Link to="/admin/users">All Users</Link>
+            <Link to="/admin/orderhistory">All Orders</Link>
           </div>
         }
       </nav>

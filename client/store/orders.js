@@ -25,7 +25,7 @@ const defaultOrders = []
  }
 
  const updateOrderOnState = order => {
-   return{
+   return {
      type: UPDATE_ORDER,
      order
    }
@@ -62,8 +62,9 @@ export const updateOrder = (id, status, email) => dispatch => {
   .then(res => dispatch(updateOrderOnState(res.data)))
   .catch(err => console.error('error updating order: ', err));
 
-  axios.post('/api/email/update', email)
-  .catch(err => console.error('error sending email: ', err));
+  // // sends an 'status update' email to the recipient
+  // axios.post('/api/email/update', email)
+  // .catch(err => console.error('error sending email: ', err));
 }
 
   /**
