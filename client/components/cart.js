@@ -11,7 +11,6 @@ import history from '../history'
 export class Cart extends Component{
   constructor(props){
     super(props)
-    this.proceedCheckout = this.proceedCheckout.bind(this)
     this.editOrder = this.editOrder.bind(this)
     this.removeButton = this.removeButton.bind(this)
   }
@@ -32,11 +31,6 @@ export class Cart extends Component{
   removeButton(e){
     console.log('going to remove', e.target.name)
     this.props.removeFromCart(e.target.name)
-  }
-
-  proceedCheckout(e){
-    console.log('proceed to checkout', e.target)
-    console.log('history', history)
   }
 
   render(){
@@ -105,7 +99,6 @@ export class Cart extends Component{
         }
         <NavLink to="/cart/checkout">
           <button
-          onClick={e => this.proceedCheckout(e)}
           className="ui button">
           Proceed to Checkout
           </button>
