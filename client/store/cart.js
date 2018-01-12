@@ -27,15 +27,15 @@ const submitCart = cart => ({type: SUBMIT_CART, cart})
  */
 export const getCartFromDb = (userId) =>
   dispatch =>
-    axios.get(`api/orders/user/${userId}/cart`)
+    axios.get(`/api/orders/user/${userId}/cart`)
       .then(res => {
-        dispatch(getCart(res.data || defaultCart))
+        dispatch(getCart(res.data))
       })
       .catch(err => console.log(err))
 
 export const editCartItemsInDb = (orderItem) =>
   dispatch =>
-    axios.put(`api/orderItems/${orderItem.id}`, orderItem)
+    axios.put(`/api/orderItems/${orderItem.id}`, orderItem)
       .then(res => {
         dispatch(editCart(res.data[1]))
       })
@@ -43,7 +43,7 @@ export const editCartItemsInDb = (orderItem) =>
 
 export const removeCartFromDb = (orderitemId) =>
   dispatch =>
-    axios.delete(`api/orderItems/${orderitemId}`)
+    axios.delete(`/api/orderItems/${orderitemId}`)
       .then(res => {
         dispatch(removeFromCart(orderitemId))
       })

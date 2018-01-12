@@ -18,22 +18,83 @@ export class Checkout extends Component{
 
   submitOrder(e){
     e.preventDefault()
-    console.log('e', e)
+    console.log('e', e.target.street.value)
     // this.props.submitCart(this.props.cart.id)
   }
 
   render(){
     return (
       <div>
-      <h4>
+      <h3>
       Enter Your Shipping and Payment Information
-      </h4>
+      </h3>
       <form
         onSubmit={(e) => this.submitOrder(e)}>
-        <input
-          type="text"
-          name="name">
-        </input>
+        <h5>Shipping Information
+        </h5>
+        <div>
+          <span>
+            <label>Street</label>
+            <input
+              type="text"
+              id="street">
+            </input>
+          </span>
+          <span>
+            <label>City</label>
+            <input
+              type="text"
+              id="city">
+            </input>
+          </span>
+          <span>
+            <label>State</label>
+            <input
+              type="text"
+              id="state">
+            </input>
+          </span>
+          <span>
+            <label>Zip Code</label>
+            <input
+              type="text"
+              id="zip">
+            </input>
+          </span>
+          <span>
+            <label>Email</label>
+            <input
+              type="text"
+              id="email">
+            </input>
+          </span>
+        </div>
+        <h5>Payment Information
+        </h5>
+        <div>
+          <span>
+            <label>Credit Card Number</label>
+            <input
+              type="text"
+              id="ccnum">
+            </input>
+          </span>
+          <span>
+            <label>Expiration Date</label>
+            <input
+              type="text"
+              id="expiry">
+            </input>
+          </span>
+          <span>
+          <label>CCV</label>
+          <input
+            type="text"
+            id="ccv">
+          </input>
+          </span>
+        </div>
+        <br />
         <button
           type="submit">
           Submit Order
