@@ -45,7 +45,7 @@ export const fetchAllOrders = () => dispatch => {
 
 }
 
-export const updateOrder = (id, status) => dispatch => {
+export const updateOrder = (id, status, email) => dispatch => {
   let updateObj;
   if (status === 'submitted'){
     updateObj = {
@@ -60,7 +60,10 @@ export const updateOrder = (id, status) => dispatch => {
   }
   axios.put(`/api/orders/${id}`, updateObj)
   .then(res => dispatch(updateOrderOnState(res.data)))
-  .catch(err => console.error('error updating order: ', err))
+  .catch(err => console.error('error updating order: ', err));
+
+  axios.post('/api/email/update', email)
+  .catch(err => console.error('error sending email: ', err));
 }
 
   /**

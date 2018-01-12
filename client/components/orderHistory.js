@@ -34,9 +34,9 @@ export class OrderHistory extends Component {
     })
   }
 
-  handleSubmit(evt, id){
+  handleSubmit(evt, id, userEmail){
     evt.preventDefault()
-    this.props.submitUpdate(id, this.state.newStatus)
+    this.props.submitUpdate(id, this.state.newStatus, userEmail)
     this.setState({
       editing: NaN
     })
@@ -61,6 +61,7 @@ export class OrderHistory extends Component {
             {
               orders && orders.map(order => {
                 const id = order.id;
+                const userEmail = order.user.email;
                 return (
                   <tr key={id}>
                   <td> {id}</td>
@@ -73,14 +74,14 @@ export class OrderHistory extends Component {
                         <option value="shipped">Shipped</option>
                         <option value="cancelled">Cancelled</option>
                       </select>
-                      :order.status
+                      : order.status
                     }
                   </td>
                   <td>
                   {
                     this.state.editing === id ?
-                    <button onClick={(evt) => this.handleSubmit(evt, id)}>update</button>
-                    :<button onClick={(evt) => this.handleEditClick(evt, id)}>edit status</button>
+                    <button onClick={(evt) => this.handleSubmit(evt, id, userEmail)}>update</button>
+                    : <button onClick={(evt) => this.handleEditClick(evt, id)}>edit status</button>
                   }
                   </td>
                   </tr>
@@ -111,8 +112,8 @@ const mapDispatch = dispatch => {
     getOrders () {
       dispatch(fetchAllOrders())
     },
-    submitUpdate(id, status) {
-      dispatch(updateOrder(id, status))
+    submitUpdate(id, status, email) {
+      dispatch(updateOrder(id, status, email))
     }
   }
 }
