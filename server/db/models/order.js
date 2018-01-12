@@ -3,7 +3,7 @@ const db = require('../db')
 
 const Order = db.define('order', {
   sessionId: {
-    type: Sequelize.INTEGER,
+    type: Sequelize.STRING,
   },
   status: {
     type: Sequelize.ENUM('inProcess', 'submitted', 'shipped', 'cancelled'),
