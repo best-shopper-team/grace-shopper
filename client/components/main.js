@@ -16,7 +16,6 @@ const Main = (props) => {
 
   return (
     <div className="ui container">
-      <h1>Life Socks</h1>
       <nav className="navigation">
 
         {
@@ -39,6 +38,7 @@ const Main = (props) => {
               <Link to="/cart">Cart</Link>
             </div>
         }
+        <img src="favicon.ico" className="logo" />
         {
           isAdmin &&
           <div className="admin-navigation">
