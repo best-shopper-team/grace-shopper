@@ -1,8 +1,9 @@
 import React from 'react'
 import {connect} from 'react-redux'
 import {withRouter} from 'react-router-dom'
-import {postProduct} from '../store'
-// import history from '../history'
+import {postProduct, fetchCategories} from '../store'
+import {Form, Button, Checkbox, Container, Radio} from 'semantic-ui-react'
+import history from '../history'
 
 class AddProduct extends React.Component {
   constructor(props){
@@ -18,77 +19,85 @@ class AddProduct extends React.Component {
     }
     this.handleSubmit = this.handleSubmit.bind(this)
     this.handleUpdate = this.handleUpdate.bind(this)
+    this.handleVisibility = this.handleVisibility.bind(this)
+    this.handleCategories = this.handleCategories.bind(this)
   }
 
   componentDidMount() {
-    // this.props.getCategories();
+    this.props.getCategories();
   }
 
   render () {
-    let tempCategories = [ { id: '1', name: 'Festive' }, { id: '2', name: 'Professional' }, { id: '3', name: 'Crazy' } ]
+    const {categories} = this.props
     return (
-      <div>
-      <h2>Add a Product</h2>
-      <form onSubmit={this.handleSubmit} onChange={this.handleUpdate}>
-        <label>
-          Product Title:
+      <Container>
+      <h3>Add a Product</h3>
+      <Form onSubmit={this.handleSubmit} onChange={this.handleUpdate}>
+        <Form.Field>
+          <label>Product Title</label>
           <input type="text" name="title" />
-        </label>
+        </Form.Field>
         <br />
-        <label>
-          Description:
+        <Form.Field width={8} >
+          <label>Description</label>
           <input type="text" name="description" />
-        </label>
-        <br />
-        <label>
-          Price (in cents):
-          <input type="text" name="price" />
-        </label>
-        <br />
-        <label>
-          Quantity:
-          <input type="text" name="quantity" />
-        </label>
-        <br />
-        <label>
-          Photo URL:
+        </Form.Field>
+        <Form.Group>
+          <Form.Field>
+            <label>Price</label>
+            <input type="text" name="price" />
+          </Form.Field>
+          <Form.Field>
+            <label>Quantity</label>
+            <input type="number" name="quantity" />
+          </Form.Field>
+        </Form.Group>
+        <Form.Field>
+          <label>Photo URL</label>
           <input type="text" name="photoUrl" />
-        </label>
-        <br />
-        <label>
-          Categories:
-          (((Sub in this.props.categories)))
-          <br />
-          {
-            tempCategories.map(category =>
-            <label key={category.id}>
-              <input type="checkbox" name="categories" value={category.id} />
-              {category.name}
-            </label>)
-          }
-        </label>
-        <br />
-          <input type="checkbox" name="isAvailable" value="false" />
-            Hide from public view.
-        <br />
-        <input type="submit" value="Submit" />
-      </form>
-      </div>
+        </Form.Field>
+        <Form.Group>
+          <Form.Field>
+            <label>Categories</label>
+              {
+                categories.map(category =>
+                  <Checkbox name="categories" key={category.id} label={category.name} control="input" value={category.id} onChange={this.handleCategories} />
+                )
+              }
+          </Form.Field>
+        </Form.Group>
+        <Form.Group>
+          <Form.Field>
+           <label>Visibility</label>
+            <Radio
+              toggle
+              label='Make this product visible.'
+              onChange={this.handleVisibility}
+            />
+          </Form.Field>
+        </Form.Group>
+        <Button type="submit">Submit</Button>
+      </Form>
+    </Container>
     )
   }
 
+  handleCategories (event, value) {
+    this.setState({ categories: [...this.state.categories, value.value] })
+  }
+
+  handleVisibility (event, value) {
+    this.setState({ isAvailable: value.checked })
+  }
+
   handleUpdate (event) {
-    if (event.target.name === 'categories'){
-      this.setState({categories: [...this.state.categories, +event.target.value]})
-    } else {
-      this.setState({[event.target.name]: event.target.value})
-    }
-    // console.log('this.state: ', this.state)
+    this.setState({[event.target.name]: event.target.value})
   }
 
   handleSubmit (event) {
     event.preventDefault();
-    this.props.createProduct(this.state)
+    this.props.createProduct(this.state);
+    history.push('/products')
   }
 }
 
@@ -104,9 +113,9 @@ const mapDispatch = (dispatch) => {
     createProduct (product) {
       dispatch(postProduct(product))
     },
-    // getCategories () {
-    //   dispatch(fetchCategories())
-    // }
+    getCategories () {
+      dispatch(fetchCategories())
+    }
   }
 }
 
