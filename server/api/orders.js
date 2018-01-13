@@ -61,6 +61,23 @@ router.get('/user/:userId/cart', (req, res, next) => {
   .catch(next)
 })
 
+//gets the 'inProcess' order for a specific session (get the cart based on sessionId)
+router.get('/session/cart', (req, res, next) => {
+  let sessionId = req.sessionID
+  Order.findOne({
+    where: {
+      sessionId: sessionId,
+      status: 'inProcess'
+    },
+    include: [
+      {model: OrderItem}
+    ]
+  })
+  .then(cart => {
+    res.json(cart)})
+  .catch(next)
+})
+
 //gets all information for a specific order (can only see this if user is owner of the order or user is admin)
 //this needs to be tested! with session user
 router.get('/:orderId', (req, res, next) => {
@@ -92,13 +109,11 @@ router.get('/:orderId', (req, res, next) => {
 //for user
 router.post('/user', (req, res, next) => {
   let newOrder = req.body
-  console.log('reqbody', req.body)
   Order.findOrCreate({where: {
     userId: +req.body.userId,
     status: 'inProcess'
   }})
   .spread((instance, createdBool) => {
-    console.log('instance', instance)
     let newOrderitem = {
       quantity: +req.body.orderItem.quantity,
       productId: +req.body.orderItem.productId,
@@ -122,7 +137,6 @@ router.post('/user', (req, res, next) => {
 //for SESSION
 router.post('/session', (req, res, next) => {
   let newOrder = req.body
-  console.log('session', req.sessionID)
   Order.findOrCreate({where: {
     sessionId: req.sessionID,
     status: 'inProcess'
@@ -134,12 +148,14 @@ router.post('/session', (req, res, next) => {
       itemPrice: +req.body.orderItem.itemPrice,
       orderId: +instance.id
     }
-    OrderItem.create(newOrderitem) //this should eventually be a findOrCreate to prevent multiple rows in OrderItem for the same orderId and productId
-    .then(newItem => console.log('new', newItem))
-    .catch(err => console.log(err))
+    return Promise.all([
+      OrderItem.create(newOrderitem), //this should eventually be a findOrCreate to prevent multiple rows in OrderItem for the same orderId and productId
+      instance
+    ])
+    .then(([newItem, theOrder]) => {
+      res.json(theOrder)})
+    .catch(next)
   })
-  .then(order => res.json(order))
-  .catch(next)
 })
 
 //PUT takes object full of updated order info and edits order
@@ -158,7 +174,6 @@ router.put('/:orderId', (req, res, next) => {
     plain: true
   })
   .spread((bool, updatedOrder) => {
-    console.log('updated', updatedOrder)
     res.json(updatedOrder)})
   //nice to have:
   // .then(updatedOrder => {

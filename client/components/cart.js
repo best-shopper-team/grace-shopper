@@ -2,7 +2,7 @@ import React, {Component} from 'react'
 // import PropTypes from 'prop-types'
 import {connect} from 'react-redux'
 import {NavLink} from 'react-router-dom'
-import {getCartFromDb, me, editCartItemsInDb, removeCartFromDb, fetchProducts} from '../store'
+import {getCartFromDb, me, editCartItemsInDb, removeCartFromDb, fetchProducts, getCartSessionFromDb} from '../store'
 import history from '../history'
 
 /**
@@ -19,7 +19,12 @@ export class Cart extends Component{
     if (!this.props.allProducts.length){
       this.props.getProducts()
     }
-    this.props.getCart(this.props.user.id)
+    //if there is no, we should getCart by sessionId (and we may need to change getCart reducer? and or its api? or create its own)
+    if (!this.props.user.id){
+      this.props.getCartSession()
+    } else {
+      this.props.getCart(this.props.user.id)
+    }
   }
 
   editOrder(e){
@@ -41,7 +46,7 @@ export class Cart extends Component{
     return (
       <div className="cartContainer">
         <h3>This is your cart</h3>
-        { cart.orderitems && cart.orderitems.map((orderItem) => {
+        { cart && cart.orderitems && cart.orderitems.map((orderItem) => {
           return (
             <div key={orderItem.id} className="orderItem">
             <h4>{
@@ -127,6 +132,9 @@ const mapDispatch = (dispatch) => {
   return {
     getCart: function(id){
       dispatch(getCartFromDb(id))
+    },
+    getCartSession: function(){
+      dispatch(getCartSessionFromDb())
     },
     getProducts: function(){
       dispatch(fetchProducts())
