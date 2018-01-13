@@ -53,6 +53,11 @@ form div {
   justify-content: space-between;
 }
 
+.logo {
+  width: 150px;
+  height: 150px;
+}
+
 .search {
   padding-left: 1rem;
 }
