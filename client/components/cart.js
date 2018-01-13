@@ -16,6 +16,9 @@ export class Cart extends Component{
   }
 
   componentDidMount(){
+    if (!this.props.user){
+      this.props.getMe()
+    }
     if (!this.props.allProducts.length){
       this.props.getProducts()
     }
@@ -95,7 +98,7 @@ export class Cart extends Component{
           )
         })}
         {
-          cart.orderitems &&
+          cart && cart.orderitems &&
             cart.orderitems.length > 0 ?
               <h4>Subtotal: ${
               parseFloat(
