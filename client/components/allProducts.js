@@ -38,9 +38,14 @@ export class AllProducts extends Component {
 
   render () {
     //filter products if there is a current category
-    const products = (this.state.currentCategory ? this.props.allProducts.filter(product => {
+    let products = (this.state.currentCategory ? this.props.allProducts.filter(product => {
       return product.categories[0].name.toLowerCase() === this.state.currentCategory
     }) : this.props.allProducts)
+
+    //filter products by search term
+    products = (this.props.searchBar ? products.filter(product => {
+      return product.title.toLowerCase().includes(this.props.searchBar.toLowerCase())
+    }) : products)
 
     const categories = this.props.categories;
 
@@ -80,7 +85,8 @@ export class AllProducts extends Component {
 const mapState = (state) => {
   return {
     allProducts: state.allProducts,
-    categories: state.categories
+    categories: state.categories,
+    searchBar: state.searchBar
   }
 }
 

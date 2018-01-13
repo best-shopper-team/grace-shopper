@@ -3,6 +3,7 @@ import PropTypes from 'prop-types'
 import {connect} from 'react-redux'
 import {withRouter, Link} from 'react-router-dom'
 import {logout} from '../store'
+import  { SearchBar } from '../components';
 
 /**
  * COMPONENT
@@ -14,17 +15,19 @@ const Main = (props) => {
   const {children, handleClick, isLoggedIn, isAdmin} = props
 
   return (
-    <div>
+    <div className="ui container">
       <h1>Life Socks</h1>
-      <nav>
+      <nav className="navigation">
+
         {
           isLoggedIn
-            ? <div>
+            ? <div >
               {/* The navbar will show these links after you log in */}
               <Link to="/home">Home</Link>
               <a href="#" onClick={handleClick}>Logout</a>
               <Link to="/products">Products</Link>
               <Link to="/myHistory">Order History</Link>
+              <SearchBar />
               <Link to="/cart">Cart</Link>
             </div>
             : <div>
@@ -32,12 +35,13 @@ const Main = (props) => {
               <Link to="/login">Login</Link>
               <Link to="/signup">Sign Up</Link>
               <Link to="/products">Products</Link>
+              <SearchBar />
               <Link to="/cart">Cart</Link>
             </div>
         }
         {
           isAdmin &&
-          <div>
+          <div className="admin-navigation">
             <Link to="/admin/users">All Users</Link>
             <Link to="/admin/orderhistory">All Orders</Link>
             <Link to="/orderHistory">Complete Order History</Link>
