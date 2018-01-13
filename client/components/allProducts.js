@@ -41,10 +41,10 @@ export class AllProducts extends Component {
     let products = (this.state.currentCategory ? this.props.allProducts.filter(product => {
       return product.categories[0].name.toLowerCase() === this.state.currentCategory
     }) : this.props.allProducts)
-
+    
     //filter products by search term
-    products = (this.props.searchBar ? products.filter(product => {
-      return product.title.toLowerCase().includes(this.props.searchBar.toLowerCase())
+    products = (this.props.location.search.split('=')[1] ? products.filter(product => {
+      return product.title.toLowerCase().includes(this.props.location.search.split('=')[1].toLowerCase())
     }) : products)
 
     const categories = this.props.categories;

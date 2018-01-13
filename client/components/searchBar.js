@@ -1,7 +1,7 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
 import { addSearchTerm } from '../store'
-import { Card } from 'semantic-ui-react'
+import { withRouter } from 'react-router-dom'
 /**
  * COMPONENT
  */
@@ -22,13 +22,14 @@ export class SearchBar extends Component {
 
   handleSubmit (event) {
     event.preventDefault()
+    this.props.history.push(`/products?keywords=${this.state.searchTerm}`);
     this.props.addSearch(this.state.searchTerm)
   }
 
   render () {
 
   return (
-    <form className="ui search" 
+    <form className="ui search"
     onSubmit={this.handleSubmit}
     >
       <input
@@ -61,5 +62,5 @@ const mapDispatch = (dispatch) => {
   }
 }
 
-export default connect(mapState, mapDispatch)(SearchBar)
+export default withRouter(connect(mapState, mapDispatch)(SearchBar))
 
