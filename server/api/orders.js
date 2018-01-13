@@ -104,13 +104,11 @@ router.get('/:orderId', (req, res, next) => {
 //for user
 router.post('/user', (req, res, next) => {
   let newOrder = req.body
-  console.log('reqbody', req.body)
   Order.findOrCreate({where: {
     userId: +req.body.userId,
     status: 'inProcess'
   }})
   .spread((instance, createdBool) => {
-    console.log('instance', instance)
     let newOrderitem = {
       quantity: +req.body.orderItem.quantity,
       productId: +req.body.orderItem.productId,
@@ -139,7 +137,6 @@ router.post('/session', (req, res, next) => {
     status: 'inProcess'
   }})
   .spread((instance, createdBool) => {
-    console.log('instance', instance)
     let newOrderitem = {
       quantity: +req.body.orderItem.quantity,
       productId: +req.body.orderItem.productId,
@@ -172,7 +169,6 @@ router.put('/:orderId', (req, res, next) => {
     plain: true
   })
   .spread((bool, updatedOrder) => {
-    console.log('updated', updatedOrder)
     res.json(updatedOrder)})
   //nice to have:
   // .then(updatedOrder => {
