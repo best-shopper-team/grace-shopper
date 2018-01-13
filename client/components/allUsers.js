@@ -9,8 +9,7 @@ export class AllUsers extends Component {
   constructor(props){
     super(props);
     this.state = {
-      id: null,
-      isAdmin: '',
+      id: null
     }
     this.handleSelect = this.handleSelect.bind(this);
     this.handleEditClick = this.handleEditClick.bind(this);
@@ -115,10 +114,3 @@ const mapDispatch = function (dispatch) {
 }
 
 export default connect(mapState, mapDispatch)(AllUsers)
-
-// /**
-//  * PROP TYPES
-//  */
-// AllProducts.propTypes = {
-//   products: PropTypes.array
-// }
