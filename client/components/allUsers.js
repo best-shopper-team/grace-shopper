@@ -3,6 +3,7 @@ import React, {Component} from 'react';
 import { Link } from 'react-router-dom';
 import {connect} from 'react-redux'
 import {fetchUsers, updateUser} from '../store'
+import { Button, Table } from 'semantic-ui-react'
 
 export class AllUsers extends Component {
 
@@ -14,6 +15,7 @@ export class AllUsers extends Component {
     this.handleSelect = this.handleSelect.bind(this);
     this.handleEditClick = this.handleEditClick.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this);
+    this.passwordReset = this.passwordReset.bind(this);
   }
 
   componentDidMount(){
@@ -38,24 +40,34 @@ export class AllUsers extends Component {
     this.setState({ id: null })
   }
 
+  passwordReset(evt, id){
+    evt.preventDefault()
+    this.props.submitUpdate({id, passwordReset: true})
+  }
+
   render () {
     let { users } = this.props;
 
     return (
         <div>
           <h3>All Users</h3>
-          <table>
-            <tbody>
-            <tr>
-              <th>Name</th>
-              <th>Admin</th>
-              <th>Status</th>
-            </tr>
+          <Table singleLine>
+            <Table.Header>
+              <Table.Row>
+                <th>Name</th>
+                <th>Admin Status</th>
+                <th>Active Status</th>
+                <th>Edit Status</th>
+                <th>Password Reset</th>
+              </Table.Row>
+            </Table.Header>
+            <Table.Body>
             {
               users && users.map(user => {
                 const id = user.id;
+
                 return (
-                  <tr key={id}>
+                  <Table.Row key={id}>
                   <td> {user.name || 'Anonymous'}</td>
                   <td>
                     {
@@ -80,16 +92,23 @@ export class AllUsers extends Component {
                   <td>
                   {
                     this.state.id === id ?
-                    <button onClick={(evt) => this.handleSubmit(evt, id)}>update</button>
-                    : <button onClick={(evt) => this.handleEditClick(evt, id)}>Edit</button>
+                    <Button positive onClick={(evt) => this.handleSubmit(evt, id)}>update</Button>
+                    : <Button onClick={(evt) => this.handleEditClick(evt, id)}>Edit</Button>
                   }
                   </td>
-                  </tr>
+                  <td>
+                    {
+                      user.passwordReset ?
+                      <div>Awaiting Password Reset</div>
+                      : <Button basic color="orange" onClick={(evt) => this.passwordReset(evt, id)}>Trigger Password Reset</Button>
+                    }
+                  </td>
+                </Table.Row>
                 )}
                 )
               }
-          </tbody>
-        </table>
+          </Table.Body>
+        </Table>
       </div>
     )
   }
