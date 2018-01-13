@@ -44,7 +44,6 @@ const Main = (props) => {
           <div className="admin-navigation">
             <Link to="/admin/users">All Users</Link>
             <Link to="/admin/orderhistory">All Orders</Link>
-            <Link to="/orderHistory">Complete Order History</Link>
             <Link to="/admin/products/add">Add Product</Link>
           </div>
         }

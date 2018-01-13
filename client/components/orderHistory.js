@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
-// import { button } from 'react-router-dom'
+import {Table, Button, Dropdown, Form, Label} from 'semantic-ui-react'
 import { fetchAllOrders, updateOrder } from '../store'
 
 export class OrderHistory extends Component {
@@ -22,9 +22,9 @@ export class OrderHistory extends Component {
     this.props.getOrders()
   }
 
-  filterByStatus(evt){
+  filterByStatus(evt, {value}){
     this.setState({
-      filter: evt.target.value
+      filter: value
     })
   }
 
@@ -43,10 +43,9 @@ export class OrderHistory extends Component {
     })
   }
 
-  handleSubmit(evt, id){
+  handleSubmit(evt, id, email){
     evt.preventDefault()
-    // pass userEmail into handleSubmit and submitUpdate
-    this.props.submitUpdate(id, this.state.newStatus)
+    this.props.submitUpdate(id, this.state.newStatus, email)
     this.setState({
       editing: NaN
     })
@@ -54,6 +53,28 @@ export class OrderHistory extends Component {
 
   render() {
     let orders = this.props.orders;
+    let statusOptions = [
+      {
+        text: 'All',
+        value: ''
+      },
+      {
+        text: 'In Process',
+        value: 'inProcess'
+      },
+      {
+        text: 'Submitted',
+        value: 'submitted'
+      },
+      {
+        text: 'Shipped',
+        value: 'shipped'
+      },
+      {
+        text: 'Cancelled',
+        value: 'cancelled'
+      }
+    ]
 
     if (this.state.filter.length){
       orders = orders.filter(order => order.status === this.state.filter)
@@ -65,46 +86,22 @@ export class OrderHistory extends Component {
         this.props.user.isAdmin ?
         <div>
           <h3>Complete Order History</h3>
-          <div>Filter By Status:</div>
-          <div id="filter-by-status-radios">
-            <div>
-              <div>All Orders</div>
-              <input type="radio" name="rating" value=""
-              onChange={this.filterByStatus}/>
-            </div>
-            <div>
-              <div>In Process</div>
-              <input type="radio" name="rating" value="inProcess"
-              onChange={this.filterByStatus} />
-            </div>
-            <div>
-                <div>Submitted</div>
-              <input type="radio" name="rating" value="submitted"
-              onChange={this.filterByStatus} />
-            </div>
-            <div>
-              <div>Shipped</div>
-              <input type="radio" name="rating" value="shipped"
-              onChange={this.filterByStatus} />
-            </div>
-            <div>
-              <div>Cancelled</div>
-              <input type="radio" name="rating" value="cancelled"
-              onChange={this.filterByStatus}/>
-            </div>
-          </div>
-          <table>
-            <tbody>
-            <tr>
+          <Dropdown placeholder="Filter By Status" fluid selection options={statusOptions} onChange={this.filterByStatus} />
+          <Table singleLine>
+          <Table.Header>
+            <Table.Row>
               <th>Order Number</th>
               <th>Order Status</th>
-            </tr>
+              <th>Edit Order Status</th>
+            </Table.Row>
+          </Table.Header>
+            <Table.Body>
             {
               orders && orders.map(order => {
                 const id = order.id;
-                // const userEmail = need to eager load once Address reducer is set up
+                const userEmail = order.address.email;
                 return (
-                  <tr key={id}>
+                  <Table.Row key={id}>
                   <td> {id}</td>
                   <td>
                     {
@@ -121,17 +118,16 @@ export class OrderHistory extends Component {
                   <td>
                   {
                     this.state.editing === id ?
-                    // pass userEmail into handlSubmit
-                    <button onClick={(evt) => this.handleSubmit(evt, id)}>update</button>
-                    : <button onClick={(evt) => this.handleEditClick(evt, id)}>edit status</button>
+                    <Button onClick={(evt) => this.handleSubmit(evt, id, userEmail)}>update</Button>
+                    : <Button onClick={(evt) => this.handleEditClick(evt, id)}>edit status</Button>
                   }
                   </td>
-                  </tr>
+                  </Table.Row>
                 )
               })
             }
-            </tbody>
-          </table>
+            </Table.Body>
+          </Table>
         </div>
       :
       <h3>You are not an admin! go away!</h3>
@@ -154,9 +150,8 @@ const mapDispatch = dispatch => {
     getOrders () {
       dispatch(fetchAllOrders())
     },
-    submitUpdate(id, status) {
-      // pass email into submitUpdate and updateOrder
-      dispatch(updateOrder(id, status))
+    submitUpdate(id, status, email) {
+      dispatch(updateOrder(id, status, email))
     }
   }
 }
