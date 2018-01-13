@@ -47,6 +47,16 @@ form div {
   justify-content: space-between;
 }
 
+.navigation {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+}
+
+.search {
+  padding-left: 1rem;
+}
+
 /* cart stuff */
 .cartContainer{
   display: inline-grid;
