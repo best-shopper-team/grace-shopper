@@ -1,7 +1,7 @@
 import React, {Component} from 'react'
 // import PropTypes from 'prop-types'
 import {connect} from 'react-redux'
-import {NavLink} from 'react-router-dom'
+import {Link} from 'react-router-dom'
 import {getCartFromDb, me, editCartItemsInDb, removeCartFromDb, fetchProducts, getCartSessionFromDb} from '../store'
 import history from '../history'
 
@@ -49,9 +49,9 @@ export class Cart extends Component{
         { cart && cart.orderitems && cart.orderitems.map((orderItem) => {
           return (
             <div key={orderItem.id} className="orderItem">
-            <h4>{
+            <h4><Link to={`/products/${orderItem.productId}`}>{
               (products.length > 0 && products.find((prod) => prod.id === orderItem.productId)).title
-            }</h4>
+            }</Link></h4>
               <div className="item-info">
                 <span>
                   {products.length > 0 &&
@@ -62,7 +62,7 @@ export class Cart extends Component{
                   })[0].photoUrl} />}
                 </span>
                 <span>ProductId:
-                  {orderItem.id}
+                  {orderItem.productId}
                 </span>
                 <span>Price:
                   {parseFloat(orderItem.itemPrice * 0.01).toFixed(2)}
@@ -106,12 +106,12 @@ export class Cart extends Component{
               </h4>
             : <h3>Your cart is empty</h3>
         }
-        <NavLink to="/cart/checkout">
+        <Link to="/cart/checkout">
           <button
           className="ui button">
           Proceed to Checkout
           </button>
-        </NavLink>
+        </Link>
       </div>
     )
   }

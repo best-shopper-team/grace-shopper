@@ -1,5 +1,5 @@
 const router = require('express').Router()
-const {Order, User, OrderItem, Address} = require('../db/models')
+const {Order, User, OrderItem, Address, Product} = require('../db/models')
 module.exports = router
 // route path: api/orders
 
@@ -45,7 +45,7 @@ router.get('/user/:userId', (req, res, next) => {
   .catch(next)
 })
 
-//gets the 'inProcess' order for a specific user (get the cart)
+//gets the 'inProcess' order for a specific user (get the cart by userid)
 router.get('/user/:userId/cart', (req, res, next) => {
   let userId = +req.params.userId
   Order.findOne({
@@ -159,7 +159,7 @@ router.post('/session', (req, res, next) => {
 })
 
 //PUT takes object full of updated order info and edits order
-//edit: status or purchase time
+//edit: status or purchase time (for admin)
 router.put('/:orderId', (req, res, next) => {
   let editOrder = req.body
   let orderId = +req.params.orderId
@@ -186,4 +186,49 @@ router.put('/:orderId', (req, res, next) => {
   //   res.json(updatedOrder)
   // })
   .catch(next)
+})
+
+//SUBMIT CART
+//PUT takes object full of cart info and address info and updates order from inProcess => submitted, updates purchaseTime, and sets address on the order
+//also subtracts inventory from orderitems, once order has been submitted
+router.put('/cart/:cartId', (req, res, next) => {
+  let address = req.body.address
+  let orderitems = req.body.cart.orderitems
+  let cartId = +req.params.cartId
+  Address.create(address)
+  .then(newAddress => {
+    let updatedCart = {
+      status: 'submitted',
+      purchaseTime: new Date(),
+      addressId: newAddress.id
+    }
+    Order.update(updatedCart, {
+      where: {
+        id: cartId
+      },
+      returning: true,
+      plain: true
+    })
+    .spread((bool, updatedOrder) => {
+      orderitems.forEach((orderitem) => {
+        let quantityOrdered = +orderitem.quantity
+        Product.findOne({
+          where: {
+            id: orderitem.productId
+          }
+        })
+        .then(product => {
+          let newQuantity = product.quantity - quantityOrdered
+          Product.update({
+            quantity: newQuantity
+          }, {
+            where: {
+              id: product.id
+            }
+          })
+        })
+      })
+      res.json(updatedOrder)})
+    .catch(next)
+  })
 })

@@ -36,7 +36,7 @@ const defaultOrders = []
 
  const getUserOrders = orders => {
    return {
-     type:GET_USER_ORDERS,
+     type: GET_USER_ORDERS,
      orders
    }
  }

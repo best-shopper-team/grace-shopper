@@ -66,13 +66,10 @@ export const removeCartFromDb = (orderitemId) =>
       })
       .catch(err => console.log(err))
 
-export const submitCartToDb = (cartId) =>
+export const submitCartToDb = (cart, address) =>
   dispatch => {
-    let updateCart = {
-      status: 'submitted',
-      purchaseTime: new Date()
-    }
-    axios.put(`/api/orders/${cartId}`, updateCart)
+    let reqBody = {cart, address}
+    axios.put(`/api/orders/cart/${cart.id}`, reqBody)
     .then(res => dispatch(submitCart(res.data)))
     .catch(err => console.log(err))
   }
@@ -106,7 +103,7 @@ export default function (state = defaultCart, action) {
     case REMOVE_FROM_CART:
       return {...state, orderitems: state.orderitems.filter(orderitem => +orderitem.id !== +action.orderitemId)}
     case SUBMIT_CART:
-      return {...state, status: action.cart.status, purchaseTime: action.cart.purchaseTime}
+      return {...state, status: action.cart.status, purchaseTime: action.cart.purchaseTime, addressId: action.cart.addressId}
     case CREATE_CART_USER:
       return action.cart;
     case CREATE_CART_SESSION:
