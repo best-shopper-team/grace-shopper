@@ -26,8 +26,6 @@ export class OrderHistory extends Component {
     this.setState({
       filter: evt.target.value
     })
-    console.log('from evt: ', evt.target.value)
-    console.log('from state: ', this.state.filter)
   }
 
 
