@@ -30,7 +30,6 @@ export class SingleProduct extends React.Component {
       info.userId = +this.props.user.id
       this.props.makeCartUser(info)
     } else {
-      console.log('is this happening')
       this.props.makeCartSession(info)
     }
   }
