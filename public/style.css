@@ -67,3 +67,8 @@ form div {
 .item-info span{
   padding: 10px
 }
+
+#filter-by-status-radios{
+  display: flex;
+  justify-content: space-around;
+}

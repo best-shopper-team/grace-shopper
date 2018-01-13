@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
-// import { withRouter } from 'react-router-dom'
+// import { button } from 'react-router-dom'
 import { fetchAllOrders, updateOrder } from '../store'
 
 export class OrderHistory extends Component {
@@ -9,8 +9,10 @@ export class OrderHistory extends Component {
     super(props);
     this.state = {
       editing: NaN,
-      newStatus: ''
+      newStatus: '',
+      filter: ''
     }
+    this.filterByStatus = this.filterByStatus.bind(this);
     this.handleSelect = this.handleSelect.bind(this);
     this.handleEditClick = this.handleEditClick.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this);
@@ -19,6 +21,15 @@ export class OrderHistory extends Component {
   componentDidMount(){
     this.props.getOrders()
   }
+
+  filterByStatus(evt){
+    this.setState({
+      filter: evt.target.value
+    })
+    console.log('from evt: ', evt.target.value)
+    console.log('from state: ', this.state.filter)
+  }
+
 
   handleEditClick(evt, id){
     evt.preventDefault();
@@ -44,8 +55,11 @@ export class OrderHistory extends Component {
   }
 
   render() {
-    const orders = this.props.orders;
+    let orders = this.props.orders;
 
+    if (this.state.filter.length){
+      orders = orders.filter(order => order.status === this.state.filter)
+    }
 
     return (
       <div>
@@ -53,6 +67,34 @@ export class OrderHistory extends Component {
         this.props.user.isAdmin ?
         <div>
           <h3>Complete Order History</h3>
+          <div>Filter By Status:</div>
+          <div id="filter-by-status-radios">
+            <div>
+              <div>All Orders</div>
+              <input type="radio" name="rating" value=""
+              onChange={this.filterByStatus}/>
+            </div>
+            <div>
+              <div>In Process</div>
+              <input type="radio" name="rating" value="inProcess"
+              onChange={this.filterByStatus} />
+            </div>
+            <div>
+                <div>Submitted</div>
+              <input type="radio" name="rating" value="submitted"
+              onChange={this.filterByStatus} />
+            </div>
+            <div>
+              <div>Shipped</div>
+              <input type="radio" name="rating" value="shipped"
+              onChange={this.filterByStatus} />
+            </div>
+            <div>
+              <div>Cancelled</div>
+              <input type="radio" name="rating" value="cancelled"
+              onChange={this.filterByStatus}/>
+            </div>
+          </div>
           <table>
             <tbody>
             <tr>
@@ -62,7 +104,6 @@ export class OrderHistory extends Component {
             {
               orders && orders.map(order => {
                 const id = order.id;
-                console.log('order: ', order)
                 // const userEmail = need to eager load once Address reducer is set up
                 return (
                   <tr key={id}>
