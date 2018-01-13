@@ -88,7 +88,6 @@ export const createCartSessionDb = (info) =>
   dispatch => {
     axios.post(`/api/orders/session`, info)
     .then(res => {
-      console.log('resdata', res.data)
       dispatch(createCartSession(res.data))})
     .catch(err => console.log(err))
   }
