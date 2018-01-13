@@ -4,31 +4,34 @@ import {connect} from 'react-redux'
 import {withRouter, Link} from 'react-router-dom'
 import {fetchProduct, fetchProductReviews, createCartUserDb, createCartSessionDb} from '../store'
 import history from '../history'
-import {Message, Button, Container, Rating, Grid, Image, Dropdown} from 'semantic-ui-react'
+import {Message, Button, Container, Rating, Grid, Image, Transition} from 'semantic-ui-react'
+import {SingleProductReviews} from '../components'
 
 export class SingleProduct extends React.Component {
   constructor(props){
     super(props);
     this.state = {
-      id: props.match.params.productId,
-      quantity: null
+      quantity: null,
+      popupVisible: false,
+      reviewsVisible: false
     }
     this.adminEditClick = this.adminEditClick.bind(this)
     this.addToCart = this.addToCart.bind(this)
     this.handleChange = this.handleChange.bind(this)
+    this.seeReviews = this.seeReviews.bind(this)
   }
 
   componentDidMount(){
-    this.props.getProduct();
     this.props.getReviews();
+    this.props.getProduct();
   }
 
-  addToCart(e){
-    e.preventDefault()
+  addToCart(event){
+    event.preventDefault()
     let info = {
       orderItem: {
         productId: +this.props.product.id,
-        quantity: 1,
+        quantity: +this.state.quantity,
         itemPrice: +this.props.product.price
       }
     }
@@ -38,25 +41,33 @@ export class SingleProduct extends React.Component {
     } else {
       this.props.makeCartSession(info)
     }
+    this.setState({ popupVisible: true })
+    setTimeout(() => {
+      this.setState({ popupVisible: false })
+    }, 3000)
   }
 
   adminEditClick(){
     history.push(`/admin/products/${this.props.product.id}/edit`)
   }
 
-  addToCart(event){
-    event.preventDefault();
-  }
-
   handleChange(event){
     this.setState({ [event.target.name]: event.target.value });
-    console.log('this.state: ', this.state)
+  }
+
+  handleDismiss(){
+    this.setState({ popupVisible: false })
+  }
+
+  seeReviews(){
+    this.setState({ reviewsVisible: true })
   }
 
   render(){
     let { product, ratingArray, user } = this.props;
-
-    let avgRating = ratingArray.length && ratingArray.reduce((total, current) => total + current) / ratingArray.length;
+    let avgRating = Math.floor(ratingArray.length && ratingArray.reduce((total, current) => total + current) / ratingArray.length);
+    // console.log('avgRating: ', avgRating)
+    // console.log('ratingArray: ', ratingArray)
     let dollarPrice = product.price / 100;
 
     return (
@@ -92,12 +103,11 @@ export class SingleProduct extends React.Component {
               : <div>${dollarPrice}</div>
             }
             <br />
-            Average rating: <Rating defaultRating={avgRating} maxRating={5} disabled />
+            <a onClick={this.seeReviews}>Average rating:</a> {avgRating}/5 <Rating defaultRating={avgRating} maxRating={5} disabled />
             <br />
             <br />
             <p>{product.description}</p>
             <p>ONLY {product.quantity} REMAINING!</p>
-            <br />
             <br />
             <input type="text" name="quantity" defaultValue="0" onChange={this.handleChange} />
             <Button
@@ -108,7 +118,20 @@ export class SingleProduct extends React.Component {
             />
           </Grid.Column>
         </Grid>
-
+        {
+          this.state.popupVisible &&
+              <Message
+                onDismiss={this.handleDismiss}
+                header="Done and done!"
+                content={`You have added ${product.title} to your cart.`}
+              />
+        }
+        <br />
+        <br />
+        {
+          this.state.reviewsVisible &&
+            <SingleProductReviews />
+        }
       </Container>
     )
   }
@@ -121,8 +144,7 @@ const mapState = (state) => {
   return {
     user: state.user,
     product: state.singleProduct,
-    ratingArray: state.reviews.map(review => review.rating),
-    ratingLength: state.reviews.length
+    ratingArray: state.reviews.map(review => Number(review.rating))
   }
 }
 
@@ -140,7 +162,8 @@ const mapDispatch = (dispatch, ownProps) => {
     },
     makeCartSession(info){
       dispatch(createCartSessionDb(info))
-    }
+    },
+
   }
 }
 

@@ -1,5 +1,5 @@
 const router = require('express').Router()
-const {Review} = require('../db/models')
+const {Review, User} = require('../db/models')
 module.exports = router
 
 // return all reviews
@@ -14,7 +14,13 @@ router.get('/product/:productId', (req, res, next) => {
   Review.findAll({
     where: {
       productId: req.params.productId
-    }
+    },
+    include: [
+      {
+        model: User,
+        attributes: [ 'name' ]
+      }
+    ]
   })
     .then(foundReviews => res.json(foundReviews))
     .catch(next)
