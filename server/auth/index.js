@@ -23,9 +23,7 @@ router.post('/login', (req, res, next) => {
               }
             })
             .then(order => {
-              console.log('orderinstance', order)
               if (order){
-                console.log('userid', user.id)
                 return order.update({
                   sessionId: null,
                   userId: user.id
@@ -55,9 +53,7 @@ router.post('/signup', (req, res, next) => {
             }
           })
           .then(order => {
-            console.log('orderinstance', order)
             if (order){
-              console.log('userid', user.id)
               return order.update({
                 sessionId: null,
                 userId: user.id
