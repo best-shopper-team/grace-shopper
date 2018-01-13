@@ -42,7 +42,6 @@ export const getCartSessionFromDb = () =>
 dispatch =>
   axios.get(`/api/orders/session/cart`)
     .then(res => {
-      console.log('resdata', res.data)
       if (res.data === null){
         dispatch(getCart(defaultCart))
       } else {
@@ -87,9 +86,10 @@ export const createCartUserDb = (info) =>
 
 export const createCartSessionDb = (info) =>
   dispatch => {
-    console.log('info', info)
     axios.post(`/api/orders/session`, info)
-    .then(res => dispatch(createCartSession(res.data)))
+    .then(res => {
+      console.log('resdata', res.data)
+      dispatch(createCartSession(res.data))})
     .catch(err => console.log(err))
   }
 

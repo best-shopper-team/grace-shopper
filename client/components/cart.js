@@ -46,7 +46,7 @@ export class Cart extends Component{
     return (
       <div className="cartContainer">
         <h3>This is your cart</h3>
-        { cart.orderitems && cart.orderitems.map((orderItem) => {
+        { cart && cart.orderitems && cart.orderitems.map((orderItem) => {
           return (
             <div key={orderItem.id} className="orderItem">
             <h4>{
