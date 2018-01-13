@@ -25,7 +25,7 @@ async function seed () {
   // executed until that promise resolves!
 
   const users = await Promise.all([
-    User.create({name: 'Cody McDonald', email: 'cody@email.com', password: '123'}),
+    User.create({name: 'Cody McDonald', email: 'cody@email.com', password: '123', passwordReset: true}),
     User.create({name: 'Murphy Edward', email: 'murphy@email.com', password: '123'}),
     User.create({name: 'Soxxx McGee', isAdmin: true, email: 'soxxx@email.com', password: '123'}),
     User.create({name: 'Martina McBobaFett', isActive: false, email: 'martina@email.com', password: '123'}),
@@ -41,7 +41,7 @@ async function seed () {
   const products = await Promise.all([
     Product.create({title: 'Super Stitched Socks', description: 'Checkout the newest socks in our store!!! They are amazing and you will be too when you wear these super kool socks!!!', price: 400, quantity: 20, photoUrl: 'http://localhost:8080/images/bait.jpg'}),
     Product.create({title: 'Super Rad Socks', description: 'Checkout the newest socks in our store!!! They are amazing and you will be too when you wear these super rad socks!!!', price: 1000, quantity: 10, isAvailable: false, photoUrl: 'http://localhost:8080/images/blueTyeDye.jpg'}),
-    Product.create({title: 'Super Blue Socks', description: 'Checkout the newest socks in our store!!! They are amazing and you will be too when you wear these super blue socks!!!', price: 540, quantity: 18, isAvailable: false, photoUrl: 'http://localhost:8080/images/drakBlooms.jpg'}),
+    Product.create({title: 'Super Blue Socks', description: 'Checkout the newest socks in our store!!! They are amazing and you will be too when you wear these super blue socks!!!', price: 540, quantity: 18, isAvailable: false, photoUrl: 'http://localhost:8080/images/darkBlooms.jpg'}),
     Product.create({title: 'Super Rare Socks', description: 'Checkout the newest socks in our store!!! They are amazing and you will be too when you wear these super rare socks!!!', price: 2300, quantity: 2, photoUrl: 'http://localhost:8080/images/easyDoesItGirls.jpg'}),
     Product.create({title: 'Super Giant Bear Socks', description: 'Checkout the newest socks in our store!!! They are amazing and you will be too when you wear these super giant bear socks!!!', price: 460, quantity: 11, photoUrl: 'http://localhost:8080/images/fence.jpg'}),
     Product.create({title: 'Super Festive Socks', description: 'Checkout the newest socks in our store!!! They are amazing and you will be too when you wear these super festive socks!!!', price: 1200, quantity: 8, photoUrl: 'http://localhost:8080/images/holidaySock1.jpg'}),

@@ -14,6 +14,7 @@ export class AllUsers extends Component {
     this.handleSelect = this.handleSelect.bind(this);
     this.handleEditClick = this.handleEditClick.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this);
+    this.passwordReset = this.passwordReset.bind(this);
   }
 
   componentDidMount(){
@@ -38,6 +39,14 @@ export class AllUsers extends Component {
     this.setState({ id: null })
   }
 
+  passwordReset(evt, id){
+    evt.preventDefault()
+    console.log(id)
+    //run the  thing that dispatches a thunk
+    console.log('state: ', this.state)
+    this.props.submitUpdate({id, passwordReset: true})
+  }
+
   render () {
     let { users } = this.props;
 
@@ -54,6 +63,7 @@ export class AllUsers extends Component {
             {
               users && users.map(user => {
                 const id = user.id;
+                console.log('user: ', user)
                 return (
                   <tr key={id}>
                   <td> {user.name || 'Anonymous'}</td>
@@ -83,6 +93,13 @@ export class AllUsers extends Component {
                     <button onClick={(evt) => this.handleSubmit(evt, id)}>update</button>
                     : <button onClick={(evt) => this.handleEditClick(evt, id)}>Edit</button>
                   }
+                  </td>
+                  <td>
+                    {
+                      user.passwordReset ?
+                      <div>Awaiting Password Reset</div>
+                      : <button onClick={(evt) => this.passwordReset(evt, id)}>Trigger Password Reset</button>
+                    }
                   </td>
                   </tr>
                 )}
