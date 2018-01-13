@@ -28,6 +28,7 @@ class Routes extends Component {
             <Route exact path="/products/category/:category" component={AllProducts} />
             <Route exact path="/cart" component={Cart} />
             <Route exact path="/products" component={AllProducts} />
+            <Route exact path="/" component={AllProducts} />
             <Route exact path="/products/:productId" component={SingleProduct} />
             {
               isLoggedIn &&
