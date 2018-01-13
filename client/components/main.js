@@ -38,7 +38,7 @@ const Main = (props) => {
               <Link to="/cart">Cart</Link>
             </div>
         }
-        <img src="favicon.ico" className="logo" />
+        <img src="http://localhost:8080/favicon.ico" className="logo" />
         {
           isAdmin &&
           <div className="admin-navigation">
