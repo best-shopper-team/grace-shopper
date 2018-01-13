@@ -1,10 +1,9 @@
 import React from 'react'
-// import PropTypes from 'prop-types'
 import {connect} from 'react-redux'
-import {withRouter, Link} from 'react-router-dom'
+import {withRouter} from 'react-router-dom'
 import {fetchProduct, fetchProductReviews, createCartUserDb, createCartSessionDb} from '../store'
 import history from '../history'
-import {Message, Button, Container, Rating, Grid, Image, Transition} from 'semantic-ui-react'
+import {Message, Button, Container, Rating, Grid, Image} from 'semantic-ui-react'
 import {SingleProductReviews} from '../components'
 
 export class SingleProduct extends React.Component {
@@ -65,9 +64,11 @@ export class SingleProduct extends React.Component {
 
   render(){
     let { product, ratingArray, user } = this.props;
+
     let avgRating = Math.floor(ratingArray.length && ratingArray.reduce((total, current) => total + current) / ratingArray.length);
     // console.log('avgRating: ', avgRating)
     // console.log('ratingArray: ', ratingArray)
+
     let dollarPrice = product.price / 100;
 
     return (
@@ -92,10 +93,10 @@ export class SingleProduct extends React.Component {
           </div>
         }
         <Grid>
-          <Grid.Column width={7}>
+          <Grid.Column width={5}>
             <Image src={`${product.photoUrl}`} />
           </Grid.Column>
-          <Grid.Column width={5}>
+          <Grid.Column width={9}>
             <br />
             {
               dollarPrice % 2 ?
@@ -110,6 +111,7 @@ export class SingleProduct extends React.Component {
             <p>ONLY {product.quantity} REMAINING!</p>
             <br />
             <input type="text" name="quantity" defaultValue="0" onChange={this.handleChange} />
+            <br />
             <Button
               content="Add to Cart"
               icon="shop"
@@ -120,11 +122,11 @@ export class SingleProduct extends React.Component {
         </Grid>
         {
           this.state.popupVisible &&
-              <Message
-                onDismiss={this.handleDismiss}
-                header="Done and done!"
-                content={`You have added ${product.title} to your cart.`}
-              />
+          <Message
+            onDismiss={this.handleDismiss}
+            header="Done and done!"
+            content={`You have added ${product.title} to your cart.`}
+          />
         }
         <br />
         <br />

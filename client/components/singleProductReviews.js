@@ -1,10 +1,8 @@
 import React from 'react'
-// import PropTypes from 'prop-types'
 import {connect} from 'react-redux'
 import {withRouter} from 'react-router-dom'
-import {fetchProduct, fetchProductReviews, createCartUserDb, createCartSessionDb} from '../store'
-import history from '../history'
-import {Message, Button, Container, Rating, Grid, Image, Transition, Segment} from 'semantic-ui-react'
+import {fetchProduct, fetchProductReviews } from '../store'
+import {Rating, Segment} from 'semantic-ui-react'
 
 export class SingleProductReviews extends React.Component {
 
@@ -18,7 +16,7 @@ export class SingleProductReviews extends React.Component {
   }
 
   render(){
-    let { user, product, reviews } = this.props;
+    let { reviews } = this.props;
 
     return (
       <Segment raised>
@@ -46,8 +44,6 @@ export class SingleProductReviews extends React.Component {
  */
 const mapState = (state) => {
   return {
-    user: state.user,
-    product: state.singleProduct,
     reviews: state.reviews
   }
 }
