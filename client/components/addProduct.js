@@ -84,17 +84,14 @@ class AddProduct extends React.Component {
 
   handleCategories (event, value) {
     this.setState({ categories: [...this.state.categories, value.value] })
-    console.log('this.state: ', this.state)
   }
 
   handleVisibility (event, value) {
     this.setState({ isAvailable: value.checked })
-    console.log('this.state: ', this.state)
   }
 
   handleUpdate (event) {
     this.setState({[event.target.name]: event.target.value})
-    console.log('this.state: ', this.state)
   }
 
   handleSubmit (event) {
