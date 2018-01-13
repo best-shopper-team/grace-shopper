@@ -7,6 +7,10 @@ import axios from 'axios'
 const GET_CART = 'GET_CART'
 const EDIT_CART = 'EDIT_CART'
 const REMOVE_FROM_CART = 'REMOVE_FROM_CART'
+const SUBMIT_CART = 'SUBMIT_CART'
+const CREATE_CART_USER = 'CREATE_CART_USER'
+const CREATE_CART_SESSION = 'CREATE_CART_SESSION'
+
 
 /**
  * INITIAL STATE
@@ -19,21 +23,36 @@ const defaultCart = {}
 const getCart = cart => ({type: GET_CART, cart})
 const editCart = orderitem => ({type: EDIT_CART, orderitem})
 const removeFromCart = orderitemId => ({type: REMOVE_FROM_CART, orderitemId})
+const submitCart = cart => ({type: SUBMIT_CART, cart})
+const createCartUser = cart => ({type: CREATE_CART_USER, cart})
+const createCartSession = cart => ({type: CREATE_CART_SESSION, cart})
 
 /**
  * THUNK CREATORS
  */
 export const getCartFromDb = (userId) =>
   dispatch =>
-    axios.get(`api/orders/user/${userId}/cart`)
+    axios.get(`/api/orders/user/${userId}/cart`)
       .then(res => {
-        dispatch(getCart(res.data || defaultCart))
+        dispatch(getCart(res.data))
       })
       .catch(err => console.log(err))
 
+export const getCartSessionFromDb = () =>
+dispatch =>
+  axios.get(`/api/orders/session/cart`)
+    .then(res => {
+      if (res.data === null){
+        dispatch(getCart(defaultCart))
+      } else {
+        dispatch(getCart(res.data))
+      }
+    })
+    .catch(err => console.log(err))
+
 export const editCartItemsInDb = (orderItem) =>
   dispatch =>
-    axios.put(`api/orderItems/${orderItem.id}`, orderItem)
+    axios.put(`/api/orderItems/${orderItem.id}`, orderItem)
       .then(res => {
         dispatch(editCart(res.data[1]))
       })
@@ -41,11 +60,37 @@ export const editCartItemsInDb = (orderItem) =>
 
 export const removeCartFromDb = (orderitemId) =>
   dispatch =>
-    axios.delete(`api/orderItems/${orderitemId}`)
+    axios.delete(`/api/orderItems/${orderitemId}`)
       .then(res => {
         dispatch(removeFromCart(orderitemId))
       })
       .catch(err => console.log(err))
+
+export const submitCartToDb = (cartId) =>
+  dispatch => {
+    let updateCart = {
+      status: 'submitted',
+      purchaseTime: new Date()
+    }
+    axios.put(`/api/orders/${cartId}`, updateCart)
+    .then(res => dispatch(submitCart(res.data)))
+    .catch(err => console.log(err))
+  }
+
+export const createCartUserDb = (info) =>
+  dispatch => {
+    axios.post(`/api/orders/user`, info)
+    .then(res => dispatch(createCartUser(res.data)))
+    .catch(err => console.log(err))
+  }
+
+export const createCartSessionDb = (info) =>
+  dispatch => {
+    axios.post(`/api/orders/session`, info)
+    .then(res => {
+      dispatch(createCartSession(res.data))})
+    .catch(err => console.log(err))
+  }
 
 /**
  * REDUCER
@@ -60,15 +105,13 @@ export default function (state = defaultCart, action) {
       })};
     case REMOVE_FROM_CART:
       return {...state, orderitems: state.orderitems.filter(orderitem => +orderitem.id !== +action.orderitemId)}
+    case SUBMIT_CART:
+      return {...state, status: action.cart.status, purchaseTime: action.cart.purchaseTime}
+    case CREATE_CART_USER:
+      return action.cart;
+    case CREATE_CART_SESSION:
+      return action.cart;
     default:
       return state
   }
 }
-
-/*
-earlier way of reducing edit_cart
-      // state.orderitems = state.orderitems.map((orderitem) => {
-      //   return orderitem.id === action.orderitem.id ? action.orderitem : orderitem
-      // })
-      // return state
-*/

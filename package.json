@@ -34,6 +34,7 @@
     "passport-google-oauth": "^1.0.0",
     "pg": "^6.1.2",
     "pg-hstore": "^2.3.2",
+    "polyfill": "^0.1.0",
     "prop-types": "^15.5.8",
     "react": "^16.0.0",
     "react-dom": "^16.0.0",
@@ -42,6 +43,7 @@
     "redux": "^3.6.0",
     "redux-logger": "^2.8.1",
     "redux-thunk": "^2.2.0",
+    "semantic-ui-react": "^0.77.2",
     "sequelize": "^4.3.1",
     "socket.io": "^2.0.3"
   },
@@ -67,6 +69,7 @@
     "eslint-plugin-react": "^7.4.0",
     "install": "^0.10.2",
     "mocha": "^3.3.0",
+    "nodemailer": "^4.4.1",
     "nodemon": "^1.12.1",
     "npm": "^5.6.0",
     "react-test-renderer": "^16.0.0",

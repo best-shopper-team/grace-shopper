@@ -2,7 +2,7 @@ import React, {Component} from 'react'
 // import PropTypes from 'prop-types'
 import {connect} from 'react-redux'
 import {NavLink} from 'react-router-dom'
-import {getCartFromDb, me, editCartItemsInDb, removeCartFromDb} from '../store'
+import {getCartFromDb, me, editCartItemsInDb, removeCartFromDb, fetchProducts, getCartSessionFromDb} from '../store'
 import history from '../history'
 
 /**
@@ -16,7 +16,15 @@ export class Cart extends Component{
   }
 
   componentDidMount(){
-    this.props.getCart(this.props.user.id)
+    if (!this.props.allProducts.length){
+      this.props.getProducts()
+    }
+    //if there is no, we should getCart by sessionId (and we may need to change getCart reducer? and or its api? or create its own)
+    if (!this.props.user.id){
+      this.props.getCartSession()
+    } else {
+      this.props.getCart(this.props.user.id)
+    }
   }
 
   editOrder(e){
@@ -29,7 +37,6 @@ export class Cart extends Component{
   }
 
   removeButton(e){
-    console.log('going to remove', e.target.name)
     this.props.removeFromCart(e.target.name)
   }
 
@@ -39,19 +46,20 @@ export class Cart extends Component{
     return (
       <div className="cartContainer">
         <h3>This is your cart</h3>
-        { cart.orderitems && cart.orderitems.map((orderItem) => {
+        { cart && cart.orderitems && cart.orderitems.map((orderItem) => {
           return (
             <div key={orderItem.id} className="orderItem">
             <h4>{
-              (products.find((prod) => prod.id === orderItem.productId)).title
+              (products.length > 0 && products.find((prod) => prod.id === orderItem.productId)).title
             }</h4>
               <div className="item-info">
                 <span>
+                  {products.length > 0 &&
                   <img
                   className="product-image"
                   src={products.filter((product) => {
                     return product.id === orderItem.productId
-                  })[0].photoUrl} />
+                  })[0].photoUrl} />}
                 </span>
                 <span>ProductId:
                   {orderItem.id}
@@ -59,6 +67,7 @@ export class Cart extends Component{
                 <span>Price:
                   {parseFloat(orderItem.itemPrice * 0.01).toFixed(2)}
                 </span>
+                {products.length > 0 &&
                 <span>Quantity:
                   <input
                   name={orderItem.id}
@@ -67,10 +76,10 @@ export class Cart extends Component{
                   onChange={(e) => {
                     this.editOrder(e)}}
                   defaultValue={orderItem.quantity}
-                  max={products.filter((product) => {
+                  max={products.length > 0 && products.filter((product) => {
                     return product.id === orderItem.productId
                   })[0].quantity} />
-                </span>
+                </span>}
                 <span>Item Total:
                   ${parseFloat(orderItem.itemTotal * 0.01).toFixed(2)}
                 </span>
@@ -123,6 +132,12 @@ const mapDispatch = (dispatch) => {
   return {
     getCart: function(id){
       dispatch(getCartFromDb(id))
+    },
+    getCartSession: function(){
+      dispatch(getCartSessionFromDb())
+    },
+    getProducts: function(){
+      dispatch(fetchProducts())
     },
     getMe: function(){
       dispatch(me())
