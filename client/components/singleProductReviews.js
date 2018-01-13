@@ -44,6 +44,7 @@ export class SingleProductReviews extends React.Component {
  */
 const mapState = (state) => {
   return {
+    product: state.singleProduct,
     reviews: state.reviews
   }
 }
