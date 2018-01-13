@@ -35,7 +35,6 @@ export function fetchCategories() {
 export default function (state = categories, action) {
   switch (action.type) {
     case GET_CATEGORIES:
-      console.log('action.categories: ', action.categories)
       return action.retrievedCategories
     default:
       return state
