@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
-import {Table, Button, Dropdown, Form, Label} from 'semantic-ui-react'
+import {Table, Button, Dropdown} from 'semantic-ui-react'
 import { fetchAllOrders, updateOrder } from '../store'
 
 export class OrderHistory extends Component {
@@ -43,9 +43,9 @@ export class OrderHistory extends Component {
     })
   }
 
-  handleSubmit(evt, id, email){
+  handleSubmit(evt, id){
     evt.preventDefault()
-    this.props.submitUpdate(id, this.state.newStatus, email)
+    this.props.submitUpdate(id, this.state.newStatus)
     this.setState({
       editing: NaN
     })
@@ -99,7 +99,6 @@ export class OrderHistory extends Component {
             {
               orders && orders.map(order => {
                 const id = order.id;
-                const userEmail = order.address.email;
                 return (
                   <Table.Row key={id}>
                   <td> {id}</td>
@@ -118,7 +117,7 @@ export class OrderHistory extends Component {
                   <td>
                   {
                     this.state.editing === id ?
-                    <Button onClick={(evt) => this.handleSubmit(evt, id, userEmail)}>update</Button>
+                    <Button onClick={(evt) => this.handleSubmit(evt, id)}>update</Button>
                     : <Button onClick={(evt) => this.handleEditClick(evt, id)}>edit status</Button>
                   }
                   </td>
@@ -150,8 +149,8 @@ const mapDispatch = dispatch => {
     getOrders () {
       dispatch(fetchAllOrders())
     },
-    submitUpdate(id, status, email) {
-      dispatch(updateOrder(id, status, email))
+    submitUpdate(id, status) {
+      dispatch(updateOrder(id, status))
     }
   }
 }

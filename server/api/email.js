@@ -5,7 +5,7 @@ let nodemailer = require('nodemailer')
 let transporter = nodemailer.createTransport({
   service: 'yahoo',
   auth: {
-    user: 'lifesocks@yahoo.com',
+    user: 'lifesocks@yahoo.com>',
     pass: 'best-shopper-team'
   }
 })
@@ -20,8 +20,11 @@ let transporter = nodemailer.createTransport({
 // }
 
 router.post('/confirmation', (req, res, next) => {
+  // To revisit:
+  // if there is a userId, check User for email
+  // else search Address for an email
   transporter.sendMail({
-    from: '"Life Socks" <lifesocks@yahoo.com',
+    from: '"Life Socks" <lifesocks@yahoo.com>',
     to: req.body.email,
     subject: 'We have received your order!',
     text: 'Thank you for shopping with Life Socks! We have received your order and will be shipping it shortly. Our name may be pessimistic, but we are all smiles about delivering the best product possible. Please let us know if you have any questions! :)'
