@@ -7,7 +7,7 @@ module.exports = router
 router.get('/', (req, res, next) => {
   Order.findAll({ include: [
     {
-      model: User,
+      model: Address,
       attributes: [ 'email' ]
     }
   ]})
