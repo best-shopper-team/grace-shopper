@@ -26,6 +26,19 @@ class Routes extends Component {
             <Route exact path="/signup" component={Signup} />
             <Route exact path="/cart/checkout" component={Checkout} />
             <Route exact path="/products/category/:category" component={AllProducts} />
+            <Route exact path="/cart" render={
+              // look at redux-first-router
+              // this.state.page
+              // { type: 'NAVIGATION/CATEGORY_LISTING' }
+              // case 'NAVIGATION/CATEGORY_LISTING'
+              //    return { page: CategoryListingComponent }
+              const Page = this.state.page
+              return <Page/>
+              () => {
+                dispatch(me())
+                return <CartComponent/>
+              }
+            }/>
             <Route exact path="/cart" component={Cart} />
             <Route exact path="/products" component={AllProducts} />
             <Route exact path="/" component={AllProducts} />

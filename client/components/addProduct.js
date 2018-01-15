@@ -71,7 +71,7 @@ class AddProduct extends React.Component {
            <label>Visibility</label>
             <Radio
               toggle
-              label='Make this product visible.'
+              label="Make this product visible."
               onChange={this.handleVisibility}
             />
           </Form.Field>

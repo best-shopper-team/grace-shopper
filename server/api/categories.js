@@ -17,6 +17,13 @@ router.post('/', (req, res, next) => {
   Category.findOrCreate({
     where: {name}
   })
+  // REVIEW: style?
+  // .spread((a, b) =>
+  // VS
+  // .then(([a, b]) => {
+  //   console.log(a)
+  // .then((vals) => { const [a, b] = vals;
+  // .then((vals) => { const a = vals[0]; const b = vals[1]
   .spread((category, createdBool) => {
     res.json(category)
   })

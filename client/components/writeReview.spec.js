@@ -12,7 +12,7 @@ describe('WriteReview', () => {
 
   beforeEach(() => {
     const product = {
-      title: "title"
+      title: 'title'
     }
     const getProduct = () => console.log('i ran!')
     writeReview = shallow(<WriteReview product={product} getProduct={getProduct} />)

@@ -15,11 +15,64 @@ router.get('/', (req, res, next) => {
   .catch(next)
 })
 
+
+// GET /api/orders
+// if isAdmin
+//   send allOrders
+// else
+//   send current user's orders
+
+// GET /api/admin/orders
+//    send allOrders
+// GET /api/orders
+//    send current user's orders
+
+// import adminRouter from './admin'
+// app.use('/admin', (req, res, next) => {
+//   if (req.user.isAdmin) {
+//     next()
+//   }
+//   els {
+//    next('you must be an admin!')
+//   }
+// })
+// app.use('/admin', adminRouter)
+
+
+// orders.js
+// router = new express.Router()
+// router.param('id', async (req, res, next) => {
+//   const order = Order.findById(req.params.id)
+//   if (order.userId === req.user.id) {
+//     next()
+//   }
+//   else {
+//     next('you do not have access to this order!')
+//   }
+// })
+// router.get('/:id'...
+// router.put('/:id'...
+//
+// const orderAccessControl = (req, res, next) => {
+//   const order = Order.findById(req.params.id)
+//   if (order.userId === req.user.id) {
+//     next()
+//   }
+//   else {
+//     next('you do not have access to this order!')
+//   }
+// }
+// router.get('/:id', orderAccessControl, (req, res, next) => {
+//
+// })
+
+
 //gets all orders for a specific user (can only see this if user is owner of the order or user is admin)
 //this needs to be tested! with session user
 router.get('/user/:userId', (req, res, next) => {
   let loggedInUserId = +req.session.passport.user
   let userId = +req.params.userId
+  // REVIEW: don't nest promises
   Order.findAll({
     where: {
       userId: userId
@@ -36,6 +89,7 @@ router.get('/user/:userId', (req, res, next) => {
         where: { loggedInUserId }
       })
       .then(user => {
+        // REVIEW: need more authorization
         if (user.isAdmin === true){
           res.json(orders)
         }

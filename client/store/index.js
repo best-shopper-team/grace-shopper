@@ -13,6 +13,7 @@ import categories from './categories'
 import searchBar from './searchBar'
 
 
+// REVIEW line length
 const reducer = combineReducers({user, allProducts, singleProduct, reviews, cart, categories, orders, allUsers, searchBar})
 
 const middleware = composeWithDevTools(applyMiddleware(

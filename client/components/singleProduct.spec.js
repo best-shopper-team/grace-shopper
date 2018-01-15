@@ -50,7 +50,7 @@ mockUser = {
   })
 
   it.only(`renders the correct price`, () => {
-    expect(SingleProductWrapper.text()).to.contain('$' + mockProduct.price/100);
+    expect(SingleProductWrapper.text()).to.contain('$' + mockProduct.price / 100);
   })
   it.only(`renders the product's image`, () => {
     expect(SingleProductWrapper.find('#single-product-page-image')).to.have.length(1);

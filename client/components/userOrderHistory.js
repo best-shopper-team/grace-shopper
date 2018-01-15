@@ -21,7 +21,7 @@ export class UserOrderHistory extends Component {
   render() {
     const orders = this.props.orders
 
-    orders && console.log("ORDERS: ", orders)
+    orders && console.log('ORDERS: ', orders)
 
     const products = this.props.allProducts
 

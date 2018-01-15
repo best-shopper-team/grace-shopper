@@ -69,28 +69,33 @@ export class OrderHistory extends Component {
           <div id="filter-by-status-radios">
             <div>
               <div>All Orders</div>
-              <input type="radio" name="rating" value=""
-              onChange={this.filterByStatus}/>
+              <input
+type="radio" name="rating" value=""
+              onChange={this.filterByStatus} />
             </div>
             <div>
               <div>In Process</div>
-              <input type="radio" name="rating" value="inProcess"
+              <input
+type="radio" name="rating" value="inProcess"
               onChange={this.filterByStatus} />
             </div>
             <div>
                 <div>Submitted</div>
-              <input type="radio" name="rating" value="submitted"
+              <input
+type="radio" name="rating" value="submitted"
               onChange={this.filterByStatus} />
             </div>
             <div>
               <div>Shipped</div>
-              <input type="radio" name="rating" value="shipped"
+              <input
+type="radio" name="rating" value="shipped"
               onChange={this.filterByStatus} />
             </div>
             <div>
               <div>Cancelled</div>
-              <input type="radio" name="rating" value="cancelled"
-              onChange={this.filterByStatus}/>
+              <input
+type="radio" name="rating" value="cancelled"
+              onChange={this.filterByStatus} />
             </div>
           </div>
           <table>

@@ -29,7 +29,8 @@ export class SearchBar extends Component {
   render () {
 
   return (
-    <form className="ui search"
+    <form
+className="ui search"
     onSubmit={this.handleSubmit}
     >
       <input

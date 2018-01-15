@@ -63,43 +63,37 @@ export class Checkout extends Component{
                 <label>Name</label>
                 <input
                   type="text"
-                  id="name">
-                </input>
+                  id="name" />
               </span>
               <span>
                 <label>Street</label>
                 <input
                   type="text"
-                  id="street">
-                </input>
+                  id="street" />
               </span>
               <span>
                 <label>City</label>
                 <input
                   type="text"
-                  id="city">
-                </input>
+                  id="city" />
               </span>
               <span>
                 <label>State</label>
                 <input
                   type="text"
-                  id="state">
-                </input>
+                  id="state" />
               </span>
               <span>
                 <label>Zip Code</label>
                 <input
                   type="text"
-                  id="zip">
-                </input>
+                  id="zip" />
               </span>
               <span>
                 <label>Email</label>
                 <input
                   type="text"
-                  id="email">
-                </input>
+                  id="email" />
               </span>
             </div>
             <h5>Payment Information
@@ -109,22 +103,19 @@ export class Checkout extends Component{
                 <label>Credit Card Number</label>
                 <input
                   type="text"
-                  id="ccnum">
-                </input>
+                  id="ccnum" />
               </span>
               <span>
                 <label>Expiration Date</label>
                 <input
                   type="text"
-                  id="expiry">
-                </input>
+                  id="expiry" />
               </span>
               <span>
               <label>CCV</label>
               <input
                 type="text"
-                id="ccv">
-              </input>
+                id="ccv" />
               </span>
             </div>
             <br />
