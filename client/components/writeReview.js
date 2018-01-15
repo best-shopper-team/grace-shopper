@@ -28,7 +28,6 @@ export class WriteReview extends Component {
   }
 
   handleOptionChange(evt){
-    console.log(evt.target.value);
     this.setState({
       rating: evt.target.value
     })
@@ -36,11 +35,6 @@ export class WriteReview extends Component {
 
   starChange(evt, value){
     evt.persist()
-    console.log(evt)
-    console.log('target: ', evt.target)
-    console.log('value: ', value)
-    console.log('aria-posinset', evt.target['aria-posinset'])
-    console.log('keys: ', Object.keys(evt.target))
   }
 
   inputDescription(evt){
@@ -143,23 +137,3 @@ const mapDispatch = (dispatch, ownProps) => {
 }
 
 export default withRouter(connect(mapState, mapDispatch)(WriteReview));
-
-
-/*    <div id="rating-radio">
-      Rating:
-      <input type="radio" name="rating" value="1"
-      onChange={this.handleOptionChange} />
-      <div>1</div>
-      <input type="radio" name="rating" value="2"
-      onChange={this.handleOptionChange} />
-      <div>2</div>
-      <input type="radio" name="rating" value="3"
-      onChange={this.handleOptionChange} />
-      <div>3</div>
-      <input type="radio" name="rating" value="4"
-      onChange={this.handleOptionChange}/>
-      <div>4</div>
-      <input type="radio" name="rating" value="5"
-      onChange={this.handleOptionChange}/>
-      <div>5</div>
-    </div>*/
