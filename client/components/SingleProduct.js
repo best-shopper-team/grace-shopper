@@ -3,7 +3,7 @@ import {connect} from 'react-redux'
 import {withRouter} from 'react-router-dom'
 import {fetchProduct, fetchProductReviews, createCartUserDb, createCartSessionDb} from '../store'
 import history from '../history'
-import {Message, Button, Container, Rating, Grid, Image} from 'semantic-ui-react'
+import {Message, Button, Container, Rating, Grid, Image, Input} from 'semantic-ui-react'
 import {SingleProductReviews} from '../components'
 
 export class SingleProduct extends React.Component {
@@ -110,7 +110,7 @@ export class SingleProduct extends React.Component {
             <p>{product.description}</p>
             <p>ONLY {product.quantity} REMAINING!</p>
             <br />
-            <input type="text" name="quantity" defaultValue="0" onChange={this.handleChange} />
+            <Input type="number" name="quantity" defaultValue="1" min="1" onChange={this.handleChange} />
             <br />
             <Button
               content="Add to Cart"
