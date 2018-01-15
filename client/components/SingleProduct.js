@@ -1,6 +1,6 @@
 import React from 'react'
 import {connect} from 'react-redux'
-import {withRouter} from 'react-router-dom'
+import {withRouter, Link} from 'react-router-dom'
 import {fetchProduct, fetchProductReviews, createCartUserDb, createCartSessionDb} from '../store'
 import history from '../history'
 import {Message, Button, Container, Rating, Grid, Image} from 'semantic-ui-react'
@@ -104,7 +104,15 @@ export class SingleProduct extends React.Component {
               : <div>${dollarPrice}</div>
             }
             <br />
-            <a onClick={this.seeReviews}>Average rating:</a> {avgRating}/5 <Rating defaultRating={avgRating} maxRating={5} disabled />
+            <div id="rating-box">
+              <div>Average rating:</div> {avgRating}/5 <Rating defaultRating={avgRating} maxRating={5} disabled />
+            </div>
+            <div>
+              <a onClick={this.seeReviews}>See Reviews</a>
+            </div>
+            <div>
+              <Link to={`/writeReview/products/${product.id}`}>Write A Review</Link>
+            </div>
             <br />
             <br />
             <p>{product.description}</p>
@@ -170,4 +178,3 @@ const mapDispatch = (dispatch, ownProps) => {
 }
 
 export default withRouter(connect(mapState, mapDispatch)(SingleProduct))
-

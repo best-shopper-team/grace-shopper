@@ -88,3 +88,7 @@ form div {
   display: flex;
   justify-content: space-around;
 }
+
+#rating-box{
+  display: flex;
+}

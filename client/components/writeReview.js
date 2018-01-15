@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
-import { withRouter } from 'react-router-dom'
+import { withRouter, Redirect } from 'react-router-dom'
 import { fetchProduct, postProductReview, me } from '../store'
 
 
@@ -30,7 +30,6 @@ export class WriteReview extends Component {
   }
 
   inputDescription(evt){
-    console.log('you typed: ', evt.target.value)
     this.setState({
       content: evt.target.value
     })
@@ -59,7 +58,7 @@ export class WriteReview extends Component {
 
     return (
       <div>
-      {this.state.fireRedirect ? <h1>Thanks for your review!</h1> :
+      {this.state.fireRedirect ? <Redirect to={`/products/${product.id}`} /> :
         <div>
           <h3>Review {product.title}</h3>
           <img className="product-image" src={product.photoUrl} />
