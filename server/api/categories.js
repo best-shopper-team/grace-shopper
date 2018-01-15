@@ -9,16 +9,3 @@ router.get('/', (req, res, next) => {
     .then(categories => res.json(categories))
     .catch(next)
 })
-
-//accepts req.body with category name
-//and finds or creates a new instance
-router.post('/', (req, res, next) => {
-  let name = req.body.name
-  Category.findOrCreate({
-    where: {name}
-  })
-  .spread((category, createdBool) => {
-    res.json(category)
-  })
-  .catch(next)
-})

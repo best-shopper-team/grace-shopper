@@ -36,7 +36,7 @@ export function fetchProducts() {
 
 export function postProduct(product) {
   return function thunk(dispatch) {
-    return axios.post('/api/products/', product)
+    return axios.post('/api/admin/products/', product)
       .then(res => res.data)
       .then(newProduct => dispatch(addProduct(newProduct)))
       // .then(createdProduct => history.push(`/products/${createdProduct.id}`))
@@ -47,7 +47,7 @@ export function postProduct(product) {
 
 export const editProduct = product =>
   dispatch => {
-    return axios.put(`/api/products/${product.id}`, product)
+    return axios.put(`/api/admin/products/${product.id}`, product)
       .then(res => {
         return dispatch(updateProduct(res.data))
       })

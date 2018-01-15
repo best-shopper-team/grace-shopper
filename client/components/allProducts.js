@@ -37,7 +37,7 @@ export class AllProducts extends Component {
 
   submitNewCategory(event) {
     event.preventDefault()
-    axios.post('/api/categories/', { name: this.state.newCategory })
+    axios.post('/api/admin/categories/', { name: this.state.newCategory })
       .then(res => res.data)
       .then(() => {
         this.props.loadCategories()
@@ -144,4 +144,3 @@ const mapDispatch = function (dispatch) {
 }
 
 export default connect(mapState, mapDispatch)(withRouter(AllProducts))
-
