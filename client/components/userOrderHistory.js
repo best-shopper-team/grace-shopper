@@ -2,6 +2,7 @@ import React, { Component } from 'react'
 import { Link } from 'react-router-dom'
 import { connect } from 'react-redux'
 import { fetchUserOrders, fetchProducts } from '../store'
+import { Table, Divider } from 'semantic-ui-react'
 
 
 export class UserOrderHistory extends Component {
@@ -20,29 +21,25 @@ export class UserOrderHistory extends Component {
 
   render() {
     const orders = this.props.orders
-
-    orders && console.log("ORDERS: ", orders)
-
     const products = this.props.allProducts
-
-    products && console.log('PRODUCTS: ', products)
-
 
     return (
       <div>
         <h3>Your Order History</h3>
-          <table>
-            <tbody>
-            <tr>
+          <Table singleLine>
+          <Table.Header>
+            <Table.Row>
               <th>Order Number</th>
               <th>Items</th>
               <th>Quantity</th>
               <th>Order Status</th>
-            </tr>
+            </Table.Row>
+          </Table.Header>
+          <Table.Body>
             {
               orders && orders.map(order => {
                 return (
-                  <tr key={ order.id}>
+                  <Table.Row key={ order.id}>
                   <td>{ order.id}</td>
                   <td>
                     <div>
@@ -57,6 +54,7 @@ export class UserOrderHistory extends Component {
                                   )
                                 }).title}
                               </Link>
+                              <Divider />
                             </div>
                           )
                         })
@@ -70,6 +68,7 @@ export class UserOrderHistory extends Component {
                         return (
                           <div key={item.id}>
                             {item.quantity}
+                            <Divider />
                           </div>
                         )
                       })
@@ -77,12 +76,12 @@ export class UserOrderHistory extends Component {
                     </div>
                   </td>
                   <td>{order.status}</td>
-                  </tr>
+                  </Table.Row>
                 )
               })
             }
-            </tbody>
-          </table>
+            </Table.Body>
+          </Table>
       </div>
     )
 
