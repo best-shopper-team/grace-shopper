@@ -14,7 +14,10 @@ router.get('/:productId', (req, res, next) => {
   Product.findOne({
     where: {
       id: req.params.productId
-    }
+    },
+    include: [
+      {model: Category}
+    ]
   })
     .then(product => res.json(product))
     .catch(next)
@@ -59,19 +62,28 @@ Make sure req.body.categories includes EXACTLY the categories
 that you want on the updated product*/
 router.put('/:productId', async (req, res, next) => {
   try {
+    console.log('req.body: ', req.body)
     const foundProduct = await Product.findOne({
       where: {
         id: req.params.productId
       }
     })
-    const updatedProduct = await foundProduct.update(req.body)
+    const updatedProduct = await foundProduct.update(
+      {
+        title: req.body.title,
+        description: req.body.description,
+        price: +req.body.price,
+        quantity: +req.body.quantity,
+        isAvailable: req.body.isAvailable,
+        photoUrl: req.body.photoUrl
+      })
       if (req.body.categories){
         /*NOTE: this will return a promise for the new instance on
   `        the prod-cat, NOT the newProduct*/
         const updatedProdWithCategories = updatedProduct.setCategories(req.body.categories)
         res.json(updatedProdWithCategories)
       }
-      res.json(updatedProduct)
+      *******res.json(updatedProduct)
   }
   catch (error) {
     next(error)
