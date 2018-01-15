@@ -4,6 +4,7 @@ import {connect} from 'react-redux'
 import {Link} from 'react-router-dom'
 import {getCartFromDb, me, editCartItemsInDb, removeCartFromDb, fetchProducts, getCartSessionFromDb} from '../store'
 import history from '../history'
+import {Button, Icon} from 'semantic-ui-react'
 
 /**
  * COMPONENT
@@ -16,18 +17,10 @@ export class Cart extends Component{
   }
 
   componentDidMount(){
-    if (!this.props.user){
-      this.props.getMe()
-    }
     if (!this.props.allProducts.length){
       this.props.getProducts()
     }
-    //if there is no, we should getCart by sessionId (and we may need to change getCart reducer? and or its api? or create its own)
-    if (!this.props.user.id){
-      this.props.getCartSession()
-    } else {
-      this.props.getCart(this.props.user.id)
-    }
+    this.props.loadCart()
   }
 
   editOrder(e){
@@ -89,6 +82,7 @@ export class Cart extends Component{
                 <span>
                     <button
                     name={orderItem.id}
+                    className="ui button"
                     onClick={(e) => this.removeButton(e)}>
                     Remove Item from Cart
                     </button>
@@ -110,10 +104,12 @@ export class Cart extends Component{
             : <h3>Your cart is empty</h3>
         }
         <Link to="/cart/checkout">
-          <button
-          className="ui button">
-          Proceed to Checkout
-          </button>
+          <Button color="blue" animated>
+            <Button.Content visible>Proceed to Checkout</Button.Content>
+            <Button.Content hidden>
+              <Icon name='right arrow' />
+            </Button.Content>
+          </Button>
         </Link>
       </div>
     )
@@ -133,17 +129,18 @@ const mapState = (state) => {
 
 const mapDispatch = (dispatch) => {
   return {
-    getCart: function(id){
-      dispatch(getCartFromDb(id))
-    },
-    getCartSession: function(){
-      dispatch(getCartSessionFromDb())
+    loadCart: function(){
+      dispatch(me())
+      .then(action => {
+        if (action.user.id){
+          return dispatch(getCartFromDb(action.user.id))
+        } else {
+          return dispatch(getCartSessionFromDb())
+        }
+      })
     },
     getProducts: function(){
       dispatch(fetchProducts())
-    },
-    getMe: function(){
-      dispatch(me())
     },
     editCart: function(orderItem){
       dispatch(editCartItemsInDb(orderItem))

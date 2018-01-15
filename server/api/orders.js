@@ -64,6 +64,7 @@ router.get('/user/:userId/cart', (req, res, next) => {
 //gets the 'inProcess' order for a specific session (get the cart based on sessionId)
 router.get('/session/cart', (req, res, next) => {
   let sessionId = req.sessionID
+  console.log('sessionId', sessionId)
   Order.findOne({
     where: {
       sessionId: sessionId,
