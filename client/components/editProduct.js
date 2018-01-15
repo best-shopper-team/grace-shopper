@@ -1,8 +1,9 @@
 import React from 'react'
 import {connect} from 'react-redux'
 import {withRouter} from 'react-router-dom'
-import {fetchProduct, editProduct} from '../store'
+import {fetchProduct, editProduct, fetchCategories} from '../store'
 import history from '../history'
+import {Form, Button, Container, Radio, Dropdown} from 'semantic-ui-react'
 
 class EditProduct extends React.Component {
   constructor(props){
@@ -15,16 +16,21 @@ class EditProduct extends React.Component {
       quantity: props.product.quantity,
       isAvailable: props.product.isAvailable,
       photoUrl: props.product.photoUrl,
-      // categories: props.categories
+      categories: props.productCategories
     }
     this.handleSubmit = this.handleSubmit.bind(this)
     this.handleUpdate = this.handleUpdate.bind(this)
+    this.handleCategories = this.handleCategories.bind(this)
+    this.handleVisibility = this.handleVisibility.bind(this)
   }
 
   componentDidMount() {
-    // If the admin goes straight to this URL, will fetch the product info.
+    // if the admin goes straight to this URL, will fetch the product info
     if (!this.props.product.title){
       this.props.getProduct();
+    }
+    if (!this.props.product.reviews){
+      this.props.getCategories();
     }
   }
 
@@ -36,76 +42,97 @@ class EditProduct extends React.Component {
     if (!this.props.product.quantity) this.setState({ quantity: prod.quantity });
     if (!this.props.product.isAvailable) this.setState({ isAvailable: prod.isAvailable });
     if (!this.props.product.photoUrl) this.setState({ photoUrl: prod.photoUrl });
-    // if (!this.props.product.categories) this.setState({ categories: nextProps.categories });
+    if (!this.props.product.categories) this.setState({ categories: nextProps.productCategories });
 
   }
 
   render () {
-    // let tempCategories = [ { id: '1', name: 'Festive' }, { id: '2', name: 'Professional' }, { id: '3', name: 'Crazy' } ]
-    let { product } = this.props
-    if (product.title === undefined){
+    let { product, categories, productCategories } = this.props
+    let prodCat = productCategories && productCategories.map(category => category.id)
+
+    let visibilityOptions = [
+      {
+        key: 'available',
+        value: true,
+        text: 'Active'
+      },
+      {
+        key: 'unavailable',
+        value: false,
+        text: 'Inactive'
+      }
+    ]
+
+    let categoryOptions = categories.map(category => {
+       return {
+          key: category.name,
+          value: category.id,
+          text: category.name
+        }
+    })
+
+    if (product.categories === undefined){
       return (
         <div />
       )
     } else {
       return (
-        <div>
+        <Container>
         <h2>Edit a Product</h2>
-        <form onSubmit={this.handleSubmit} onChange={this.handleUpdate}>
-          <label>
-            Product Title:
-            <input type="text" name="title" defaultValue={product.title} />
-          </label>
-          <br />
-          <label>
-            Description:
-            <input type="text" name="description" defaultValue={product.description} />
-          </label>
-          <br />
-          <label>
-            Price (in cents):
+        <Form onSubmit={this.handleSubmit} onChange={this.handleUpdate}>
+        <Form.Field>
+          <label>Product Title</label>
+          <input type="text" name="title" defaultValue={product.title} />
+        </Form.Field>
+        <br />
+        <Form.Field width={8}>
+          <label>Description</label>
+          <input type="text" name="description" defaultValue={product.description} />
+        </Form.Field>
+        <br />
+        <Form.Group>
+          <Form.Field>
+            <label>Price</label>
             <input type="text" name="price" defaultValue={product.price} />
-          </label>
+          </Form.Field>
           <br />
-          <label>
-            Quantity:
+          <Form.Field>
+            <label>Quantity</label>
             <input type="text" name="quantity" defaultValue={product.quantity} />
-          </label>
-          <br />
-          <label>
-            Photo URL:
-            <input type="text" name="photoUrl" defaultValue={product.photoUrl} />
-          </label>
-          <br />
-          <label>
-            Categories:
-            <br />
-            {/*
-              tempCategories.map(category =>
-              <label key={category.id}>
-                <input type="checkbox" name="categories" value={category.id} />
-                {category.name}
-              </label>)
-              */}
-          </label>
-          <br />
-            <input type="checkbox" name="isAvailable" defaultValue={product.isAvailable} />
-              Hide from public view.
-          <br />
-          <input type="submit" value="Submit" />
-        </form>
-        </div>
-      )
+          </Form.Field>
+        </Form.Group>
+        <br />
+        <Form.Field>
+          <label>Photo URL</label>
+          <input type="text" name="photoUrl" defaultValue={product.photoUrl} />
+        </Form.Field>
+        <br />
+        <Form.Field>
+          <label>Categories</label>
+              <Dropdown placeholder="Select Categories" fluid multiple selection options={categoryOptions} onChange={this.handleCategories} defaultValue={prodCat} />
+        </Form.Field>
+        <br />
+        <Form.Field>
+          <label>Visibility</label>
+          <Dropdown placeholder="Select Availability" fluid selection options={visibilityOptions} onChange={this.handleVisibility} defaultValue={product.isAvailable} />
+        </Form.Field>
+        <br />
+        <Button type="submit">Submit</Button>
+      </Form>
+    </Container>)
     }
   }
 
+  handleCategories (event, value) {
+    this.setState({ categories: value.value })
+  }
+
+  handleVisibility (event, value) {
+    this.setState({ isAvailable: value.value })
+  }
+
   handleUpdate (event) {
-    // if (event.target.name === 'categories'){
-    //   this.setState({categories: [...this.state.categories, +event.target.value]})
-    // } else {
     this.setState({[event.target.name]: event.target.value})
-    // }
-    // console.log('this.state: ', this.state)
   }
 
   handleSubmit (event) {
@@ -117,8 +144,9 @@ class EditProduct extends React.Component {
 
 const mapState = (state) => {
   return {
-    product: state.singleProduct
-    // categories: state.categories
+    product: state.singleProduct,
+    productCategories: state.singleProduct.categories,
+    categories: state.categories
   }
 }
 
@@ -130,6 +158,9 @@ const mapDispatch = (dispatch, ownProps) => {
     },
     getProduct () {
       dispatch(fetchProduct(productId))
+    },
+    getCategories () {
+      dispatch(fetchCategories(productId))
     }
   }
 }
