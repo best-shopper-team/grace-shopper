@@ -24,14 +24,14 @@ export class SingleProductReviews extends React.Component {
           {
             reviews.length ?
             reviews.map(review =>
-              <Segment vertical key={review.id}>
+              (<Segment vertical key={review.id}>
                 <Rating defaultRating={review.rating} maxRating={5} disabled />
                 <br />
                 "{review.content}"
                 <br />
                 by {review.user.name}
                 <br />
-              </Segment>)
+              </Segment>))
             : <div>No reviews yet!</div>
           }
           </Segment>

@@ -37,10 +37,10 @@ export class WriteReview extends Component {
 
   handleSubmit(evt){
     evt.preventDefault();
-    if( this.state.rating === ''){
+    if ( this.state.rating === ''){
       this.setState({warn: true})
     }
-    else{
+    else {
       const review = {
         rating: this.state.rating,
         content: this.state.content,
@@ -66,25 +66,31 @@ export class WriteReview extends Component {
           <form onSubmit={this.handleSubmit}>
             <div id="rating-radio">
               Rating:
-              <input type="radio" name="rating" value="1"
+              <input
+type="radio" name="rating" value="1"
               onChange={this.handleOptionChange} />
               <div>1</div>
-              <input type="radio" name="rating" value="2"
+              <input
+type="radio" name="rating" value="2"
               onChange={this.handleOptionChange} />
               <div>2</div>
-              <input type="radio" name="rating" value="3"
+              <input
+type="radio" name="rating" value="3"
               onChange={this.handleOptionChange} />
               <div>3</div>
-              <input type="radio" name="rating" value="4"
-              onChange={this.handleOptionChange}/>
+              <input
+type="radio" name="rating" value="4"
+              onChange={this.handleOptionChange} />
               <div>4</div>
-              <input type="radio" name="rating" value="5"
-              onChange={this.handleOptionChange}/>
+              <input
+type="radio" name="rating" value="5"
+              onChange={this.handleOptionChange} />
               <div>5</div>
             </div>
             <div id="review-input">
               Review:
-              <textarea type="text" value={this.state.content}
+              <textarea
+type="text" value={this.state.content}
               name="content" onChange={this.inputDescription} />
             </div>
             <div>

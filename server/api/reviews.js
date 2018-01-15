@@ -28,6 +28,7 @@ router.get('/product/:productId', (req, res, next) => {
 
 // creates new review
 router.post('/', (req, res, next) => {
+  // REVIEW: lotso params here
   Review.create(req.body)
     .then(newReview => res.json(newReview))
     .catch(next)

@@ -2,9 +2,16 @@ const router = require('express').Router()
 module.exports = router
 let nodemailer = require('nodemailer')
 
+
+const senderEmailAddress = 'lifesocks@yahoo.com'
+const customerServiceEmailAddress = 'help@lifesocks.com'
+const customerServiceEmailAddress = 'help@lifesocks.com'
+
 let transporter = nodemailer.createTransport({
   service: 'yahoo',
   auth: {
+    // REVIEW: don't keep secrets in source
+    // when this is removed from source, the password should be reset
     user: 'lifesocks@yahoo.com',
     pass: 'best-shopper-team'
   }
@@ -19,8 +26,12 @@ let transporter = nodemailer.createTransport({
 //   text: 'Supposedly this is gonna be easy?'
 // }
 
+
+const config = require('../../../config')
+// REVIEW: HTML Email? Templates?
 router.post('/confirmation', (req, res, next) => {
   transporter.sendMail({
+    // the from email could live in a config file
     from: '"Life Socks" <lifesocks@yahoo.com',
     to: req.body.email,
     subject: 'We have received your order!',

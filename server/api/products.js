@@ -85,6 +85,7 @@ router.delete('/:productId', (req, res, next) => {
       id: req.params.productId
     }
   })
+  // REVIEW: indentation
     .then(() => res.status(204).send())
     .catch(next)
 })

@@ -44,17 +44,23 @@ describe('Review routes', () => {
       return createDummy
     })
 
-    it('GET /api/reviews', () => {
-      return request(app)
-        .get('/api/reviews')
-        .expect(200)
-        .then(res => {
-          expect(res.body).to.be.an('array')
-          expect(res.body[0].content).to.be.equal('I loved this product')
-          expect(res.body[0].rating).to.be.equal('4')
-          expect(res.body[0].userId).to.be.equal(1)
-          expect(res.body[0].productId).to.be.equal(1)
-        })
+    describe('GET /api/reviews', () => {
+      // REVIEW: multiple tests with single assertions
+      it('the response body is an array',
+        return request(app)
+          .get('/api/reviews')
+          .expect(200)
+          .then(res => {
+            expect(res.body).to.be.an('array')
+          })
+      it('the content is ....', () => {
+        return request(app)
+          .get('/api/reviews')
+          .expect(200)
+          .then(res => {
+            expect(res[0].content).to.equal('Whatever the body is')
+          })
+      })
     })
   }) // end describe('/api/reviews')
 }) // end describe('Review routes')

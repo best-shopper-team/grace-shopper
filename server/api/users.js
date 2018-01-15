@@ -21,7 +21,16 @@ router.put('/:userId', (req, res, next) => {
       id: req.params.userId
     }
   })
-    .then(foundUser => foundUser.update(req.body))
+  // REVIEW: review params here
+  // req.body === { isAdmin: true }
+    .then(foundUser => foundUser.update({
+      username: req.body.username,
+      favoriteColor: req.body.favoriteColor,
+    }))
+    // maybe tedious, let's go shopping, for _
+    foundUser.update(_.pluck(req.body, 'username', 'password', 'favoriteColor'))
+    // or...
+    foundUser.update(_.pluck(req.body, User.validUpdateParams))
     .then(updatedUser => res.send(updatedUser))
     .catch(next)
 })

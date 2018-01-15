@@ -30,6 +30,7 @@ router.put('/:orderItemId/', (req, res, next) => {
   .then((result) => {
     res.status(200).json(result)
   })
+  // REVIEW: commented out code? please explain
   // .then(([numRows, rows]) => {
   //   console.log(rows.dataValues)
   //   res.status(200).json(rows.dataValues)
