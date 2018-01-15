@@ -75,8 +75,6 @@ export class SingleProduct extends React.Component {
     let { product, ratingArray, user } = this.props;
 
     let avgRating = Math.floor(ratingArray.length && ratingArray.reduce((total, current) => total + current) / ratingArray.length);
-    console.log('avgRating: ', avgRating)
-    console.log('ratingArray: ', ratingArray)
 
     let dollarPrice = product.price / 100;
 

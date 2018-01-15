@@ -62,7 +62,6 @@ export class WriteReview extends Component {
       this.props.addReview(review)
       this.props.getReviews(review.productId)
       this.setState({reviewSubmitted: true})
-      console.log('this.state: ', this.state)
     }
   }
 
