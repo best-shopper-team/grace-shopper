@@ -3,7 +3,9 @@ import PropTypes from 'prop-types'
 import {connect} from 'react-redux'
 import {withRouter, Link} from 'react-router-dom'
 import {logout} from '../store'
-import  { SearchBar } from '../components';
+import  { SearchBar } from '../components'
+import { Divider } from 'semantic-ui-react'
+
 
 /**
  * COMPONENT
@@ -48,7 +50,7 @@ const Main = (props) => {
           </div>
         }
       </nav>
-      <hr />
+      <Divider />
       {children}
     </div>
   )

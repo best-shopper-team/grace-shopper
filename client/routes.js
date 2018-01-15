@@ -13,6 +13,10 @@ class Routes extends Component {
   componentDidMount () {
     this.props.loadInitialData()
   }
+  //may or may not need this
+  // componentWillUpdate(){
+  //   this.props.loadInitialData()
+  // }
 
   render () {
     const {isLoggedIn, isAdmin} = this.props
@@ -74,13 +78,13 @@ const mapDispatch = (dispatch) => {
   return {
     loadInitialData () {
       dispatch(me())
-      .then(action => {
-        if (action.user.id){
-          return dispatch(getCartFromDb(action.user.id))
-        } else {
-          return dispatch(getCartSessionFromDb())
-        }
-      })
+      // .then(action => {
+      //   if (action.user.id){
+      //     return dispatch(getCartFromDb(action.user.id))
+      //   } else {
+      //     return dispatch(getCartSessionFromDb())
+      //   }
+      // })
     }
   }
 }
