@@ -82,8 +82,9 @@ router.put('/:productId', async (req, res, next) => {
   `        the prod-cat, NOT the newProduct*/
         const updatedProdWithCategories = updatedProduct.setCategories(req.body.categories)
         res.json(updatedProdWithCategories)
+      } else {
+        res.json(updatedProduct)
       }
-      *******res.json(updatedProduct)
   }
   catch (error) {
     next(error)
