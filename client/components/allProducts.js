@@ -3,7 +3,7 @@ import { Link } from 'react-router-dom';
 import { connect } from 'react-redux'
 import { fetchProducts, fetchCategories } from '../store'
 import { withRouter } from 'react-router'
-import { Button, Form } from 'semantic-ui-react';
+import { Button, Form, Segment } from 'semantic-ui-react';
 import axios from 'axios'
 
 
@@ -78,16 +78,16 @@ export class AllProducts extends Component {
 
     return (
       <div>
-        <div className="categories">
+        <Segment.Group horizontal className="categories">
           {
             categories.map(category => {
               return (
-                <Link to={`/products/category/${category.name.toLowerCase()}`} onClick={() => { this.changeCategory(category.name) }} className="category" key={category.id}>{category.name}</Link>
+                <Link to={`/products/category/${category.name.toLowerCase()}`} onClick={() => { this.changeCategory(category.name) }} className="category" key={category.id}><Segment basic>{category.name}</Segment></Link>
               )
             })
           }
           {
-            user.isAdmin ? <Button onClick={this.displayAddCategory}>+ Category</Button> : null
+            user.isAdmin ? <Button compact size="small" basic onClick={this.displayAddCategory}>+ Category</Button> : null
           }
           {
             this.state.displayAddCategory ?
@@ -97,7 +97,7 @@ export class AllProducts extends Component {
                 </Form.Field>
               </Form> : null
           }
-        </div>
+        </Segment.Group>
         <div className="product-group">
           {
             products.map(product => {
