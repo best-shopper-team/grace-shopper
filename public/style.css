@@ -28,7 +28,6 @@ form div {
   display: flex;
   flex-direction: column;
   padding: 10px;
-  border: 3px solid hsl(198, 79%, 91%);;
 }
 .product-image {
   width: 150px
@@ -50,17 +49,26 @@ form div {
 .navigation {
   display: flex;
   flex-direction: row;
-  justify-content: space-between;
+  justify-content: space-around;
   align-items: center;
+}
+.children-container {
+  margin-top: 4.5em;
 }
 
 .logo {
   width: 150px;
   height: 150px;
+  margin-bottom: -84px;
+  margin-top: 2.5px;
+  margin-right: 62px;
 }
 
 .search {
   padding-left: 1rem;
+}
+.search.large {
+  margin: 1.4em;
 }
 
 /* cart stuff */
@@ -73,7 +81,13 @@ form div {
   display: flex;
   flex-direction: row
 }
+.home-products {
+  margin-bottom: -50px;
+}
 
+.search-acc-cart {
+  margin-bottom: -50px;
+}
 .item-info {
   display: flex;
   flex-direction: row;

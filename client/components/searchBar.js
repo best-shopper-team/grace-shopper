@@ -2,6 +2,7 @@ import React, { Component } from 'react'
 import { connect } from 'react-redux'
 import { addSearchTerm } from '../store'
 import { withRouter } from 'react-router-dom'
+import { Icon } from 'semantic-ui-react'
 /**
  * COMPONENT
  */
@@ -9,10 +10,16 @@ export class SearchBar extends Component {
   constructor (props) {
     super(props)
     this.state = {
-      searchTerm: ''
+      searchTerm: '',
+      isActive: false
     }
     this.handleChange = this.handleChange.bind(this)
     this.handleSubmit = this.handleSubmit.bind(this)
+    this.toggleSearch = this.toggleSearch.bind(this)
+  }
+
+  toggleSearch () {
+    this.state.isActive ? this.setState({isActive: false}) : this.setState({isActive: true})
   }
 
   handleChange (event) {
@@ -29,6 +36,7 @@ export class SearchBar extends Component {
   render () {
 
   return (
+    this.state.isActive ?
     <form className="ui search"
     onSubmit={this.handleSubmit}
     >
@@ -38,8 +46,7 @@ export class SearchBar extends Component {
         placeholder="Search..."
         onChange={this.handleChange}
       />
-    </form>
-
+    </form> : <Icon name="search" size="large" color="blue" onClick={this.toggleSearch} />
   )
 }
 }

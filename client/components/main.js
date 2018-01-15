@@ -1,9 +1,10 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-import {connect} from 'react-redux'
-import {withRouter, Link} from 'react-router-dom'
-import {logout} from '../store'
-import  { SearchBar } from '../components';
+import { connect } from 'react-redux'
+import { withRouter, Link } from 'react-router-dom'
+import { logout } from '../store'
+import { SearchBar } from '../components';
+import { Icon, Divider, Container, Image } from 'semantic-ui-react'
 
 /**
  * COMPONENT
@@ -12,33 +13,33 @@ import  { SearchBar } from '../components';
  *  rendered out by the component's `children`.
  */
 const Main = (props) => {
-  const {children, handleClick, isLoggedIn, isAdmin} = props
+  const { children, handleClick, isLoggedIn, isAdmin } = props
 
   return (
-    <div className="ui container">
+    <div>
       <nav className="navigation">
-
         {
           isLoggedIn
-            ? <div >
+            ? <div className="home-products">
               {/* The navbar will show these links after you log in */}
               <Link to="/home">Home</Link>
               <a href="#" onClick={handleClick}>Logout</a>
               <Link to="/products">Products</Link>
-              <Link to="/myHistory">Order History</Link>
-              <Link to="/cart">Cart</Link>
-              <SearchBar />
             </div>
-            : <div>
+            : <div className="home-products">
               {/* The navbar will show these links before you log in */}
               <Link to="/login">Login</Link>
               <Link to="/signup">Sign Up</Link>
               <Link to="/products">Products</Link>
-              <SearchBar />
-              <Link to="/cart">Cart</Link>
             </div>
         }
-        <img src="favicon.ico" className="logo" />
+        <Image src="http://localhost:8080/favicon.ico" href="/" className="logo" />
+        <div className="search-acc-cart">
+        <SearchBar />
+        {isLoggedIn ?
+          <Link to="/myHistory"><Icon name="user" size="large" /></Link> : <Link to="/login"><Icon name="user" size="large" /></Link>}
+        <Link to="/cart"><Icon name="shop" size="large" /></Link>
+        </div>
         {
           isAdmin &&
           <div className="admin-navigation">
@@ -49,8 +50,10 @@ const Main = (props) => {
           </div>
         }
       </nav>
-      <hr />
-      {children}
+      <Divider />
+      <Container className="children-container">
+        {children}
+      </Container>
     </div>
   )
 }
@@ -67,7 +70,7 @@ const mapState = (state) => {
 
 const mapDispatch = (dispatch) => {
   return {
-    handleClick () {
+    handleClick() {
       dispatch(logout())
     }
   }
