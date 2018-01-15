@@ -1,10 +1,8 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
 import { withRouter, Redirect } from 'react-router-dom'
-import { fetchProduct, postProductReview, me } from '../store'
-import { Rating, Form, Radio } from 'semantic-ui-react'
-
-
+import { fetchProduct, postProductReview, me, fetchProductReviews } from '../store'
+import { Rating, Form, Radio, Button, Segment, Message } from 'semantic-ui-react'
 
 
 export class WriteReview extends Component {
@@ -15,7 +13,8 @@ export class WriteReview extends Component {
       rating: '',
       content: '',
       warn: false,
-      fireRedirect: false
+      reviewSubmitted: false,
+      popupVisible: false
     }
     this.handleOptionChange = this.handleOptionChange.bind(this)
     this.inputDescription = this.inputDescription.bind(this)
@@ -31,6 +30,10 @@ export class WriteReview extends Component {
     this.setState({
       rating: evt.target.value
     })
+  }
+
+  handleDismiss(){
+    this.setState({ popupVisible: false })
   }
 
   starChange(evt, value){
@@ -57,7 +60,8 @@ export class WriteReview extends Component {
         productId: this.props.product.id
       }
       this.props.addReview(review)
-      this.setState({fireRedirect: true})
+      this.props.getReviews(review.productId)
+      this.setState({reviewSubmitted: true})
     }
   }
 
@@ -67,14 +71,15 @@ export class WriteReview extends Component {
 
     return (
       <div>
-      {this.state.fireRedirect ? <Redirect to={`/products/${product.id}`} /> :
-        <div>
-          <h3>Review {product.title}</h3>
-          <div className="review-component-box">
-            <img className="product-image" src={product.photoUrl} />
-            <div>Description: </div>
-            <div>{product.description}</div>
-          </div>
+      {this.state.reviewSubmitted ?
+          <Message
+            onDismiss={this.handleDismiss}
+            header="Thank you!"
+            content={`Your review for ${product.title} has been added.`}
+          />
+        :
+        <Segment raised>
+          <h3>Write a review for {product.title}</h3>
           <Form onSubmit={this.handleSubmit}>
             <Form.Field id="submit-review-box">
                 <div id="rating-box">
@@ -105,12 +110,12 @@ export class WriteReview extends Component {
                 name="content" onChange={this.inputDescription} />
               </div>
               <div>
-                <input type="submit" value="Submit" />
+                <Button type="submit" value="Submit">Submit</Button>
               </div>
             </Form.Field>
           </Form>
           <div>{this.state.warn && 'You must include a rating!'}</div>
-        </div>
+        </Segment>
       }
       </div>
     )
@@ -132,6 +137,9 @@ const mapDispatch = (dispatch, ownProps) => {
     },
     addReview (review) {
       dispatch(postProductReview(review))
+    },
+    getReviews () {
+      dispatch(fetchProductReviews(productId))
     }
   }
 }

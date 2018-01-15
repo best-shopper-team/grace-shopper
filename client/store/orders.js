@@ -46,7 +46,7 @@ const defaultOrders = []
   */
 
 export const fetchAllOrders = () => dispatch => {
-  axios.get(`/api/orders`)
+  axios.get(`/api/admin/orders`)
   .then(res => {
     dispatch(getAllOrders(res.data))
   })

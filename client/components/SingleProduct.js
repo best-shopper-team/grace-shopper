@@ -1,10 +1,16 @@
+/* eslint complexity:0 */
 import React from 'react'
 import {connect} from 'react-redux'
 import {withRouter} from 'react-router-dom'
 import {fetchProduct, fetchProductReviews, createCartUserDb, createCartSessionDb} from '../store'
 import history from '../history'
+
 import {Message, Button, Container, Rating, Grid, Image, Input} from 'semantic-ui-react'
-import {SingleProductReviews} from '../components'
+
+
+
+import {SingleProductReviews, WriteReview} from '../components'
+
 
 export class SingleProduct extends React.Component {
   constructor(props){
@@ -12,12 +18,14 @@ export class SingleProduct extends React.Component {
     this.state = {
       quantity: null,
       popupVisible: false,
-      reviewsVisible: false
+      reviewsVisible: false,
+      writeReviewVisible: false
     }
     this.adminEditClick = this.adminEditClick.bind(this)
     this.addToCart = this.addToCart.bind(this)
     this.handleChange = this.handleChange.bind(this)
     this.seeReviews = this.seeReviews.bind(this)
+    this.writeReview = this.writeReview.bind(this)
   }
 
   componentDidMount(){
@@ -60,14 +68,18 @@ export class SingleProduct extends React.Component {
 
   seeReviews(){
     this.setState({ reviewsVisible: true })
+    this.setState({ writeReviewVisible: false })
+  }
+
+  writeReview(){
+    this.setState({ reviewsVisible: false })
+    this.setState({ writeReviewVisible: true })
   }
 
   render(){
     let { product, ratingArray, user } = this.props;
 
     let avgRating = Math.floor(ratingArray.length && ratingArray.reduce((total, current) => total + current) / ratingArray.length);
-    // console.log('avgRating: ', avgRating)
-    // console.log('ratingArray: ', ratingArray)
 
     let dollarPrice = product.price / 100;
 
@@ -104,7 +116,16 @@ export class SingleProduct extends React.Component {
               : <div>${dollarPrice}</div>
             }
             <br />
-            <a onClick={this.seeReviews}>Average rating:</a> {avgRating}/5 <Rating defaultRating={avgRating} maxRating={5} disabled />
+            Average rating:
+            <br />
+            {
+              avgRating ? <Rating defaultRating={avgRating} maxRating={5} disabled />
+              : 'N/A'
+            }
+            <br />
+            <br />
+            <Button basic color="black" content="Read Reviews" onClick={this.seeReviews} />
+            <Button basic color='black' content='Write Review' onClick={this.writeReview} />
             <br />
             <br />
             <p>{product.description}</p>
@@ -133,6 +154,10 @@ export class SingleProduct extends React.Component {
         {
           this.state.reviewsVisible &&
             <SingleProductReviews />
+        }
+        {
+          this.state.writeReviewVisible &&
+            <WriteReview />
         }
       </Container>
     )

@@ -3,17 +3,7 @@ const {Order, User, OrderItem, Address, Product} = require('../db/models')
 module.exports = router
 // route path: api/orders
 
-//gets all orders (only available to admins)
-router.get('/', (req, res, next) => {
-  Order.findAll({ include: [
-    {
-      model: Address,
-      attributes: [ 'email' ]
-    }
-  ]})
-  .then(orders => res.json(orders))
-  .catch(next)
-})
+
 
 //gets all orders for a specific user (can only see this if user is owner of the order or user is admin)
 //this needs to be tested! with session user
