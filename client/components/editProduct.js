@@ -125,24 +125,20 @@ class EditProduct extends React.Component {
 
   handleCategories (event, value) {
     this.setState({ categories: value.value })
-    console.log('this.state: ', this.state)
   }
 
   handleVisibility (event, value) {
     this.setState({ isAvailable: value.value })
-    console.log('this.state: ', this.state)
   }
 
   handleUpdate (event) {
     this.setState({[event.target.name]: event.target.value})
-    console.log('this.state: ', this.state)
   }
 
   handleSubmit (event) {
     event.preventDefault();
     this.props.updateProduct(this.state);
     history.push(`/products/${this.state.id}`);
-    console.log('this.state: ', this.state)
   }
 }
 
