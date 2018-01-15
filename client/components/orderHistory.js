@@ -1,7 +1,9 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
+import { Redirect } from 'react-router-dom'
 import {Table, Button, Dropdown} from 'semantic-ui-react'
 import { fetchAllOrders, updateOrder } from '../store'
+
 
 export class OrderHistory extends Component {
 
@@ -129,7 +131,7 @@ export class OrderHistory extends Component {
           </Table>
         </div>
       :
-      <h3>You are not an admin! go away!</h3>
+      <Redirect to="/home" />
       }
       </div>
     )
