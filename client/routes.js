@@ -4,7 +4,7 @@ import {Route, Switch, Router} from 'react-router-dom'
 import PropTypes from 'prop-types'
 import history from './history'
 import {Main, Login, Signup, UserHome, SingleProduct, Cart, Checkout, WriteReview, AddProduct, AllProducts, EditProduct, AllUsers, OrderHistory, UserOrderHistory} from './components'
-import {me} from './store'
+import {me, getCartFromDb, getCartSessionFromDb} from './store'
 
 /**
  * COMPONENT
@@ -13,6 +13,10 @@ class Routes extends Component {
   componentDidMount () {
     this.props.loadInitialData()
   }
+  //may or may not need this
+  // componentWillUpdate(){
+  //   this.props.loadInitialData()
+  // }
 
   render () {
     const {isLoggedIn, isAdmin} = this.props
@@ -64,7 +68,9 @@ const mapState = (state) => {
     // Being 'logged in' for our purposes will be defined has having a state.user that has a truthy id.
     // Otherwise, state.user will be an empty object, and state.user.id will be falsey
     isLoggedIn: !!state.user.id,
-    isAdmin: state.user.isAdmin
+    isAdmin: state.user.isAdmin,
+    user: state.user,
+    cart: state.cart
   }
 }
 
@@ -72,6 +78,13 @@ const mapDispatch = (dispatch) => {
   return {
     loadInitialData () {
       dispatch(me())
+      // .then(action => {
+      //   if (action.user.id){
+      //     return dispatch(getCartFromDb(action.user.id))
+      //   } else {
+      //     return dispatch(getCartSessionFromDb())
+      //   }
+      // })
     }
   }
 }

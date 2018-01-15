@@ -1,7 +1,10 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
-import { withRouter } from 'react-router-dom'
+import { withRouter, Redirect } from 'react-router-dom'
 import { fetchProduct, postProductReview, me } from '../store'
+import { Rating, Form, Radio } from 'semantic-ui-react'
+
+
 
 
 export class WriteReview extends Component {
@@ -17,6 +20,7 @@ export class WriteReview extends Component {
     this.handleOptionChange = this.handleOptionChange.bind(this)
     this.inputDescription = this.inputDescription.bind(this)
     this.handleSubmit = this.handleSubmit.bind(this)
+    this.starChange = this.starChange.bind(this)
   }
 
   componentDidMount(){
@@ -29,8 +33,12 @@ export class WriteReview extends Component {
     })
   }
 
+  starChange(evt, value){
+    evt.persist()
+  }
+
   inputDescription(evt){
-    console.log('you typed: ', evt.target.value)
+
     this.setState({
       content: evt.target.value
     })
@@ -59,39 +67,48 @@ export class WriteReview extends Component {
 
     return (
       <div>
-      {this.state.fireRedirect ? <h1>Thanks for your review!</h1> :
+      {this.state.fireRedirect ? <Redirect to={`/products/${product.id}`} /> :
         <div>
           <h3>Review {product.title}</h3>
-          <img className="product-image" src={product.photoUrl} />
-          <div>Description: {product.description}</div>
-          <form onSubmit={this.handleSubmit}>
-            <div id="rating-radio">
-              Rating:
-              <input type="radio" name="rating" value="1"
-              onChange={this.handleOptionChange} />
-              <div>1</div>
-              <input type="radio" name="rating" value="2"
-              onChange={this.handleOptionChange} />
-              <div>2</div>
-              <input type="radio" name="rating" value="3"
-              onChange={this.handleOptionChange} />
-              <div>3</div>
-              <input type="radio" name="rating" value="4"
-              onChange={this.handleOptionChange}/>
-              <div>4</div>
-              <input type="radio" name="rating" value="5"
-              onChange={this.handleOptionChange}/>
-              <div>5</div>
-            </div>
-            <div id="review-input">
-              Review:
-              <textarea type="text" value={this.state.content}
-              name="content" onChange={this.inputDescription} />
-            </div>
-            <div>
-              <input type="submit" value="Submit" />
-            </div>
-          </form>
+          <div className="review-component-box">
+            <img className="product-image" src={product.photoUrl} />
+            <div>Description: </div>
+            <div>{product.description}</div>
+          </div>
+          <Form onSubmit={this.handleSubmit}>
+            <Form.Field id="submit-review-box">
+                <div id="rating-box">
+                  Rating:
+                  <div id="rating-radio">
+                    <input type="radio" name="rating" value="1"
+                    onChange={this.handleOptionChange} />
+                    <div>1</div>
+                    <input type="radio" name="rating" value="2"
+                    onChange={this.handleOptionChange} />
+                    <div>2</div>
+                    <input type="radio" name="rating" value="3"
+                    onChange={this.handleOptionChange} />
+                    <div>3</div>
+                    <input type="radio" name="rating" value="4"
+                    onChange={this.handleOptionChange}/>
+                    <div>4</div>
+                    <input type="radio" name="rating" value="5"
+                    onChange={this.handleOptionChange}/>
+                    <div>5</div>
+                  </div>
+              </div>
+            </Form.Field>
+            <Form.Field>
+              <div id="review-input">
+                Review:
+                <textarea type="text" value={this.state.content}
+                name="content" onChange={this.inputDescription} />
+              </div>
+              <div>
+                <input type="submit" value="Submit" />
+              </div>
+            </Form.Field>
+          </Form>
           <div>{this.state.warn && 'You must include a rating!'}</div>
         </div>
       }

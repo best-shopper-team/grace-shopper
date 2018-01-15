@@ -46,11 +46,12 @@ export function postProduct(product) {
 }
 
 export const editProduct = product =>
-  dispatch =>
-    axios.put(`/api/products/${product.id}`, product)
+  dispatch => {
+    return axios.put(`/api/products/${product.id}`, product)
       .then(res => {
         return dispatch(updateProduct(res.data))
       })
+    }
 
 /**
  * REDUCER
