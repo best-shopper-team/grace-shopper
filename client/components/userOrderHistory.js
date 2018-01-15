@@ -2,7 +2,7 @@ import React, { Component } from 'react'
 import { Link } from 'react-router-dom'
 import { connect } from 'react-redux'
 import { fetchUserOrders, fetchProducts } from '../store'
-import { Table, Divider } from 'semantic-ui-react'
+import { Table, Divider, Segment } from 'semantic-ui-react'
 
 
 export class UserOrderHistory extends Component {
@@ -22,9 +22,19 @@ export class UserOrderHistory extends Component {
   render() {
     const orders = this.props.orders
     const products = this.props.allProducts
+    const isAdmin = this.props.isAdmin
 
     return (
       <div>
+      <h3>Admin Links</h3>
+      {
+        isAdmin &&
+        <Segment.Group compact horizontal className="admin-navigation">
+          <Link to="/admin/users"><Segment>All Users</Segment></Link>
+          <Link to="/admin/orderhistory"><Segment>All Orders</Segment></Link>
+          <Link to="/admin/products/add"><Segment>Add Product</Segment></Link>
+        </Segment.Group>
+      }
         <h3>Your Order History</h3>
           <Table singleLine>
           <Table.Header>
@@ -94,7 +104,8 @@ const mapState = state => {
   return {
     user: state.user,
     orders: state.orders,
-    allProducts: state.allProducts
+    allProducts: state.allProducts,
+    isAdmin: state.user.isAdmin
   }
 }
 

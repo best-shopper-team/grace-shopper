@@ -78,7 +78,7 @@ export class AllProducts extends Component {
 
     return (
       <div>
-        <Segment.Group horizontal className="categories">
+        <Segment.Group horizontal id="categories">
           {
             categories.map(category => {
               return (
@@ -87,7 +87,7 @@ export class AllProducts extends Component {
             })
           }
           {
-            user.isAdmin ? <Button compact size="small" basic onClick={this.displayAddCategory}>+ Category</Button> : null
+            user.isAdmin ? <Button compact color="blue" size="small" basic onClick={this.displayAddCategory}>+ Category</Button> : null
           }
           {
             this.state.displayAddCategory ?
