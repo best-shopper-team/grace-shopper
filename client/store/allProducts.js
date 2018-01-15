@@ -47,7 +47,6 @@ export function postProduct(product) {
 
 export const editProduct = product =>
   dispatch => {
-    console.log('product: ', product)
     return axios.put(`/api/products/${product.id}`, product)
       .then(res => {
         return dispatch(updateProduct(res.data))
