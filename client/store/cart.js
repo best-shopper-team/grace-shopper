@@ -34,7 +34,11 @@ export const getCartFromDb = (userId) =>
   dispatch =>
     axios.get(`/api/orders/user/${userId}/cart`)
       .then(res => {
-        dispatch(getCart(res.data))
+        if (res.data === null){
+          dispatch(getCart(defaultCart))
+        } else {
+          dispatch(getCart(res.data))
+        }
       })
       .catch(err => console.log(err))
 
