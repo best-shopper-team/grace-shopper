@@ -3,6 +3,7 @@ import React, {Component} from 'react'
 import {Link} from 'react-router-dom'
 import {connect} from 'react-redux'
 import {getCartFromDb, submitCartToDb, getCartSessionFromDb} from '../store'
+import {Button, Icon, Form, Checkbox} from 'semantic-ui-react'
 
 /**
  * COMPONENT
@@ -54,90 +55,111 @@ export class Checkout extends Component{
           <h3>
           Enter Your Shipping and Payment Information
           </h3>
-          <form
+          <Form
             onSubmit={(e) => this.submitOrder(e)}>
             <h5>Shipping Information
             </h5>
+            <Form.Group>
             <div>
-              <span>
+              <Form.Field>
                 <label>Name</label>
                 <input
                   type="text"
-                  id="name">
-                </input>
-              </span>
-              <span>
+                  id="name" />
+              </Form.Field>
+              <br />
+              <Form.Field>
                 <label>Street</label>
                 <input
                   type="text"
                   id="street">
                 </input>
-              </span>
-              <span>
+              </Form.Field>
+              <br />
+              <Form.Field>
                 <label>City</label>
                 <input
                   type="text"
                   id="city">
                 </input>
-              </span>
-              <span>
+              </Form.Field>
+              <br />
+              <Form.Field>
                 <label>State</label>
                 <input
                   type="text"
                   id="state">
                 </input>
-              </span>
-              <span>
+              </Form.Field>
+              <br />
+              <Form.Field>
                 <label>Zip Code</label>
                 <input
                   type="text"
                   id="zip">
                 </input>
-              </span>
-              <span>
+              </Form.Field>
+              <br />
+              <Form.Field>
                 <label>Email</label>
                 <input
                   type="text"
                   id="email">
                 </input>
-              </span>
+              </Form.Field>
+              <br />
             </div>
+            </Form.Group>
             <h5>Payment Information
             </h5>
+            <Form.Group>
             <div>
               <span>
-                <label>Credit Card Number</label>
+                <Form.Field>
+                  <label>Credit Card Number</label>
+                  <input
+                    type="text"
+                    id="ccnum">
+                  </input>
+                </Form.Field>
+              </span>
+              <br />
+              <span>
+                <Form.Field>
+                  <label>Expiration Date</label>
+                  <input
+                    type="text"
+                    id="expiry">
+                  </input>
+                </Form.Field>
+              </span>
+              <br />
+              <span>
+              <Form.Field>
+                <label>CCV</label>
                 <input
                   type="text"
-                  id="ccnum">
+                  id="ccv">
                 </input>
-              </span>
-              <span>
-                <label>Expiration Date</label>
-                <input
-                  type="text"
-                  id="expiry">
-                </input>
-              </span>
-              <span>
-              <label>CCV</label>
-              <input
-                type="text"
-                id="ccv">
-              </input>
+              </Form.Field>
               </span>
             </div>
+            </Form.Group>
             <br />
-            <button
+            <Button
+              color="green"
               type="submit">
+              <Button.Content>
               Submit Order
-            </button>
-          </form>
+              </Button.Content>
+            </Button>
+          </Form>
         </div>}
       </div>
     )
   }
 }
+
 
 /**
  * CONTAINER
