@@ -114,7 +114,7 @@ export class SingleProduct extends React.Component {
             Average rating:
             <br />
             {
-              avgRating? <Rating defaultRating={avgRating} maxRating={5} disabled />
+              avgRating ? <Rating defaultRating={avgRating} maxRating={5} disabled />
               : 'N/A'
             }
             <br />
