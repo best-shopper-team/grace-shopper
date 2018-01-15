@@ -74,7 +74,10 @@ export const submitCartToDb = (cart, address) =>
   dispatch => {
     let reqBody = {cart, address}
     axios.put(`/api/orders/cart/${cart.id}`, reqBody)
-    .then(res => dispatch(submitCart(res.data)))
+    .then(res => {
+      dispatch(submitCart(res.data))
+      axios.post('/api/email/confirmation', address)
+    })
     .catch(err => console.log(err))
   }
 

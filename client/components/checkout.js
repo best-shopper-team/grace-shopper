@@ -34,6 +34,7 @@ export class Checkout extends Component{
       zip: e.target.zip.value,
       email: e.target.email.value
     }
+    console.log('email', newAddress.email)
     this.props.submitCart(this.props.cart, newAddress)
     this.setState({submitted: true})
   }
@@ -44,7 +45,7 @@ export class Checkout extends Component{
       {this.state.submitted ?
         <div>
           <h3>
-            Your order has been submitted! Thank you for shopping with us ^_^
+            Your order has been submitted! A confirmation email has been sent to the email address entered at checkout. Thank you for shopping with us ^_^
           </h3>
           <Link to="/products">
             Continue shopping...
@@ -61,50 +62,56 @@ export class Checkout extends Component{
             </h5>
             <Form.Group>
             <div>
-              <Form.Field>
+              <Form.Field required>
                 <label>Name</label>
                 <input
                   type="text"
-                  id="name" />
+                  id="name"
+                  placeholder="John Smith"/>
               </Form.Field>
               <br />
-              <Form.Field>
+              <Form.Field required>
                 <label>Street</label>
                 <input
                   type="text"
-                  id="street">
+                  id="street"
+                  placeholder="123 Street St.">
                 </input>
               </Form.Field>
               <br />
-              <Form.Field>
+              <Form.Field required>
                 <label>City</label>
                 <input
                   type="text"
-                  id="city">
+                  id="city"
+                  placeholder="Chicago">
                 </input>
               </Form.Field>
               <br />
-              <Form.Field>
+              <Form.Field required>
                 <label>State</label>
                 <input
                   type="text"
-                  id="state">
+                  id="state"
+                  placeholder="IL">
                 </input>
               </Form.Field>
               <br />
-              <Form.Field>
+              <Form.Field required>
                 <label>Zip Code</label>
                 <input
                   type="text"
-                  id="zip">
+                  id="zip"
+                  placeholder="60642">
                 </input>
               </Form.Field>
               <br />
-              <Form.Field>
+              <Form.Field required>
                 <label>Email</label>
                 <input
                   type="text"
-                  id="email">
+                  id="email"
+                  placeholder="john@gmail.com">
                 </input>
               </Form.Field>
               <br />
