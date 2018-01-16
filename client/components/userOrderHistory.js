@@ -25,7 +25,7 @@ export class UserOrderHistory extends Component {
     const isAdmin = this.props.isAdmin
 
     return (
-      <div>
+      <div id="boxThing">
       <h3>Admin Links</h3>
       {
         isAdmin &&
@@ -36,7 +36,7 @@ export class UserOrderHistory extends Component {
         </Segment.Group>
       }
         <h3>Your Order History</h3>
-          <Table singleLine>
+          <Table basic>
           <Table.Header>
             <Table.Row>
               <th>Order Number</th>
@@ -44,7 +44,9 @@ export class UserOrderHistory extends Component {
               <th>TimePurchased</th>
               <th>Items</th>
               <th>Quantity</th>
+              <th>Item Total</th>
               <th>Order Status</th>
+              <th>Order Subtotal</th>
             </Table.Row>
           </Table.Header>
           <Table.Body>
@@ -52,45 +54,59 @@ export class UserOrderHistory extends Component {
               orders && orders.map(order => {
                 return (
                   <Table.Row key={ order.id}>
-                  <td>{ order.id}</td>
-                  <td>{order && order.purchaseTime ? order.purchaseTime.slice(0, 9): 'Not Yet Purchased'}</td>
-                  <td>{order && order.purchaseTime ? order.purchaseTime.slice(11, 16): ''}</td>
-                  <td>
-                    <div>
-                      {
-                        products.length && order.orderitems && order.orderitems.length && order.orderitems.map(item => {
-                          return (
-                            <div key={item.id}>
-                              <Link to={`/products/${item.productId}`}>
-                                {products.find(product => {
-                                  return (
-                                    product.id === item.productId
-                                  )
-                                }).title}
-                              </Link>
-                              <Divider />
-                            </div>
-                          )
-                        })
-                      }
-                    </div>
-                  </td>
-                  <td>
-                    <div>
+                  <Table.Cell>{ order.id}</Table.Cell>
+                  <Table.Cell>{order && order.purchaseTime ? order.purchaseTime.slice(0, 9): 'Not Yet Purchased'}</Table.Cell>
+                  <Table.Cell>{order && order.purchaseTime ? order.purchaseTime.slice(11, 16): ''}</Table.Cell>
+                  <Table.Cell>
                     {
                       products.length && order.orderitems && order.orderitems.length && order.orderitems.map(item => {
                         return (
                           <div key={item.id}>
-                            {item.quantity}
-                            <Divider />
+                            <Link to={`/products/${item.productId}`}>
+                              {products.find(product => {
+                                return (
+                                  product.id === item.productId
+                                )
+                              }).title}
+                            </Link>
+                            <Divider/>
                           </div>
                         )
                       })
                     }
-                    </div>
-                  </td>
-                  <td>{order.status}</td>
-                  </Table.Row>
+                  </Table.Cell>
+                  <Table.Cell>
+                    {
+                      products.length && order.orderitems && order.orderitems.length && order.orderitems.map(item => {
+                        return (
+                          <div key={item.id}>
+                          {item.quantity}
+                          <Divider />
+                          </div>
+                        )
+                      })
+                    }
+                  </Table.Cell>
+                  <Table.Cell>
+                  {
+                    products.length && order.orderitems && order.orderitems.length && order.orderitems.map(item => {
+                      return (
+                        <div key={item.id}>
+                        ${parseFloat(item.itemTotal * 0.01).toFixed(2)}
+                        <Divider />
+                        </div>
+                      )
+                    })
+                  }</Table.Cell>
+                  <Table.Cell>{order.status}</Table.Cell>
+                  <Table.Cell>${
+                    parseFloat(
+                      (order.orderitems.map(orderitem => orderitem.itemTotal).reduce((accum, currentVal) => accum + currentVal))
+                      * 0.01)
+                      .toFixed(2)
+                    }
+                  </Table.Cell>
+              </Table.Row>
                 )
               })
             }
