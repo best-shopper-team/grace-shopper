@@ -29,7 +29,7 @@ export class AllProducts extends Component {
 
   componentDidMount() {
     this.props.loadProducts()
-    // this.props.loadCategories()
+    this.props.loadCategories()
   }
 
   changeCategory(categoryName) {
@@ -161,7 +161,11 @@ const mapDispatch = function (dispatch) {
     loadProducts () {
       dispatch(fetchProducts())
         .then(() => dispatch(fetchCategories()))
-    }
+    },
+    loadCategories: function () {
+        const categoriesThunk = fetchCategories();
+        dispatch(categoriesThunk);
+      }
   }
 }
 
