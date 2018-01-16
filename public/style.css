@@ -66,6 +66,8 @@ form div {
 }
 
 /* cart stuff */
+
+
 .cartContainer{
   display: inline-grid;
   grid-template-columns: auto;
