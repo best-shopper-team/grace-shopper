@@ -16,7 +16,6 @@ const Address = db.define('address', {
   },
   email: {
     type: Sequelize.STRING,
-    unique: true,
     validate: {
       isEmail: true
     }
