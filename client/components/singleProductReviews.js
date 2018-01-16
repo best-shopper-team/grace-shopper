@@ -7,9 +7,7 @@ import {Rating, Segment} from 'semantic-ui-react'
 export class SingleProductReviews extends React.Component {
 
   componentDidMount(){
-    if (!this.props.reviews.length){
-      this.props.getReviews();
-    }
+    this.props.getReviews();
     if (!this.props.product.length) {
       this.props.getProduct();
     }
@@ -29,7 +27,7 @@ export class SingleProductReviews extends React.Component {
                 <br />
                 "{review.content}"
                 <br />
-                by {review.user && review.user.name ? review.user.name : 'Anonymous'}
+                by {review.user && review.user.name}
                 <br />
               </Segment>)
             : <div>No reviews yet!</div>
