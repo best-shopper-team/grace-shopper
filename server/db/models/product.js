@@ -31,7 +31,7 @@ const Product = db.define('product', {
   },
   photoUrl: {
     type: Sequelize.STRING,
-    defaultValue: 'https://cdn.shopify.com/s/files/1/2607/2780/products/socks-template.jpg?v=1512403868'
+    defaultValue: 'https://i.imgur.com/oivDaDN.png'
   }
 })
 
