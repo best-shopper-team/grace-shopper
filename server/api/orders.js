@@ -153,18 +153,17 @@ router.post('/session', (req, res, next) => {
 router.put('/:orderId', (req, res, next) => {
   let editOrder = req.body
   let orderId = +req.params.orderId
-  Order.update({
+
+  //axios.get('/api/email/update')
+  Order.findOne({where: {id: req.params.orderId}})
+  .then(foundOrder => {
+  return foundOrder.update({
     status: editOrder.status,
     purchaseTime: editOrder.purchaseTime
-  }, {
-    where: {
-      id: orderId
-    },
-    returning: true,
-    plain: true
+    })
   })
-  .spread((bool, updatedOrder) => {
-    res.json(updatedOrder)})
+  .then((updatedOrder) => {
+    return res.json(updatedOrder)})
   //nice to have:
   // .then(updatedOrder => {
   //   if (editOrder.addressId){
