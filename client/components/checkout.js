@@ -38,8 +38,8 @@ export class Checkout extends Component{
       this.props.submitCart(this.props.cart, newAddress)
       this.setState({submitted: true})
     } else {
-      // alert('You must fill out all of the required fields in order to submit the cart!')
-      console.log('hi')
+      alert('You must fill out all of the required fields in order to submit the cart!')
+      
     }
   }
 
