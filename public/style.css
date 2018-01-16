@@ -115,17 +115,17 @@ form div {
   display: flex;
   flex-direction: row;
   flex-wrap: wrap;
-  margin-top: 76px;
+  margin-top: 88px;
   justify-content: space-between;
+}
+
+#cat-button{
+  margin-top: 7px;
+  margin-right: 3px
 }
 
 .search-acc-cart {
   display: flex !important;
-}
-.search-bar-form {
-  position: absolute !important;
-  left: 51em !important;
-  margin-top: 21px;
 }
 
 .search-bar-icon {
@@ -133,7 +133,9 @@ form div {
   margin-top: 6rem !important;
   margin-top: -1em !important;
 }
-
+.search-bar-form {
+  margin-right: 14px;
+}
 .blue.search.icon.large {
   margin-top: 16px;
 }
@@ -150,8 +152,10 @@ form div {
   background-color: rgb(237,218,245);
 }
 
+.image.logo {
+  margin-right: -33px;
+}
 
-/* landing page */
 
 #landing-page-image {
   max-width: 100%;
@@ -173,6 +177,7 @@ form div {
 }
 
 
+
 #all-prod-price {
   color: #1e70bf;
 }
@@ -180,3 +185,4 @@ form div {
 .ui.basic.segment {
   font-family: 'Open Sans', sans-serif;
 }
+
