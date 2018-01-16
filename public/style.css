@@ -120,18 +120,15 @@ form div {
 .search-acc-cart {
   display: flex !important;
 }
-.search-bar-form {
-  position: absolute !important;
-  left: 51em !important;
-  margin-top: 21px;
-}
 
 .search-bar-icon {
   display: flex !important;
   margin-top: 6rem !important;
   margin-top: -1em !important;
 }
-
+.search-bar-form {
+  margin-right: 14px;
+}
 .blue.search.icon.large {
   margin-top: 16px;
 }
@@ -146,4 +143,8 @@ form div {
 
 .category.active {
   background-color: rgb(237,218,245);
+}
+
+.image.logo {
+  margin-right: -33px;
 }

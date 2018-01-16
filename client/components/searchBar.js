@@ -11,16 +11,12 @@ export class SearchBar extends Component {
     super(props)
     this.state = {
       searchTerm: '',
-      isActive: false
     }
     this.handleChange = this.handleChange.bind(this)
     this.handleSubmit = this.handleSubmit.bind(this)
-    this.toggleSearch = this.toggleSearch.bind(this)
+
   }
 
-  toggleSearch() {
-    this.state.isActive ? this.setState({ isActive: false }) : this.setState({ isActive: true })
-  }
 
   handleChange(event) {
     event.preventDefault()
@@ -36,10 +32,8 @@ export class SearchBar extends Component {
   render() {
 
     return (
-      this.state.isActive ?
-        <div className="search-bar-icon">
+        <div className="search-bar-form">
           <Form
-            className="search-bar-form"
             onSubmit={this.handleSubmit}
           >
             <input
@@ -49,9 +43,7 @@ export class SearchBar extends Component {
               onChange={this.handleChange}
             />
           </Form>
-          <Icon className="search1" name="remove" size="large" color="blue" onClick={this.toggleSearch} />
         </div>
-        : <Icon name="search" size="large" color="blue" onClick={this.toggleSearch} />
     )
   }
 }
@@ -59,11 +51,7 @@ export class SearchBar extends Component {
 /**
  * CONTAINER
  */
-const mapState = (state) => {
-  return {
-    email: state.user.email
-  }
-}
+
 
 const mapDispatch = (dispatch) => {
   return {
@@ -74,5 +62,5 @@ const mapDispatch = (dispatch) => {
   }
 }
 
-export default withRouter(connect(mapState, mapDispatch)(SearchBar))
+export default withRouter(connect(mapDispatch)(SearchBar))
 
