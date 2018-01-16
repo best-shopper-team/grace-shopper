@@ -40,6 +40,8 @@ export class UserOrderHistory extends Component {
           <Table.Header>
             <Table.Row>
               <th>Order Number</th>
+              <th>Date Purchased</th>
+              <th>TimePurchased</th>
               <th>Items</th>
               <th>Quantity</th>
               <th>Order Status</th>
@@ -51,6 +53,8 @@ export class UserOrderHistory extends Component {
                 return (
                   <Table.Row key={ order.id}>
                   <td>{ order.id}</td>
+                  <td>{order && order.purchaseTime ? order.purchaseTime.slice(0, 9): 'Not Yet Purchased'}</td>
+                  <td>{order && order.purchaseTime ? order.purchaseTime.slice(11, 16): ''}</td>
                   <td>
                     <div>
                       {
