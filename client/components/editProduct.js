@@ -93,7 +93,7 @@ class EditProduct extends React.Component {
         <Form.Group>
           <Form.Field>
             <label>Price</label>
-            <input type="text" name="price" defaultValue={product.price} />
+            <input type="text" name="price" defaultValue={product.price / 100} />
           </Form.Field>
           <br />
           <Form.Field>
@@ -132,7 +132,11 @@ class EditProduct extends React.Component {
   }
 
   handleUpdate (event) {
-    this.setState({[event.target.name]: event.target.value})
+    if (event.target.name === 'price'){
+      this.setState({ price: event.target.value * 100 })
+    } else {
+      this.setState({[event.target.name]: event.target.value})
+    }
   }
 
   handleSubmit (event) {

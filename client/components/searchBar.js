@@ -2,12 +2,12 @@ import React, { Component } from 'react'
 import { connect } from 'react-redux'
 import { addSearchTerm } from '../store'
 import { withRouter } from 'react-router-dom'
-import { Icon } from 'semantic-ui-react'
+import { Icon, Form } from 'semantic-ui-react'
 /**
  * COMPONENT
  */
 export class SearchBar extends Component {
-  constructor (props) {
+  constructor(props) {
     super(props)
     this.state = {
       searchTerm: '',
@@ -18,37 +18,42 @@ export class SearchBar extends Component {
     this.toggleSearch = this.toggleSearch.bind(this)
   }
 
-  toggleSearch () {
-    this.state.isActive ? this.setState({isActive: false}) : this.setState({isActive: true})
+  toggleSearch() {
+    this.state.isActive ? this.setState({ isActive: false }) : this.setState({ isActive: true })
   }
 
-  handleChange (event) {
+  handleChange(event) {
     event.preventDefault()
-    this.setState({searchTerm: event.target.value})
+    this.setState({ searchTerm: event.target.value })
   }
 
-  handleSubmit (event) {
+  handleSubmit(event) {
     event.preventDefault()
     this.props.history.push(`/products?keywords=${this.state.searchTerm}`);
     this.props.addSearch(this.state.searchTerm)
   }
 
-  render () {
+  render() {
 
-  return (
-    this.state.isActive ?
-    <form className="ui search"
-    onSubmit={this.handleSubmit}
-    >
-      <input
-        className="prompt"
-        type="text"
-        placeholder="Search..."
-        onChange={this.handleChange}
-      />
-    </form> : <Icon name="search" size="large" color="blue" onClick={this.toggleSearch} />
-  )
-}
+    return (
+      this.state.isActive ?
+        <div>
+          <Form
+
+            onSubmit={this.handleSubmit}
+          >
+            <input
+              className="prompt"
+              type="text"
+              placeholder="Search..."
+              onChange={this.handleChange}
+            />
+          </Form>
+          <Icon name="search" size="large" color="blue" onClick={this.toggleSearch} />
+        </div>
+        : <Icon name="search" size="large" color="blue" onClick={this.toggleSearch} />
+    )
+  }
 }
 
 /**

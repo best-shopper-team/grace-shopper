@@ -39,12 +39,6 @@ form div {
   flex-wrap: wrap;
 }
 
-.categories {
-  display: flex;
-  flex-direction: row;
-  flex-wrap: wrap;
-  justify-content: space-between;
-}
 
 .navigation {
   display: flex;
@@ -85,6 +79,10 @@ form div {
   margin-bottom: -50px;
 }
 
+.ui.compact {
+  width: auto;
+}
+
 .search-acc-cart {
   margin-bottom: -50px;
 }
@@ -97,7 +95,9 @@ form div {
 .item-info span{
   padding: 10px
 }
-
+.ui.horizontal.segments {
+  display: inline-flex
+}
 #filter-by-status-radios{
   display: flex;
   justify-content: space-around;
@@ -105,4 +105,11 @@ form div {
 
 #rating-box{
   display: flex;
+}
+
+#categories {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  justify-content: space-between;
 }

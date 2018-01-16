@@ -45,7 +45,7 @@ export class Checkout extends Component{
       {this.state.submitted ?
         <div>
           <h3>
-            Your order has been submitted! A confirmation email has been sent to the email address entered at checkout. Thank you for shopping with us ^_^
+            Your order has been submitted! A confirmation email has been sent to the email address entered at checkout. <br />Thank you for shopping with us ^_^
           </h3>
           <Link to="/products">
             Continue shopping...

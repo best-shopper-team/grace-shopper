@@ -28,6 +28,7 @@ const Main = (props) => {
   else {
     toRender = (
       <nav className="navigation">
+      <div className="home-products">
         {
           isLoggedIn && isActive
             ? <div className="home-products">
@@ -36,13 +37,14 @@ const Main = (props) => {
               <a href="#" onClick={handleClick}>Logout</a>
               <Link to="/products">Products</Link>
             </div>
-            : <div className="home-products">
+            : <div>
               {/* The navbar will show these links before you log in */}
               <Link to="/login">Login</Link>
               <Link to="/signup">Sign Up</Link>
               <Link to="/products">Products</Link>
             </div>
         }
+        </div>
         <Image src="https://i.imgur.com/TLWmJr5.png" href="/" className="logo" />
         <div className="search-acc-cart">
         <SearchBar />
@@ -50,14 +52,7 @@ const Main = (props) => {
           <Link to="/myHistory"><Icon name="user" size="large" /></Link> : <Link to="/login"><Icon name="user" size="large" /></Link>}
         <Link to="/cart"><Icon name="shop" size="large" /></Link>
         </div>
-        {
-          isAdmin &&
-          <div className="admin-navigation">
-            <Link to="/admin/users">All Users</Link>
-            <Link to="/admin/orderhistory">All Orders</Link>
-            <Link to="/admin/products/add">Add Product</Link>
-          </div>
-        }
+
       </nav>
     )
   }
