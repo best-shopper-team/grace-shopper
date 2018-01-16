@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Link } from 'react-router-dom';
+import { NavLink, Link } from 'react-router-dom';
 import { connect } from 'react-redux'
 import { fetchProducts, fetchCategories } from '../store'
 import { withRouter } from 'react-router'
@@ -88,7 +88,7 @@ export class AllProducts extends Component {
           {
             categories.map(category => {
               return (
-                <Link to={`/products/category/${category.name.toLowerCase()}`} onClick={() => { this.changeCategory(category.name) }} className="category" key={category.id}><Segment basic>{category.name}</Segment></Link>
+                <NavLink to={`/products/category/${category.name.toLowerCase()}`} onClick={() => { this.changeCategory(category.name) }} className="category" key={category.id}><Segment basic>{category.name}</Segment></NavLink>
               )
             })
           }
