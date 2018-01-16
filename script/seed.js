@@ -76,13 +76,13 @@ async function seed () {
   })
 
   const orders = await Promise.all([
-    Order.create({userId: 1, status: 'inProcess', addressId: 1}),
+    Order.create({userId: 1, status: 'submitted', addressId: 1}),
     Order.create({userId: 2, status: 'submitted', purchaseTime: '2018-01-09 05:30:00', addressId: 2}),
     Order.create({userId: 2, status: 'shipped', purchaseTime: '2018-01-01 08:21:04', addressId: 2}),
     Order.create({userId: 1, status: 'cancelled', purchaseTime: '2018-01-04 11:04:32', addressId: 1}),
-    Order.create({sessionId: 1, status: 'inProcess', addressId: 3}),
-    Order.create({sessionId: 2, status: 'inProcess', addressId: 3}),
-    Order.create({sessionId: 1, userId: 3, status: 'inProcess', addressId: 3}),
+    Order.create({sessionId: 1, status: 'shipped', addressId: 3}),
+    Order.create({sessionId: 2, status: 'submitted', addressId: 3}),
+    Order.create({sessionId: 1, userId: 3, status: 'shipped', addressId: 3}),
   ])
 
   const orderitems = await Promise.all([
@@ -95,7 +95,7 @@ async function seed () {
     OrderItem.create({quantity: 1, itemPrice: 2300, productId: 4, orderId: 4}),
     OrderItem.create({quantity: 8, itemPrice: 400, productId: 1, orderId: 5}),
     OrderItem.create({quantity: 1, itemPrice: 400, productId: 1, orderId: 6}),
-    OrderItem.create({quantity: 10, itemPrice: 540, productId: 4, orderId: 6}),
+    OrderItem.create({quantity: 10, itemPrice: 500, productId: 4, orderId: 6}),
     OrderItem.create({quantity: 9, itemPrice: 400, productId: 1, orderId: 7}),
 
   ])
