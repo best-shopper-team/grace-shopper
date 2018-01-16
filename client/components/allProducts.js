@@ -66,7 +66,13 @@ export class AllProducts extends Component {
   render() {
     //filter products if there is a current category
     let products = (this.state.currentCategory ? this.props.allProducts.filter(product => {
-      return product.categories[0].name.toLowerCase() === this.state.currentCategory
+      let shouldRender = false
+      product.categories.forEach(category => {
+        if (category.name.toLowerCase() === this.state.currentCategory) {
+          shouldRender = true;
+        }
+      })
+      return shouldRender
     }) : this.props.allProducts)
 
     //filter products by search term
