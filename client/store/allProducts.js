@@ -45,13 +45,15 @@ export function postProduct(product) {
   }
 }
 
-export const editProduct = product =>
-  dispatch => {
+export const editProduct = product => {
+  console.log('thunk, product: ', product)
+  return dispatch => {
     return axios.put(`/api/admin/products/${product.id}`, product)
       .then(res => {
         return dispatch(updateProduct(res.data))
       })
     }
+}
 
 /**
  * REDUCER
