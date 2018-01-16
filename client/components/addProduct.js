@@ -1,7 +1,7 @@
 import React from 'react'
 import {connect} from 'react-redux'
 import {withRouter} from 'react-router-dom'
-import {postProduct, fetchCategories} from '../store'
+import {postProduct, fetchCategories, fetchProducts} from '../store'
 import {Form, Button, Checkbox, Container, Radio, Dropdown} from 'semantic-ui-react'
 import history from '../history'
 
@@ -13,7 +13,7 @@ class AddProduct extends React.Component {
       description: '',
       price: '',
       quantity: '',
-      isAvailable: true,
+      isAvailable: false,
       photoUrl: '',
       categories: []
     }
@@ -104,7 +104,6 @@ class AddProduct extends React.Component {
   handleSubmit (event) {
     event.preventDefault();
     this.props.createProduct(this.state);
-    history.push('/products')
   }
 }
 
@@ -115,10 +114,12 @@ const mapState = (state) => {
   }
 }
 
-const mapDispatch = (dispatch) => {
+const mapDispatch = (dispatch, ownProps) => {
   return {
     createProduct (product) {
       dispatch(postProduct(product))
+        .then(() => dispatch(fetchProducts()))
+        .then(() => ownProps.history.push('/products'))
     },
     getCategories () {
       dispatch(fetchCategories())
