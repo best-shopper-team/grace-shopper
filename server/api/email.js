@@ -27,10 +27,10 @@ router.post('/confirmation', (req, res, next) => {
 })
 
 router.post('/update', (req, res, next) => {
-  let recipient = req.body.email
+
   transporter.sendMail({
     from: 'lifesocksshopper@email.com',
-    to: recipient,
+    to: 'delta.love66@gmail.com',
     subject: 'Your order has shipped!',
     html: '<h3>Thank you for shopping with Life Socks! Your order has shipped! </h3><p>Our name may be pessimistic, but we are all smiles about delivering the best product possible. Please let us know if you have any questions! :)</p>'
   }, (error, info) => {
