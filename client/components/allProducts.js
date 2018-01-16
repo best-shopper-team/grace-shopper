@@ -113,8 +113,9 @@ export class AllProducts extends Component {
                     <Card.Content>
                       <Image src={product.photoUrl} />
                       <Divider />
-                      <Card.Header>{product.title}</Card.Header>
-                      <Card.Description>{'$' + product.price / 100}
+                      <Card.Description>
+                      <p id="all-prod-desc">{product.title}</p>
+                      <p id="all-prod-price">{'$' + product.price / 100}</p>
                       </Card.Description>
                     </Card.Content>
                   </Card>
