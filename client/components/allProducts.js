@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { NavLink, Link } from 'react-router-dom';
 import { connect } from 'react-redux'
-import { fetchProducts, fetchCategories } from '../store'
+import { fetchProducts, fetchCategories, fetchProduct } from '../store'
 import { withRouter } from 'react-router'
 import { Button, Form, Segment, Card, Image, Divider } from 'semantic-ui-react';
 import axios from 'axios'
@@ -29,7 +29,7 @@ export class AllProducts extends Component {
 
   componentDidMount() {
     this.props.loadProducts()
-    this.props.loadCategories()
+    // this.props.loadCategories()
   }
 
   changeCategory(categoryName) {
@@ -158,15 +158,11 @@ const mapState = (state) => {
 
 const mapDispatch = function (dispatch) {
   return {
-    loadProducts: function () {
-      const productsThunk = fetchProducts();
-      dispatch(productsThunk);
-    },
-    loadCategories: function () {
-      const categoriesThunk = fetchCategories();
-      dispatch(categoriesThunk);
+    loadProducts () {
+      dispatch(fetchProducts())
+        .then(() => dispatch(fetchCategories()))
     }
-  };
+  }
 }
 
 export default connect(mapState, mapDispatch)(withRouter(AllProducts))
