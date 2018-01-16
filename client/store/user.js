@@ -42,7 +42,6 @@ export const auth = (email, password, method, name) =>
 export const updatePassword = (id, password) =>
   dispatch => {
     const newPasswordObject = { password: password }
-    console.log(newPasswordObject)
     axios.put(`/auth/users/${id}`, newPasswordObject)
     .then(res => {
       dispatch(getUser(res.data))
