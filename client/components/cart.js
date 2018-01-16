@@ -4,7 +4,7 @@ import {connect} from 'react-redux'
 import {Link} from 'react-router-dom'
 import {getCartFromDb, me, editCartItemsInDb, removeCartFromDb, fetchProducts, getCartSessionFromDb} from '../store'
 import history from '../history'
-import {Button, Icon, Input, Container} from 'semantic-ui-react'
+import {Button, Icon, Input, Container, Header, Image, Table} from 'semantic-ui-react'
 
 /**
  * COMPONENT
@@ -42,32 +42,57 @@ export class Cart extends Component{
     return (
       <div className="cartContainer">
         <h3>This is your cart</h3>
+        <Table basic>
+          <Table.Header>
+            <Table.Row>
+              <Table.HeaderCell>Product
+              </Table.HeaderCell>
+              <Table.HeaderCell>
+              </Table.HeaderCell>
+              <Table.HeaderCell>ProductId
+              </Table.HeaderCell>
+              <Table.HeaderCell>Price
+              </Table.HeaderCell>
+              <Table.HeaderCell>Quantity
+              </Table.HeaderCell>
+              <Table.HeaderCell>Item Total
+              </Table.HeaderCell>
+              <Table.HeaderCell>
+              </Table.HeaderCell>
+            </Table.Row>
+          </Table.Header>
+          <Table.Body>
         { cart && cart.orderitems && cart.orderitems.map((orderItem) => {
           return (
-            <div key={orderItem.id} className="orderItem">
+          <Table.Row key={orderItem.id}>
+            <Table.Cell>
             <h4><Link to={`/products/${orderItem.productId}`}>{
               (products.length > 0 && products.find((prod) => prod.id === orderItem.productId)).title
             }</Link></h4>
-              <div className="item-info">
+            </Table.Cell>
+            <Table.Cell id="image">
                 <span>
                   {products.length > 0 &&
-                  <img
+                  <Image
                   className="product-image"
                   src={products.filter((product) => {
                     return product.id === orderItem.productId
                   })[0].photoUrl} />}
                 </span>
-                <span>ProductId:
-                  <br />
+            </Table.Cell>
+            <Table.Cell id="productId">
+                <span>
                   {orderItem.productId}
                 </span>
-                <span>Price:
-                  <br />
-                  {parseFloat(orderItem.itemPrice * 0.01).toFixed(2)}
+            </Table.Cell>
+            <Table.Cell id="price">
+                <span>
+                  ${parseFloat(orderItem.itemPrice * 0.01).toFixed(2)}
                 </span>
+            </Table.Cell>
+            <Table.Cell id="quantity">
                 {products.length > 0 &&
-                <span>Quantity:
-                  <br />
+                <span>
                   <Input
                   name={orderItem.id}
                   min="0"
@@ -79,10 +104,13 @@ export class Cart extends Component{
                     return product.id === orderItem.productId
                   })[0].quantity} />
                 </span>}
-                <span>Item Total:
-                  <br />
+            </Table.Cell>
+            <Table.Cell id="itemtotal">
+                <span>
                   ${parseFloat(orderItem.itemTotal * 0.01).toFixed(2)}
                 </span>
+            </Table.Cell>
+            <Table.Cell id="removebutton">
                 <span>
                     <button
                     name={orderItem.id}
@@ -91,14 +119,16 @@ export class Cart extends Component{
                     Remove Item from Cart
                     </button>
                 </span>
-              </div>
-            </div>
+            </Table.Cell>
+            </Table.Row>
           )
         })}
+        </Table.Body>
+        </Table>
         {
           cart && cart.orderitems &&
             cart.orderitems.length > 0 ?
-              <h4>Subtotal: ${
+              <h4>Cart Total: ${
               parseFloat(
                 (cart.orderitems.map(orderitem => orderitem.itemTotal).reduce((accum, currentVal) => accum + currentVal))
                 * 0.01)
@@ -119,6 +149,7 @@ export class Cart extends Component{
             </Button.Content>
           </Button>
         </Link>}
+
       </div>
     )
   }
@@ -160,3 +191,21 @@ const mapDispatch = (dispatch) => {
 }
 
 export default connect(mapState, mapDispatch)(Cart)
+
+//          <div key={orderItem.id} className="orderItem">
+
+
+/*
+image cell
+
+            <Table.Cell id="image">
+                <span>
+                  {products.length > 0 &&
+                  <img
+                  className="product-image"
+                  src={products.filter((product) => {
+                    return product.id === orderItem.productId
+                  })[0].photoUrl} />}
+                </span>
+            </Table.Cell>
+*/

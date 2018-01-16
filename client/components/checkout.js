@@ -34,9 +34,13 @@ export class Checkout extends Component{
       zip: e.target.zip.value,
       email: e.target.email.value
     }
-    console.log('email', newAddress.email)
-    this.props.submitCart(this.props.cart, newAddress)
-    this.setState({submitted: true})
+    if (newAddress.email && newAddress.street && newAddress.city && newAddress.state && newAddress.zip){
+      this.props.submitCart(this.props.cart, newAddress)
+      this.setState({submitted: true})
+    } else {
+      // alert('You must fill out all of the required fields in order to submit the cart!')
+      console.log('hi')
+    }
   }
 
   render(){
@@ -66,6 +70,7 @@ export class Checkout extends Component{
                 <label>Name</label>
                 <input
                   type="text"
+                  size="32"
                   id="name"
                   placeholder="John Smith"/>
               </Form.Field>
@@ -74,6 +79,7 @@ export class Checkout extends Component{
                 <label>Street</label>
                 <input
                   type="text"
+                  size="32"
                   id="street"
                   placeholder="123 Street St.">
                 </input>
@@ -83,6 +89,7 @@ export class Checkout extends Component{
                 <label>City</label>
                 <input
                   type="text"
+                  size="32"
                   id="city"
                   placeholder="Chicago">
                 </input>
@@ -92,6 +99,7 @@ export class Checkout extends Component{
                 <label>State</label>
                 <input
                   type="text"
+                  size="2"
                   id="state"
                   placeholder="IL">
                 </input>
@@ -101,6 +109,9 @@ export class Checkout extends Component{
                 <label>Zip Code</label>
                 <input
                   type="text"
+                  min="5"
+                  max="10"
+                  size="10"
                   id="zip"
                   placeholder="60642">
                 </input>
@@ -109,9 +120,10 @@ export class Checkout extends Component{
               <Form.Field required>
                 <label>Email</label>
                 <input
-                  type="text"
+                  type="email"
                   id="email"
-                  placeholder="john@gmail.com">
+                  size="32"
+                  placeholder="jane@example.com">
                 </input>
               </Form.Field>
               <br />
@@ -125,7 +137,9 @@ export class Checkout extends Component{
                 <Form.Field>
                   <label>Credit Card Number</label>
                   <input
+                    placeholder="1234 5678 9012 3456"
                     type="text"
+                    size="32"
                     id="ccnum">
                   </input>
                 </Form.Field>
@@ -136,6 +150,8 @@ export class Checkout extends Component{
                   <label>Expiration Date</label>
                   <input
                     type="text"
+                    placeholder="00/00"
+                    size="5"
                     id="expiry">
                   </input>
                 </Form.Field>
@@ -146,6 +162,8 @@ export class Checkout extends Component{
                 <label>CCV</label>
                 <input
                   type="text"
+                  placeholder="123"
+                  size="3"
                   id="ccv">
                 </input>
               </Form.Field>
