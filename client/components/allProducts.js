@@ -3,7 +3,7 @@ import { NavLink, Link } from 'react-router-dom';
 import { connect } from 'react-redux'
 import { fetchProducts, fetchCategories } from '../store'
 import { withRouter } from 'react-router'
-import { Button, Form, Segment } from 'semantic-ui-react';
+import { Button, Form, Segment, Card, Image, Divider } from 'semantic-ui-react';
 import axios from 'axios'
 
 
@@ -24,6 +24,7 @@ export class AllProducts extends Component {
     this.displayAddCategory = this.displayAddCategory.bind(this)
     this.handleNewCategoryInput = this.handleNewCategoryInput.bind(this)
     this.submitNewCategory = this.submitNewCategory.bind(this)
+    this.deleteCategory = this.deleteCategory.bind(this)
   }
 
   componentDidMount() {
@@ -42,6 +43,15 @@ export class AllProducts extends Component {
       .then(() => {
         this.props.loadCategories()
         this.setState({ newCategory: '' })
+      })
+      .catch(err => console.log(err))
+  }
+
+  deleteCategory(){
+    axios.delete(`/api/admin/categories/${this.state.currentCategory}`)
+      .then(res => res.data)
+      .then(() => {
+        this.props.loadCategories()
       })
       .catch(err => console.log(err))
   }
@@ -93,7 +103,11 @@ export class AllProducts extends Component {
             })
           }
           {
-            user.isAdmin ? <Button compact color="blue" size="small" basic onClick={this.displayAddCategory}>+ Category</Button> : null
+            user.isAdmin &&
+            <div className="category">
+            <Button id="cat-button" color="blue" size="small" basic onClick={this.displayAddCategory}>+ Category</Button>
+            <Button id="cat-button" color="blue" size="small" basic onClick={this.deleteCategory}>- Category</Button>
+            </div>
           }
           {
             this.state.displayAddCategory ?
@@ -104,20 +118,25 @@ export class AllProducts extends Component {
               </Form> : null
           }
         </Segment.Group>
-        <div className="product-group">
+        <Card.Group itemsPerRow="5" className="product-group">
           {
             products.map(product => {
               if (product.isAvailable) {
                 return (
-                  <div className="product" key={product.id}>
-                    <img className="product-image" src={product.photoUrl} />
-                    <Link to={`/products/${product.id}`}>{product.title}</Link>
-                  </div>
+                  <Card href={`/products/${product.id}`} compact key={product.id}>
+                    <Card.Content>
+                      <Image src={product.photoUrl} />
+                      <Divider />
+                      <Card.Header>{product.title}</Card.Header>
+                      <Card.Description>{'$' + product.price / 100}
+                      </Card.Description>
+                    </Card.Content>
+                  </Card>
                 )
               }
             })
           }
-        </div>
+        </Card.Group>
       </div>
     );
   }

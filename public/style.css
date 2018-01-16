@@ -1,5 +1,6 @@
 body {
-  font-family: 'Space Mono', monospace;
+  font-family: 'Bree Serif', serif;
+  letter-spacing: 2px;
 }
 
 a {
@@ -113,8 +114,13 @@ form div {
   display: flex;
   flex-direction: row;
   flex-wrap: wrap;
-  margin-top: 76px;
+  margin-top: 88px;
   justify-content: space-between;
+}
+
+#cat-button{
+  margin-top: 7px;
+  margin-right: 3px
 }
 
 .search-acc-cart {
@@ -147,4 +153,24 @@ form div {
 
 .image.logo {
   margin-right: -33px;
+}
+
+
+#landing-page-image {
+  max-width: 100%;
+}
+
+#landing-page-container {
+  padding: 20px;
+  position: relative;
+  text-align: center;
+  color: white;
+}
+
+#landing-page-header {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    font-size: 50px;
 }
