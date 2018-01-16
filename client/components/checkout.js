@@ -39,7 +39,7 @@ export class Checkout extends Component{
       this.setState({submitted: true})
     } else {
       alert('You must fill out all of the required fields in order to submit the cart!')
-      
+
     }
   }
 
@@ -56,6 +56,7 @@ export class Checkout extends Component{
           </Link>
         </div>
       :
+      this.props.cart && this.props.cart.orderitems && this.props.cart.orderitems[0] ?
         <div>
           <h3>
           Enter Your Shipping and Payment Information
@@ -179,7 +180,7 @@ export class Checkout extends Component{
               </Button.Content>
             </Button>
           </Form>
-        </div>}
+        </div> : <Link to="/products"><h3>You can't checkout cause your cart is empty! ;(</h3></Link>}
       </div>
     )
   }
