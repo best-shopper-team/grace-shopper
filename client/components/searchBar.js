@@ -37,9 +37,9 @@ export class SearchBar extends Component {
 
     return (
       this.state.isActive ?
-        <div>
+        <div className="search-bar-icon">
           <Form
-
+            className="search-bar-form"
             onSubmit={this.handleSubmit}
           >
             <input
@@ -49,7 +49,7 @@ export class SearchBar extends Component {
               onChange={this.handleChange}
             />
           </Form>
-          <Icon name="search" size="large" color="blue" onClick={this.toggleSearch} />
+          <Icon className="search1" name="remove" size="large" color="blue" onClick={this.toggleSearch} />
         </div>
         : <Icon name="search" size="large" color="blue" onClick={this.toggleSearch} />
     )
