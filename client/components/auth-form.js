@@ -11,28 +11,37 @@ const AuthForm = (props) => {
 
   return (
     <div>
-      <form onSubmit={handleSubmit} name={name}>
-        {
-          name === 'signup' &&
-          <div>
-            <label htmlFor="username"><small>UserName</small></label>
-            <input name="username" type="text" />
-          </div>
-        }
-        <div>
-          <label htmlFor="email"><small>Email</small></label>
-          <input name="email" type="text" />
-        </div>
+      {
+        name === 'resetPassword' &&
         <div>
           <label htmlFor="password"><small>Password</small></label>
           <input name="password" type="password" />
         </div>
-        <div>
-          <button type="submit">{displayName}</button>
-        </div>
-        {error && error.response && <div> {error.response.data} </div>}
-      </form>
-      <a href="/auth/google">{displayName} with Google</a>
+      }
+      <div>
+        <form onSubmit={handleSubmit} name={name}>
+          {
+            name === 'signup' &&
+            <div>
+              <label htmlFor="username"><small>UserName</small></label>
+              <input name="username" type="text" />
+            </div>
+          }
+          <div>
+            <label htmlFor="email"><small>Email</small></label>
+            <input name="email" type="text" />
+          </div>
+          <div>
+            <label htmlFor="password"><small>Password</small></label>
+            <input name="password" type="password" />
+          </div>
+          <div>
+            <button type="submit">{displayName}</button>
+          </div>
+          {error && error.response && <div> {error.response.data} </div>}
+        </form>
+        <a href="/auth/google">{displayName} with Google</a>
+      </div>
     </div>
   )
 }
@@ -60,6 +69,15 @@ const mapSignup = (state) => {
   }
 }
 
+const mapReset = (state) => {
+  return {
+    name: 'resetPassword',
+    displayName: 'Reset Your Password',
+    error: state.user.error
+  }
+
+}
+
 const mapDispatch = (dispatch) => {
   return {
     handleSubmit (evt) {
@@ -80,6 +98,7 @@ const mapDispatch = (dispatch) => {
 
 export const Login = connect(mapLogin, mapDispatch)(AuthForm)
 export const Signup = connect(mapSignup, mapDispatch)(AuthForm)
+export const ResetPassword = connect(mapReset, mapDispatch)(AuthForm)
 
 /**
  * PROP TYPES

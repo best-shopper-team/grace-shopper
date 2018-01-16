@@ -1,6 +1,7 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 import {connect} from 'react-redux'
+import ResetPassword from './resetPassword'
 
 /**
  * COMPONENT
@@ -9,7 +10,10 @@ export const UserHome = (props) => {
 
   return (
     <div>
-      <h3>Welcome, {props.name}!</h3>
+      {props.user.passwordReset ?
+        <ResetPassword />
+        : <h3>Welcome, {props.user.name}!</h3>
+      }
     </div>
   )
 }
@@ -19,7 +23,7 @@ export const UserHome = (props) => {
  */
 const mapState = (state) => {
   return {
-    name: state.user.name
+    user: state.user
   }
 }
 
