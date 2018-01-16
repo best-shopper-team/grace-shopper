@@ -127,7 +127,9 @@ export class SingleProduct extends React.Component {
             <br />
             <br />
             <Button basic color="black" content="Read Reviews" onClick={this.seeReviews} />
-            <Button basic color="black" content="Write Review" onClick={this.writeReview} />
+            {
+              user.id && <Button basic color="black" content="Write Review" onClick={this.writeReview} />
+            }
             <br />
             <br />
             <p>{product.description}</p>
