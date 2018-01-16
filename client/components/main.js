@@ -35,7 +35,7 @@ const Main = (props) => {
             </div>
         }
         </div>
-        <Image src="http://localhost:8080/favicon.ico" href="/" className="logo" />
+        <Image src="https://i.imgur.com/TLWmJr5.png" href="/" className="logo" />
         <div className="search-acc-cart">
         <SearchBar />
         {isLoggedIn ?

@@ -33,13 +33,4 @@ router.post('/', (req, res, next) => {
     .catch(next)
 })
 
-// deletes one review
-router.delete('/:reviewId', (req, res, next) => {
-  Review.destroy({
-    where: {
-      id: req.params.reviewId
-    }
-  })
-    .then(() => res.status(204).send())
-    .catch(next)
-})
+// deleting a review is ADMIN ONLY

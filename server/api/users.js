@@ -14,8 +14,9 @@ router.get('/', (req, res, next) => {
     .catch(next)
 })
 
-// updates one user
-router.put('/:userId', (req, res, next) => {
+
+//updating a user is ADMIN only
+router.put('/users/:userId', (req, res, next) => {
   User.findOne({
     where: {
       id: req.params.userId

@@ -31,7 +31,7 @@ export function fetchUsers() {
 
 export function updateUser(user) {
   return function thunk(dispatch) {
-    return axios.put(`/api/users/${user.id}`, user)
+    return axios.put(`/api/admin/users/${user.id}`, user)
       .then(res => res.data)
       .then(updatedUser => dispatch(editUser(updatedUser)));
   }

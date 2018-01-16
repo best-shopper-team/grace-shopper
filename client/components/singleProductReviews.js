@@ -29,7 +29,7 @@ export class SingleProductReviews extends React.Component {
                 <br />
                 "{review.content}"
                 <br />
-                by {review.user.name}
+                by {review.user && review.user.name}
                 <br />
               </Segment>)
             : <div>No reviews yet!</div>

@@ -4,7 +4,7 @@ import {connect} from 'react-redux'
 import {Link} from 'react-router-dom'
 import {getCartFromDb, me, editCartItemsInDb, removeCartFromDb, fetchProducts, getCartSessionFromDb} from '../store'
 import history from '../history'
-import {Button, Icon} from 'semantic-ui-react'
+import {Button, Icon, Input, Container} from 'semantic-ui-react'
 
 /**
  * COMPONENT
@@ -58,14 +58,17 @@ export class Cart extends Component{
                   })[0].photoUrl} />}
                 </span>
                 <span>ProductId:
+                  <br />
                   {orderItem.productId}
                 </span>
                 <span>Price:
+                  <br />
                   {parseFloat(orderItem.itemPrice * 0.01).toFixed(2)}
                 </span>
                 {products.length > 0 &&
                 <span>Quantity:
-                  <input
+                  <br />
+                  <Input
                   name={orderItem.id}
                   min="0"
                   type="number"
@@ -77,6 +80,7 @@ export class Cart extends Component{
                   })[0].quantity} />
                 </span>}
                 <span>Item Total:
+                  <br />
                   ${parseFloat(orderItem.itemTotal * 0.01).toFixed(2)}
                 </span>
                 <span>
@@ -101,16 +105,20 @@ export class Cart extends Component{
                 .toFixed(2)
               }
               </h4>
-            : <h3>Your cart is empty</h3>
+            :
+            <h3>Your cart is empty ;( <br /><br />
+            <Link to="/products">Add some socks to the cart!</Link></h3>
         }
-        <Link to="/cart/checkout">
+        {cart && cart.orderitems &&
+            cart.orderitems.length > 0 &&
+            <Link to="/cart/checkout">
           <Button color="blue" animated>
             <Button.Content visible>Proceed to Checkout</Button.Content>
             <Button.Content hidden>
               <Icon name='right arrow' />
             </Button.Content>
           </Button>
-        </Link>
+        </Link>}
       </div>
     )
   }

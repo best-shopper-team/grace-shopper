@@ -73,6 +73,30 @@ router.post('/signup', (req, res, next) => {
     })
 })
 
+//this is the version just for making a new password. not admin only.
+router.put('/users/:userId', (req, res, next) => {
+  User.findOne({
+    where: {
+      id: req.params.userId
+    }
+  })
+    .then(foundUser => {
+      return foundUser.update({
+        password: req.body.password,
+        passwordReset: false
+      }, {
+        returning: true,
+        plain: true
+      })
+    })
+    .then(updatedUser => {
+      res.send(updatedUser)
+    })
+    .catch(next)
+})
+
+
+
 router.post('/logout', (req, res) => {
   req.logout()
   res.redirect('/')
@@ -81,5 +105,6 @@ router.post('/logout', (req, res) => {
 router.get('/me', (req, res) => {
   res.json(req.user)
 })
+
 
 router.use('/google', require('./google'))
