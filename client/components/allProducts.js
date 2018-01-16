@@ -24,6 +24,7 @@ export class AllProducts extends Component {
     this.displayAddCategory = this.displayAddCategory.bind(this)
     this.handleNewCategoryInput = this.handleNewCategoryInput.bind(this)
     this.submitNewCategory = this.submitNewCategory.bind(this)
+    this.deleteCategory = this.deleteCategory.bind(this)
   }
 
   componentDidMount() {
@@ -42,6 +43,15 @@ export class AllProducts extends Component {
       .then(() => {
         this.props.loadCategories()
         this.setState({ newCategory: '' })
+      })
+      .catch(err => console.log(err))
+  }
+
+  deleteCategory(){
+    axios.delete(`/api/admin/categories/${this.state.currentCategory}`)
+      .then(res => res.data)
+      .then(() => {
+        this.props.loadCategories()
       })
       .catch(err => console.log(err))
   }
@@ -93,7 +103,11 @@ export class AllProducts extends Component {
             })
           }
           {
-            user.isAdmin ? <Button compact color="blue" size="small" basic onClick={this.displayAddCategory}>+ Category</Button> : null
+            user.isAdmin &&
+            <div className="category">
+            <Button id="cat-button" color="blue" size="small" basic onClick={this.displayAddCategory}>+ Category</Button>
+            <Button id="cat-button" color="blue" size="small" basic onClick={this.deleteCategory}>- Category</Button>
+            </div>
           }
           {
             this.state.displayAddCategory ?

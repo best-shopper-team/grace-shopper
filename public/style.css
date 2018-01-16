@@ -113,8 +113,13 @@ form div {
   display: flex;
   flex-direction: row;
   flex-wrap: wrap;
-  margin-top: 76px;
+  margin-top: 88px;
   justify-content: space-between;
+}
+
+#cat-button{
+  margin-top: 7px;
+  margin-right: 3px
 }
 
 .search-acc-cart {
