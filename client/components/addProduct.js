@@ -2,7 +2,7 @@ import React from 'react'
 import {connect} from 'react-redux'
 import {withRouter} from 'react-router-dom'
 import {postProduct, fetchCategories} from '../store'
-import {Form, Button, Checkbox, Container, Radio} from 'semantic-ui-react'
+import {Form, Button, Checkbox, Container, Radio, Dropdown} from 'semantic-ui-react'
 import history from '../history'
 
 class AddProduct extends React.Component {
@@ -28,7 +28,14 @@ class AddProduct extends React.Component {
   }
 
   render () {
-    const {categories} = this.props
+    let categories = this.props.categories.map(category => {
+      return {
+        key: category.name,
+        value: +category.id,
+        text: category.name
+      }
+    })
+
     return (
       <Container>
       <h3>Add a Product</h3>
@@ -59,11 +66,7 @@ class AddProduct extends React.Component {
         <Form.Group>
           <Form.Field>
             <label>Categories</label>
-              {
-                categories.map(category =>
-                  <Checkbox name="categories" key={category.id} label={category.name} control="input" value={category.id} onChange={this.handleCategories} />
-                )
-              }
+            <Dropdown placeholder="Select Categories" fluid multiple selection options={categories} onChange={this.handleCategories} />
           </Form.Field>
         </Form.Group>
         <Form.Group>
@@ -83,7 +86,8 @@ class AddProduct extends React.Component {
   }
 
   handleCategories (event, value) {
-    this.setState({ categories: [...this.state.categories, value.value] })
+    this.setState({ categories: value.value })
+    console.log('this.state: ', this.state)
   }
 
   handleVisibility (event, value) {
@@ -91,7 +95,11 @@ class AddProduct extends React.Component {
   }
 
   handleUpdate (event) {
-    this.setState({[event.target.name]: event.target.value})
+    if (event.target.name === 'price'){
+      this.setState({ price: event.target.value * 100})
+    } else {
+      this.setState({[event.target.name]: event.target.value})
+    }
   }
 
   handleSubmit (event) {
