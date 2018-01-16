@@ -87,7 +87,6 @@ class AddProduct extends React.Component {
 
   handleCategories (event, value) {
     this.setState({ categories: value.value })
-    console.log('this.state: ', this.state)
   }
 
   handleVisibility (event, value) {
