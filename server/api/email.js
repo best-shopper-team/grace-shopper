@@ -27,9 +27,6 @@ router.post('/confirmation', (req, res, next) => {
 })
 
 router.post('/update', (req, res, next) => {
-  console.log(req.body)
-  console.log('hello from the email api')
-
 
   transporter.sendMail({
     from: 'lifesocksshopper@email.com',
