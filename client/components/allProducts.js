@@ -98,14 +98,14 @@ export class AllProducts extends Component {
               </Form> : null
           }
         </Segment.Group>
-        <Card.Group className="product-group">
+        <Card.Group itemsPerRow="5" className="product-group">
           {
             products.map(product => {
               if (product.isAvailable) {
                 return (
                   <Card href={`/products/${product.id}`} compact key={product.id}>
                     <Card.Content>
-                      <Image src={product.photoUrl} size="small" />
+                      <Image src={product.photoUrl} />
                       <Divider />
                       <Card.Header>{product.title}</Card.Header>
                       <Card.Description>{'$' + product.price / 100}
