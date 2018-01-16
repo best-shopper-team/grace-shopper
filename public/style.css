@@ -1,6 +1,6 @@
 body {
-  font-family: 'Bree Serif', serif;
-  letter-spacing: 2px;
+  font-size: 18px;
+  font-family: 'Khula', sans-serif;
 }
 
 a {
@@ -14,6 +14,7 @@ label {
 nav a {
   display: inline-block;
   margin: 1em;
+  font-family: 'Open Sans', sans-serif;
 }
 
 form div {
@@ -99,7 +100,7 @@ form div {
   padding: 10px
 }
 .ui.horizontal.segments {
-  display: inline-flex
+  display: inline-flex;
 }
 #filter-by-status-radios{
   display: flex;
@@ -174,3 +175,14 @@ form div {
     transform: translate(-50%, -50%);
     font-size: 50px;
 }
+
+
+
+#all-prod-price {
+  color: #1e70bf;
+}
+
+.ui.basic.segment {
+  font-family: 'Open Sans', sans-serif;
+}
+
