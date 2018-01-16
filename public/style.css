@@ -147,3 +147,25 @@ form div {
 .category.active {
   background-color: rgb(237,218,245);
 }
+
+
+/* landing page */
+
+#landing-page-image {
+  max-width: 100%;
+}
+
+#landing-page-container {
+  padding: 20px;
+  position: relative;
+  text-align: center;
+  color: white;
+}
+
+#landing-page-header {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    font-size: 50px;
+}

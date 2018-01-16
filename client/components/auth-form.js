@@ -2,6 +2,7 @@ import React from 'react'
 import {connect} from 'react-redux'
 import PropTypes from 'prop-types'
 import {auth} from '../store'
+import {Segment, Button} from 'semantic-ui-react'
 
 /**
  * COMPONENT
@@ -19,6 +20,7 @@ const AuthForm = (props) => {
         </div>
       }
       <div>
+      <Segment raised>
         <form onSubmit={handleSubmit} name={name}>
           {
             name === 'signup' &&
@@ -36,11 +38,12 @@ const AuthForm = (props) => {
             <input name="password" type="password" />
           </div>
           <div>
-            <button type="submit">{displayName}</button>
+            <Button type="submit">{displayName}</Button>
           </div>
           {error && error.response && <div> {error.response.data} </div>}
         </form>
         <a href="/auth/google">{displayName} with Google</a>
+        </Segment>
       </div>
     </div>
   )

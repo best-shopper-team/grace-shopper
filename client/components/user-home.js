@@ -3,6 +3,7 @@ import PropTypes from 'prop-types'
 import {connect} from 'react-redux'
 import ResetPassword from './resetPassword'
 import InactiveUser from './InactiveUser'
+import LandingPage from './landingPage'
 
 /**
  * COMPONENT
@@ -13,8 +14,7 @@ export const UserHome = (props) => {
 
   if (!props.user.isActive)toRender = <InactiveUser />
   else if (props.user.passwordReset) toRender = <ResetPassword />
-  else toRender = <h3>Welcome, {props.user.name}!</h3>
-
+  else toRender = <LandingPage />
 
   return (
     <div>
