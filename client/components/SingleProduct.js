@@ -106,17 +106,20 @@ export class SingleProduct extends React.Component {
             }
           </div>
         }
+        {
+          !product.isAvailable && <Message negative>
+          <Message.Header>This product is INACTIVE.</Message.Header>
+          <br />
+        </Message>
+        }
         <Grid>
           <Grid.Column width={5}>
             <Image src={`${product.photoUrl}`} />
           </Grid.Column>
           <Grid.Column width={9}>
             <br />
-            {
-              dollarPrice % 2 ?
-              <div>${dollarPrice}0</div>
-              : <div>${dollarPrice}</div>
-            }
+              <div>${dollarPrice}</div>
+
             <br />
             Average rating:
             <br />
