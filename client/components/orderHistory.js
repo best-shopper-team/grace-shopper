@@ -93,6 +93,7 @@ export class OrderHistory extends Component {
           <Table.Header>
             <Table.Row>
               <th>Order Number</th>
+              <th>User Id</th>
               <th>Order Status</th>
               <th>Edit Order Status</th>
             </Table.Row>
@@ -104,6 +105,7 @@ export class OrderHistory extends Component {
                 return (
                   <Table.Row key={id}>
                   <td> {id}</td>
+                  <td> {order.userId || 'N/A'} </td>
                   <td>
                     {
                       this.state.editing === id ?
