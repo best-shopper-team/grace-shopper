@@ -28,20 +28,20 @@ router.post('/confirmation', (req, res, next) => {
   })
 })
 
-router.post('/update', (req, res, next) => {
+// router.post('/update', (req, res, next) => {
 
-  transporter.sendMail({
-    from: 'lifesocksshopper@email.com',
-    to: 'delta.love66@gmail.com',
-    subject: 'Your order has shipped!',
-    html: '<h3>Thank you for shopping with Life Socks! Your order has shipped! </h3><p>Our name may be pessimistic, but we are all smiles about delivering the best product possible. Please let us know if you have any questions! :)</p>'
-  }, (error, info) => {
-    if (error) {
-      console.log(error);
-      res.send(500)
-    } else {
-      console.log('EMAIL SENT: ' + info.response)
-      res.send(200)
-    }
-  })
-})
+//   transporter.sendMail({
+//     from: 'lifesocksshopper@email.com',
+//     to: 'delta.love66@gmail.com',
+//     subject: 'Your order has shipped!',
+//     html: '<h3>Thank you for shopping with Life Socks! Your order has shipped! </h3><p>Our name may be pessimistic, but we are all smiles about delivering the best product possible. Please let us know if you have any questions! :)</p>'
+//   }, (error, info) => {
+//     if (error) {
+//       console.log(error);
+//       res.send(500)
+//     } else {
+//       console.log('EMAIL SENT: ' + info.response)
+//       res.send(200)
+//     }
+//   })
+// })
