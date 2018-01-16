@@ -1,7 +1,7 @@
 import React from 'react'
 import {connect} from 'react-redux'
 import {withRouter} from 'react-router-dom'
-import {fetchProduct, editProduct, fetchCategories} from '../store'
+import {fetchProduct, editProduct, fetchCategories, updateSingleProduct} from '../store'
 import history from '../history'
 import {Form, Button, Container, Radio, Dropdown} from 'semantic-ui-react'
 
@@ -16,7 +16,7 @@ class EditProduct extends React.Component {
       quantity: props.product.quantity,
       isAvailable: props.product.isAvailable,
       photoUrl: props.product.photoUrl,
-      categories: props.productCategories
+      categories: []
     }
     this.handleSubmit = this.handleSubmit.bind(this)
     this.handleUpdate = this.handleUpdate.bind(this)
@@ -42,7 +42,7 @@ class EditProduct extends React.Component {
     if (!this.props.product.quantity) this.setState({ quantity: prod.quantity });
     if (!this.props.product.isAvailable) this.setState({ isAvailable: prod.isAvailable });
     if (!this.props.product.photoUrl) this.setState({ photoUrl: prod.photoUrl });
-    if (!this.props.product.categories) this.setState({ categories: nextProps.productCategories });
+    if (!this.props.product.categories) this.setState({ categories: nextProps.productCategories.map(category => category.id) });
 
   }
 
@@ -137,7 +137,6 @@ class EditProduct extends React.Component {
     } else {
       this.setState({[event.target.name]: event.target.value})
     }
-    console.log('this.state: ', this.state)
   }
 
   handleSubmit (event) {
@@ -160,6 +159,7 @@ const mapDispatch = (dispatch, ownProps) => {
   return {
     updateProduct (product) {
       dispatch(editProduct(product))
+        .then(() => dispatch(updateSingleProduct(product)))
     },
     getProduct () {
       dispatch(fetchProduct(productId))

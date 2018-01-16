@@ -16,7 +16,7 @@ const defaultProduct = {}
  * ACTION CREATORS
  */
 const getProduct = product => ({type: GET_PRODUCT, product})
-const updateSingleProduct = product => ({type: UPDATE_SINGLE_PRODUCT, product})
+export const updateSingleProduct = product => ({type: UPDATE_SINGLE_PRODUCT, product})
 
 /**
  * THUNK CREATORS
@@ -28,13 +28,6 @@ export const fetchProduct = productId =>
         return dispatch(getProduct(res.data))
       })
       .catch(err => console.log(err))
-
-// export const editSingleProduct = product =>
-//   dispatch =>
-//     axios.put(`/api/admin/products/${product.id}`, product)
-//       .then(res => {
-//         return dispatch(updateSingleProduct(res.data))
-//       })
 
 /**
  * REDUCER

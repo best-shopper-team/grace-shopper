@@ -63,7 +63,6 @@ Make sure req.body.categories includes EXACTLY the categories
 that you want on the updated product*/
 router.put('/products/:productId', async (req, res, next) => {
   try {
-    console.log('req.body: ', req.body)
     const foundProduct = await Product.findOne({
       where: {
         id: req.params.productId
@@ -81,11 +80,9 @@ router.put('/products/:productId', async (req, res, next) => {
       if (req.body.categories){
         /*NOTE: this will return a promise for the new instance on
   `        the prod-cat, NOT the newProduct*/
-        const updatedProdWithCategories = updatedProduct.setCategories(req.body.categories)
-        res.json(updatedProdWithCategories)
-      } else {
-        res.json(updatedProduct)
+        const updatedProdWithCategories = await updatedProduct.setCategories(req.body.categories)
       }
+        res.json(updatedProduct)
   }
   catch (error) {
     next(error)
