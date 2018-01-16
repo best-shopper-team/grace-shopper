@@ -33,16 +33,20 @@ router.post('/categories', (req, res, next) => {
 /*NOTE: this will return either the new instance on
 `        OR the newProduct, maybe we can fix this later*/
 router.post('/products', async (req, res, next) => {
+  const newProductInfo = {
+    title: req.body.title,
+    description: req.body.description,
+    price: +req.body.price,
+    quantity: +req.body.quantity,
+    isAvailable: req.body.isAvailable,
+    categories: req.body.categories
+  }
+  if (req.body.photoUrl){
+    newProductInfo.photoUrl = req.body.photoUrl
+  }
+
   try {
-    const newProduct = await Product.create({
-      title: req.body.title,
-      description: req.body.description,
-      price: +req.body.price,
-      quantity: +req.body.quantity,
-      isAvailable: req.body.isAvailable,
-      photoUrl: req.body.photoUrl,
-      categories: req.body.categories
-    })
+    const newProduct = await Product.create(newProductInfo)
     if (req.body.categories && req.body.categories.length){
         /*NOTE: this will return a promise for the new instance on
 `        the prod-cat, NOT the newProduct*/
@@ -63,7 +67,6 @@ Make sure req.body.categories includes EXACTLY the categories
 that you want on the updated product*/
 router.put('/products/:productId', async (req, res, next) => {
   try {
-    console.log('req.body: ', req.body)
     const foundProduct = await Product.findOne({
       where: {
         id: req.params.productId
@@ -81,11 +84,9 @@ router.put('/products/:productId', async (req, res, next) => {
       if (req.body.categories){
         /*NOTE: this will return a promise for the new instance on
   `        the prod-cat, NOT the newProduct*/
-        const updatedProdWithCategories = updatedProduct.setCategories(req.body.categories)
-        res.json(updatedProdWithCategories)
-      } else {
-        res.json(updatedProduct)
+        const updatedProdWithCategories = await updatedProduct.setCategories(req.body.categories)
       }
+        res.json(updatedProduct)
   }
   catch (error) {
     next(error)

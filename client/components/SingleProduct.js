@@ -30,7 +30,9 @@ export class SingleProduct extends React.Component {
 
   componentDidMount(){
     this.props.getReviews();
-    this.props.getProduct();
+    if (this.props.match.params.productId !== this.props.product.id){
+      this.props.getProduct();
+    }
   }
 
   addToCart(event){
@@ -99,7 +101,7 @@ export class SingleProduct extends React.Component {
               : <Message negative>
                 <Message.Header>This product is INACTIVE.</Message.Header>
                 <br />
-                <button onClick={this.adminEditClick}>Edit Product</button>
+                <Button classic onClick={this.adminEditClick}>Edit Product</Button>
               </Message>
             }
           </div>
@@ -125,7 +127,7 @@ export class SingleProduct extends React.Component {
             <br />
             <br />
             <Button basic color="black" content="Read Reviews" onClick={this.seeReviews} />
-            <Button basic color='black' content='Write Review' onClick={this.writeReview} />
+            <Button basic color="black" content="Write Review" onClick={this.writeReview} />
             <br />
             <br />
             <p>{product.description}</p>
