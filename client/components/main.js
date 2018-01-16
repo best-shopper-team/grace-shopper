@@ -13,13 +13,23 @@ import { Icon, Divider, Container, Image  } from 'semantic-ui-react'
  *  rendered out by the component's `children`.
  */
 const Main = (props) => {
-  const { children, handleClick, isLoggedIn, isAdmin } = props
+  const { children, handleClick, isLoggedIn, isAdmin, isActive, passwordReset } = props
 
-  return (
-    <div>
+  let toRender
+
+  if (isLoggedIn && !isActive || passwordReset){
+    toRender = (
+      <nav className="navigation">
+        <a href="#" onClick={handleClick}>Logout</a>
+        <Image src="https://i.imgur.com/TLWmJr5.png" href="/" className="logo" />
+      </nav>
+    )
+  }
+  else {
+    toRender = (
       <nav className="navigation">
         {
-          isLoggedIn
+          isLoggedIn && isActive
             ? <div className="home-products">
               {/* The navbar will show these links after you log in */}
               <Link to="/home">Home</Link>
@@ -49,6 +59,13 @@ const Main = (props) => {
           </div>
         }
       </nav>
+    )
+  }
+  
+
+  return (
+    <div>
+      {toRender}
       <Divider />
       <Container className="children-container">
         {children}
@@ -63,7 +80,9 @@ const Main = (props) => {
 const mapState = (state) => {
   return {
     isLoggedIn: !!state.user.id,
-    isAdmin: state.user.isAdmin
+    isAdmin: state.user.isAdmin,
+    isActive: state.user.isActive,
+    passwordReset: state.user.passwordReset
   }
 }
 
