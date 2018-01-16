@@ -16,7 +16,7 @@ export class SingleProduct extends React.Component {
   constructor(props){
     super(props);
     this.state = {
-      quantity: null,
+      quantity: 1,
       popupVisible: false,
       reviewsVisible: false,
       writeReviewVisible: false
