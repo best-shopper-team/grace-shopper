@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Link } from 'react-router-dom';
+import { NavLink, Link } from 'react-router-dom';
 import { connect } from 'react-redux'
 import { fetchProducts, fetchCategories } from '../store'
 import { withRouter } from 'react-router'
@@ -66,7 +66,13 @@ export class AllProducts extends Component {
   render() {
     //filter products if there is a current category
     let products = (this.state.currentCategory ? this.props.allProducts.filter(product => {
-      return product.categories[0].name.toLowerCase() === this.state.currentCategory
+      let shouldRender = false
+      product.categories.forEach(category => {
+        if (category.name.toLowerCase() === this.state.currentCategory) {
+          shouldRender = true;
+        }
+      })
+      return shouldRender
     }) : this.props.allProducts)
 
     //filter products by search term
@@ -82,7 +88,7 @@ export class AllProducts extends Component {
           {
             categories.map(category => {
               return (
-                <Link to={`/products/category/${category.name.toLowerCase()}`} onClick={() => { this.changeCategory(category.name) }} className="category" key={category.id}><Segment basic>{category.name}</Segment></Link>
+                <NavLink to={`/products/category/${category.name.toLowerCase()}`} onClick={() => { this.changeCategory(category.name) }} className="category" key={category.id}><Segment basic>{category.name}</Segment></NavLink>
               )
             })
           }

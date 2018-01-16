@@ -111,6 +111,7 @@ form div {
   display: flex;
   flex-direction: row;
   flex-wrap: wrap;
+  margin-top: 76px;
   justify-content: space-between;
 }
 
@@ -141,9 +142,6 @@ form div {
   margin-top: 20px !important;
 }
 
-
-
-
-
-
+.category.active {
+  background-color: rgb(237,218,245);
 }

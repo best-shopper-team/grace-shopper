@@ -2,18 +2,23 @@ import React from 'react'
 import PropTypes from 'prop-types'
 import {connect} from 'react-redux'
 import ResetPassword from './resetPassword'
+import InactiveUser from './InactiveUser'
 
 /**
  * COMPONENT
  */
 export const UserHome = (props) => {
 
+  let toRender;
+
+  if (!props.user.isActive)toRender = <InactiveUser />
+  else if (props.user.passwordReset) toRender = <ResetPassword />
+  else toRender = <h3>Welcome, {props.user.name}!</h3>
+
+
   return (
     <div>
-      {props.user.passwordReset ?
-        <ResetPassword />
-        : <h3>Welcome, {props.user.name}!</h3>
-      }
+      {toRender}
     </div>
   )
 }
