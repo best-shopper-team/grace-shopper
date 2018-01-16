@@ -107,7 +107,7 @@ export class SingleProduct extends React.Component {
           </div>
         }
         {
-          !product.isAvailable && <Message negative>
+          !product.isAvailable && !user.isAdmin && <Message negative>
           <Message.Header>This product is INACTIVE.</Message.Header>
           <br />
         </Message>
