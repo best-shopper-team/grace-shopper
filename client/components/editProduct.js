@@ -137,6 +137,7 @@ class EditProduct extends React.Component {
     } else {
       this.setState({[event.target.name]: event.target.value})
     }
+    console.log('this.state: ', this.state)
   }
 
   handleSubmit (event) {

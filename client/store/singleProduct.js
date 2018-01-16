@@ -5,6 +5,7 @@ import axios from 'axios'
  * ACTION TYPES
  */
 const GET_PRODUCT = 'GET_PRODUCT'
+const UPDATE_SINGLE_PRODUCT = 'UPDATE_SINGLE_PRODUCT'
 
 /**
  * INITIAL STATE
@@ -15,6 +16,7 @@ const defaultProduct = {}
  * ACTION CREATORS
  */
 const getProduct = product => ({type: GET_PRODUCT, product})
+const updateSingleProduct = product => ({type: UPDATE_SINGLE_PRODUCT, product})
 
 /**
  * THUNK CREATORS
@@ -27,12 +29,21 @@ export const fetchProduct = productId =>
       })
       .catch(err => console.log(err))
 
+// export const editSingleProduct = product =>
+//   dispatch =>
+//     axios.put(`/api/admin/products/${product.id}`, product)
+//       .then(res => {
+//         return dispatch(updateSingleProduct(res.data))
+//       })
+
 /**
  * REDUCER
  */
 export default function (state = defaultProduct, action) {
   switch (action.type) {
     case GET_PRODUCT:
+      return action.product
+    case UPDATE_SINGLE_PRODUCT:
       return action.product
     default:
       return state
