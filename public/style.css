@@ -1,5 +1,6 @@
 body {
-  font-family: 'Space Mono', monospace;
+  font-family: 'Bree Serif', serif;
+  letter-spacing: 2px;
 }
 
 a {
@@ -113,3 +114,4 @@ form div {
   flex-wrap: wrap;
   justify-content: space-between;
 }
+
