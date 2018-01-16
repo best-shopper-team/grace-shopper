@@ -19,9 +19,11 @@ router.post('/confirmation', (req, res, next) => {
     html: '<h3>Thank you for shopping with Life Socks!</h3><p>We have received your order and will be shipping it shortly. Our name may be pessimistic, but we are all smiles about delivering the best product possible. Please let us know if you have any questions! :)</p>'
   }, (error, info) => {
     if (error) {
-      console.log(error);
+      console.log(error)
+      res.send(500)
     } else {
       console.log('EMAIL SENT: ' + info.response)
+      res.send(200)
     }
   })
 })
@@ -36,8 +38,10 @@ router.post('/update', (req, res, next) => {
   }, (error, info) => {
     if (error) {
       console.log(error);
+      res.send(500)
     } else {
       console.log('EMAIL SENT: ' + info.response)
+      res.send(200)
     }
   })
 })
