@@ -39,29 +39,36 @@ async function seed () {
   ])
 
   const products = await Promise.all([
-    Product.create({title: 'Super Stitched Socks', description: 'Checkout the newest socks in our store!!! They are amazing and you will be too when you wear these super kool socks!!!', price: 400, quantity: 20, photoUrl: 'https://i.imgur.com/HOh9jgL.jpg'}),
-    Product.create({title: 'Super Rad Socks', description: 'Checkout the newest socks in our store!!! They are amazing and you will be too when you wear these super rad socks!!!', price: 1000, quantity: 10, isAvailable: false, photoUrl: 'https://i.imgur.com/fVqCee2.jpg'}),
-    Product.create({title: 'Super Blue Socks', description: 'Checkout the newest socks in our store!!! They are amazing and you will be too when you wear these super blue socks!!!', price: 540, quantity: 18, isAvailable: false, photoUrl: 'https://i.imgur.com/2Vvu6ht.jpg'}),
-    Product.create({title: 'Super Rare Socks', description: 'Checkout the newest socks in our store!!! They are amazing and you will be too when you wear these super rare socks!!!', price: 2300, quantity: 2, photoUrl: 'https://i.imgur.com/XRE4TWX.jpg'}),
-    Product.create({title: 'Super Giant Bear Socks', description: 'Checkout the newest socks in our store!!! They are amazing and you will be too when you wear these super giant bear socks!!!', price: 460, quantity: 11, photoUrl: 'https://i.imgur.com/IQxMULe.jpg'}),
-    Product.create({title: 'Super Festive Socks', description: 'Checkout the newest socks in our store!!! They are amazing and you will be too when you wear these super festive socks!!!', price: 1200, quantity: 8, photoUrl: 'https://i.imgur.com/iz2unB5.jpg'}),
-    Product.create({title: 'Super Planty Socks', description: 'Checkout the newest socks in our store!!! They are amazing and you will be too when you wear these super planty socks!!!', price: 1200, quantity: 40, photoUrl: 'https://i.imgur.com/Berb8MR.jpg'}),
-    Product.create({title: 'Super Soft Socks', description: 'Checkout the newest socks in our store!!! They are amazing and you will be too when you wear these super soft socks!!!', price: 1500, quantity: 30, photoUrl: 'https://i.imgur.com/F5UBNpC.jpg'}),
-    Product.create({title: 'Super Secret Socks', description: 'Checkout the newest socks in our store!!! They are amazing and you will be too when you wear these super secret socks!!!', price: 1200, quantity: 8, photoUrl: 'https://i.imgur.com/sH2wPn6.jpg'}),
-    Product.create({title: 'Super Kool Socks', description: 'Checkout the newest socks in our store!!! They are amazing and you will be too when you wear these super kool socks!!!', price: 1100, quantity: 60, photoUrl: 'https://i.imgur.com/jynd5PE.jpg'}),
-    Product.create({title: 'Super Sunny Socks', description: 'Checkout the newest socks in our store!!! They are amazing and you will be too when you wear these super sunny socks!!!', price: 1200, quantity: 8, photoUrl: 'https://i.imgur.com/mEE4IYm.jpg'}),
-    Product.create({title: 'Super Flowery Socks', description: 'Checkout the newest socks in our store!!! They are amazing and you will be too when you wear these super flowery socks!!!', price: 1500, quantity: 80, photoUrl: 'https://i.imgur.com/3WYEkrZ.jpg'}),
-    Product.create({title: 'Super Pink Socks', description: 'Checkout the newest socks in our store!!! They are amazing and you will be too when you wear these super pink socks!!!', price: 1250, quantity: 50, photoUrl: 'https://i.imgur.com/Eo2a6H8.jpg'}),
-    Product.create({title: 'Super Ski Lodge Socks', description: 'Checkout the newest socks in our store!!! They are amazing and you will be too when you wear these super ski lodge socks!!!', price: 1350, quantity: 80, photoUrl: 'https://i.imgur.com/I2xVxkb.jpg'})
+    Product.create({title: 'Super Stitched Socks', description: 'Check out the newest socks in our store!!! They are amazing and you will be too when you wear these super kool socks!!!', price: 400, quantity: 20, photoUrl: 'https://i.imgur.com/HOh9jgL.jpg'}),
+    Product.create({title: 'Super Rad Socks', description: 'Check out the newest socks in our store!!! They are amazing and you will be too when you wear these super rad socks!!!', price: 1000, quantity: 10, isAvailable: false, photoUrl: 'https://i.imgur.com/fVqCee2.jpg'}),
+    Product.create({title: 'Super Blue Socks', description: 'Check out the newest socks in our store!!! They are amazing and you will be too when you wear these super blue socks!!!', price: 540, quantity: 18, isAvailable: false, photoUrl: 'https://i.imgur.com/2Vvu6ht.jpg'}),
+    Product.create({title: 'Super Rare Socks', description: 'Check out the newest socks in our store!!! They are amazing and you will be too when you wear these super rare socks!!!', price: 2300, quantity: 2, photoUrl: 'https://i.imgur.com/XRE4TWX.jpg'}),
+    Product.create({title: 'Super Giant Bear Socks', description: 'Check out the newest socks in our store!!! They are amazing and you will be too when you wear these super giant bear socks!!!', price: 460, quantity: 11, photoUrl: 'https://i.imgur.com/IQxMULe.jpg'}),
+    Product.create({title: 'Super Festive Socks', description: 'Check out the newest socks in our store!!! They are amazing and you will be too when you wear these super festive socks!!!', price: 1200, quantity: 8, photoUrl: 'https://i.imgur.com/iz2unB5.jpg'}),
+    Product.create({title: 'Super Planty Socks', description: 'Check out the newest socks in our store!!! They are amazing and you will be too when you wear these super planty socks!!!', price: 1200, quantity: 40, photoUrl: 'https://i.imgur.com/Berb8MR.jpg'}),
+    Product.create({title: 'Super Soft Socks', description: 'Check out the newest socks in our store!!! They are amazing and you will be too when you wear these super soft socks!!!', price: 1500, quantity: 30, photoUrl: 'https://i.imgur.com/F5UBNpC.jpg'}),
+    Product.create({title: 'Super Secret Socks', description: 'Check out the newest socks in our store!!! They are amazing and you will be too when you wear these super secret socks!!!', price: 1200, quantity: 8, photoUrl: 'https://i.imgur.com/sH2wPn6.jpg'}),
+    Product.create({title: 'Super Kool Socks', description: 'Check out the newest socks in our store!!! They are amazing and you will be too when you wear these super kool socks!!!', price: 1100, quantity: 60, photoUrl: 'https://i.imgur.com/jynd5PE.jpg'}),
+    Product.create({title: 'Super Sunny Socks', description: 'Check out the newest socks in our store!!! They are amazing and you will be too when you wear these super sunny socks!!!', price: 1200, quantity: 8, photoUrl: 'https://i.imgur.com/mEE4IYm.jpg'}),
+    Product.create({title: 'Super Flowery Socks', description: 'Check out the newest socks in our store!!! They are amazing and you will be too when you wear these super flowery socks!!!', price: 1500, quantity: 80, photoUrl: 'https://i.imgur.com/3WYEkrZ.jpg'}),
+    Product.create({title: 'Super Pink Socks', description: 'Check out the newest socks in our store!!! They are amazing and you will be too when you wear these super pink socks!!!', price: 1250, quantity: 50, photoUrl: 'https://i.imgur.com/Eo2a6H8.jpg'}),
+    Product.create({title: 'Super Ski Lodge Socks', description: 'Check out the newest socks in our store!!! They are amazing and you will be too when you wear these super ski lodge socks!!!', price: 1350, quantity: 80, photoUrl: 'https://i.imgur.com/I2xVxkb.jpg'}),
+    Product.create({title: 'Super Sketchy Socks', description: 'Check out the newest socks in our store!!! They are amazing and you will be too when you wear these super sketchy socks!!!', price: 1450, quantity: 100, photoUrl: 'https://i.imgur.com/144yGZy.png'}),
+    Product.create({title: 'Super Elegant Socks', description: 'Check out the newest socks in our store!!! They are amazing and you will be too when you wear these super elegant socks!!!', price: 1450, quantity: 100, photoUrl: 'https://i.imgur.com/OwU5oSL.png'}),
+    Product.create({title: 'Super Spunky Socks', description: 'Check out the newest socks in our store!!! They are amazing and you will be too when you wear these super spunky socks!!!', price: 1400, quantity: 110, photoUrl: 'https://i.imgur.com/swLcqYh.png'}),
+    Product.create({title: 'Super Dark Side Socks', description: 'Check out the newest socks in our store!!! They are amazing and you will be too when you wear these super dark side socks!!!', price: 1400, quantity: 110, photoUrl: 'https://i.imgur.com/wG868wQ.png'}),
+    Product.create({title: 'Super Robot Socks', description: 'Check out the newest socks in our store!!! They are amazing and you will be too when you wear these super robot socks!!!', price: 1900, quantity: 110, photoUrl: 'https://i.imgur.com/JnhhJB3.png'}),
+    Product.create({title: 'Super Retro Socks', description: 'Check out the newest socks in our store!!! They are amazing and you will be too when you wear these super retro socks!!!', price: 1400, quantity: 110, photoUrl: 'https://i.imgur.com/bWZaXrW.png'}),
+    Product.create({title: 'Super Subtle Socks', description: 'Check out the newest socks in our store!!! They are amazing and you will be too when you wear these super subtle socks!!!', price: 2000, quantity: 110, photoUrl: 'https://i.imgur.com/tuAbFfX.png'})
   ])
 
   const categories = await Promise.all([
     Category.create({name: 'Festive'}),
     Category.create({name: 'Professional'}),
-    Category.create({name: 'Crazy'}),
+    Category.create({name: 'Arch Support'}),
     Category.create({name: 'Normal'}),
-    Category.create({name: 'Puppies'}),
-    Category.create({name: 'Kitties'}),
+    Category.create({name: 'Athletic'}),
+    Category.create({name: 'Tube Socks'}),
   ])
 
   products.forEach((product, index) => {
