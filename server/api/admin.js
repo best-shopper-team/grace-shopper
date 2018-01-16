@@ -28,6 +28,19 @@ router.post('/categories', (req, res, next) => {
   .catch(next)
 })
 
+//accepts category name
+//and deletes category
+router.delete('/categories/:categoryName', (req, res, next) => {
+  let category = req.params.categoryName.slice(0, 1).toUpperCase() + req.params.categoryName.slice(1)
+  Category.destroy({
+    where: {
+      name: category
+    }
+  })
+  .then(() => res.status(204).send())
+  .catch(next)
+})
+
 
 // creates new product
 /*NOTE: this will return either the new instance on
