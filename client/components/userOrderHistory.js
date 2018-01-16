@@ -44,7 +44,7 @@ export class UserOrderHistory extends Component {
                   <td>
                     <div>
                       {
-                        products.length && order.orderitems.length && order.orderitems.map(item => {
+                        products.length && order.orderitems && order.orderitems.length && order.orderitems.map(item => {
                           return (
                             <div key={item.id}>
                               <Link to={`/products/${item.productId}`}>
@@ -64,7 +64,7 @@ export class UserOrderHistory extends Component {
                   <td>
                     <div>
                     {
-                      products.length && order.orderitems.map(item => {
+                      products.length && order.orderitems && order.orderitems.length && order.orderitems.map(item => {
                         return (
                           <div key={item.id}>
                             {item.quantity}
