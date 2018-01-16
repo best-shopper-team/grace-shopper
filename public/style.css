@@ -1,5 +1,6 @@
 body {
-  font-family: 'Space Mono', monospace;
+  font-family: 'Bree Serif', serif;
+  letter-spacing: 2px;
 }
 
 a {
@@ -169,3 +170,4 @@ form div {
     transform: translate(-50%, -50%);
     font-size: 50px;
 }
+
